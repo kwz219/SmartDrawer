@@ -24,5 +24,11 @@ public class Point {
 	public Dimension getCoordinate() {
 		return Coordinate;
 	}
+	public void setName(String name) {
+		Name = name;
+	}
+	public void setCoordinate(Dimension coordinate) {
+		Coordinate = coordinate;
+	}
       
 }

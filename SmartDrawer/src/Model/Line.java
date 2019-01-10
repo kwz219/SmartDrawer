@@ -11,12 +11,10 @@ import java.util.ArrayList;
  */
 public class Line {
 	   Color color;
-	   Dimension startpoint;
-	   Dimension endpoint;
-	   String spname;
-	   String epname;
+	   Point startpoint;
+	   Point endpoint;
 	
-    public Line(Dimension spoint,Dimension epoint) {
+    public Line(Point spoint,Point epoint) {
     	startpoint=spoint;
     	endpoint=epoint;
     }
@@ -44,19 +42,13 @@ public class Line {
 		this.color = color;
 	}
 
-	public Dimension getStartpoint() {
+	public Point getStartpoint() {
 		return startpoint;
 	}
 
-	public void setStartpoint(Dimension startpoint) {
-		this.startpoint = startpoint;
-	}
 
-	public Dimension getEndpoint() {
+	public Point getEndpoint() {
 		return endpoint;
 	}
 
-	public void setEndpoint(Dimension endpoint) {
-		this.endpoint = endpoint;
-	}
 }

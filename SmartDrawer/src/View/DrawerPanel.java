@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 
 import Logic.TimerHelper;
 import Model.Line;
+import Model.Point;
 import Logic.PointRecorder;
 
 public class DrawerPanel extends JPanel implements MouseMotionListener,MouseListener{
@@ -83,7 +84,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
         
         //draw all lines
         for(int i=0;i<lineList.size();i++) {
-        	   g2d.drawLine(lineList.get(i).getStartpoint().width,lineList.get(i).getStartpoint().height,lineList.get(i).getEndpoint().width,lineList.get(i).getEndpoint().height);
+        	   g2d.drawLine(lineList.get(i).getStartpoint().getCoordinate().width,lineList.get(i).getStartpoint().getCoordinate().height,lineList.get(i).getEndpoint().getCoordinate().width,lineList.get(i).getEndpoint().getCoordinate().height);
         }
         
         g2d.dispose();
@@ -96,9 +97,9 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		
 		//check if the line is vertical or not
 		if(Line.Isvertical(pointRecorder.getHighest_point(),pointRecorder.getLowest_point())) {
-			lineList.add(new Line(pointRecorder.getHighest_point(),pointRecorder.getLowest_point()));
+			lineList.add(new Line(new Point(pointRecorder.getHighest_point()),new Point(pointRecorder.getLowest_point())));
 		}else {
-			lineList.add(new Line(pointRecorder.getLeftmost_point(),pointRecorder.getRightmost_point()));
+			lineList.add(new Line(new Point(pointRecorder.getLeftmost_point()),new Point(pointRecorder.getRightmost_point())));
 		}
 		//reset pointRecorder and pointList
 		pointRecorder=new PointRecorder();
