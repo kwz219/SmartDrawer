@@ -43,6 +43,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	    private PointRecorder pointRecorder=new PointRecorder();//when a drawing begins,use this to record several points of a drawing
 	    
 	    private ArrayList<Line> lineList=new ArrayList<Line>();//maintain a list of lines
+	    private ArrayList<Point> mpointList=new ArrayList<Point>();//maintain a list of single datastrcuture Model.Points
 	    
 	    int x=0;
 	
@@ -89,6 +90,11 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
         	   g2d.drawLine(lineList.get(i).getStartpoint().getCoordinate().width,lineList.get(i).getStartpoint().getCoordinate().height,lineList.get(i).getEndpoint().getCoordinate().width,lineList.get(i).getEndpoint().getCoordinate().height);
         }
         
+        //draw all single points
+        for(int i=0;i<mpointList.size();i++) {
+        	   g2d.fillOval(mpointList.get(i).getCoordinate().width, mpointList.get(i).getCoordinate().height,Brushsize,Brushsize);
+        }
+        
         g2d.dispose();
         
         
@@ -97,9 +103,14 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	//when finish a drawing,call this method
 	public void endDrawing() {
 		ArrayList<Dimension> tmplist=pointRecorder.getPlist();
+		System.out.println(tmplist.size());
 		if(PointsFittingHelper.PointsFit(tmplist)==Graphicstype.Line) {
-
+            System.out.println("a line");
 		   lineList.add(new Line(new Point(tmplist.get(0)),new Point(tmplist.get(tmplist.size()-1))));
+		}
+		else if(PointsFittingHelper.PointsFit(tmplist)==Graphicstype.Point) {
+			System.out.println("a point");
+			mpointList.add(new Point(tmplist.get(0)));
 		}
 		//reset pointRecorder and pointList
 		pointRecorder=new PointRecorder();

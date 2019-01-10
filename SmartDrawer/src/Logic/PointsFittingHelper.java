@@ -15,12 +15,29 @@ public class PointsFittingHelper {
 	}
    
 	public static Graphicstype PointsFit(ArrayList<Dimension> plist) {
-		if(Islinear(plist)) {
+		if(Isapoint(plist)) {
+			return Graphicstype.Point;
+		}else if(Islinear(plist)) {
 			return Graphicstype.Line;
 		}
 		return null;
 	}
 	
+	//judge if the drawing is similar to a point
+	public static boolean Isapoint(ArrayList<Dimension> plist) {
+		boolean result=false;
+		double horizontal_error=5.00;
+		double vertical_error=5.00;
+		double maxnum=15;
+		if(plist.size()!=0) {
+		Dimension startpoint=plist.get(0);
+		Dimension endpoint=plist.get(plist.size()-1);
+		if(Math.abs(startpoint.getWidth()-endpoint.getWidth())<horizontal_error&&Math.abs(startpoint.getHeight()-endpoint.getHeight())<horizontal_error&&plist.size()<=maxnum) {
+			result=true;
+		}
+		}
+		return result;
+	}
 	//judge if the points fitting a line
 	public static boolean Islinear(ArrayList<Dimension> plist) {
 		boolean result=true;
@@ -29,6 +46,7 @@ public class PointsFittingHelper {
 		double distance_error=5.00;
 		double minaccuracy=0.55;
 		//suppose the equation of the line is Ax+By+C=0;
+		if(plist.size()!=0) {
 		Dimension startpoint=plist.get(0);
 		Dimension endpoint=plist.get(plist.size()-1);
 		double A;
@@ -65,7 +83,7 @@ public class PointsFittingHelper {
 		if(accuracy<minaccuracy) {
 			return false;
 		}
-		
+		}
 		
 		return result;
 	}
@@ -75,7 +93,7 @@ public class PointsFittingHelper {
 		   result=Math.abs(A*x+B*y+C)/Math.sqrt(A*A+B*B);
 		   return result;
 	   }
-	   
+	  
 	  public static void main(String[] args) {
 		  /*ArrayList<Dimension> plist=new ArrayList<Dimension>();
 		  plist.add(new Dimension(1,1));
