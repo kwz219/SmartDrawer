@@ -25,6 +25,8 @@ import Logic.TimerHelper;
 import Model.Line;
 import Model.Point;
 import Logic.PointRecorder;
+import Logic.PointsFittingHelper;
+import Logic.PointsFittingHelper.Graphicstype;
 
 public class DrawerPanel extends JPanel implements MouseMotionListener,MouseListener{
 	    
@@ -94,12 +96,10 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	
 	//when finish a drawing,call this method
 	public void endDrawing() {
-		
-		//check if the line is vertical or not
-		if(Line.Isvertical(pointRecorder.getHighest_point(),pointRecorder.getLowest_point())) {
-			lineList.add(new Line(new Point(pointRecorder.getHighest_point()),new Point(pointRecorder.getLowest_point())));
-		}else {
-			lineList.add(new Line(new Point(pointRecorder.getLeftmost_point()),new Point(pointRecorder.getRightmost_point())));
+		ArrayList<Dimension> tmplist=pointRecorder.getPlist();
+		if(PointsFittingHelper.PointsFit(tmplist)==Graphicstype.Line) {
+
+		   lineList.add(new Line(new Point(tmplist.get(0)),new Point(tmplist.get(tmplist.size()-1))));
 		}
 		//reset pointRecorder and pointList
 		pointRecorder=new PointRecorder();
