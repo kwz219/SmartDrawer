@@ -2,10 +2,12 @@ package View;
 
 import java.awt.BasicStroke;
 
+
 import java.awt.Canvas;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
@@ -22,11 +24,15 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import Logic.TimerHelper;
+import Model.Circle;
 import Model.Line;
 import Model.Point;
+import Model.Triangle;
+
 import Logic.PointRecorder;
 import Logic.PointsFittingHelper;
 import Logic.PointsFittingHelper.Graphicstype;
+import Logic.PointsFittingHelper.Pointtype;
 
 public class DrawerPanel extends JPanel implements MouseMotionListener,MouseListener{
 	    
@@ -34,6 +40,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	    private static DrawerPanel Mydrawer=new DrawerPanel();
 	    //Drawer's memeber value
         private Color Brushcolor;
+        private Color Backgroundcolor;
         private int Brushsize;
         private int Isdrawing;//judge if a drawing is over
 	    private BufferedImage img;
@@ -43,7 +50,9 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	    private PointRecorder pointRecorder=new PointRecorder();//when a drawing begins,use this to record several points of a drawing
 	    
 	    private ArrayList<Line> lineList=new ArrayList<Line>();//maintain a list of lines
-	    private ArrayList<Point> mpointList=new ArrayList<Point>();//maintain a list of single datastrcuture Model.Points
+	    private ArrayList<Point> mpointList=new ArrayList<Point>();//maintain a list of  datastrcuture Model.Points
+	    private ArrayList<Triangle> triangleList=new ArrayList<Triangle>();//maintain a list of Triangles
+	    private ArrayList<Circle> circleList=new ArrayList<Circle>();//maintain a list of Circles
 	    
 	    int x=0;
 	
@@ -52,14 +61,15 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();//get the size of the screen
 		addMouseMotionListener(this);
 		addMouseListener(this);
+		Brushcolor=Color.BLACK;
+		Backgroundcolor=Color.WHITE;
 		setSize(screenSize.width,screenSize.height);
 		this.setVisible(true);
-		this.setBackground(Color.WHITE);
+		this.setBackground(Backgroundcolor);
 		pointLptr=0;
-		Brushcolor=Color.BLACK;
 		Brushsize=10;
 		Isdrawing=0;
-		img =new BufferedImage(screenSize.width,screenSize.height,BufferedImage.TYPE_INT_BGR);
+		img =new BufferedImage(screenSize.width,screenSize.height,BufferedImage.TYPE_INT_ARGB);
 		
     }
 	
@@ -73,12 +83,10 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		super.paint(graphics);
         Graphics2D g2d = (Graphics2D)graphics;
         g2d.setBackground(Color.WHITE);
- 
+        g2d.setFont(new Font("Arial",Font.BOLD,32));
         g2d.setColor(Brushcolor);
         g2d.setStroke(new BasicStroke(Brushsize));
-        /*if((System.currentTimeMillis()-Releasetime)>1000) {
-        	   endonce();
-        }*/
+       
         
         //draw all points without correction
         for(int i=0;i<pointList.size();i++){
@@ -95,6 +103,8 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
         	   g2d.fillOval(mpointList.get(i).getCoordinate().width, mpointList.get(i).getCoordinate().height,Brushsize,Brushsize);
         }
         
+        
+       
         g2d.dispose();
         
         
@@ -106,11 +116,20 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		System.out.println(tmplist.size());
 		if(PointsFittingHelper.PointsFit(tmplist)==Graphicstype.Line) {
             System.out.println("a line");
-		   lineList.add(new Line(new Point(tmplist.get(0)),new Point(tmplist.get(tmplist.size()-1))));
+            Point lineend1=new Point(tmplist.get(0),Pointtype.Lineend);
+            Point lineend2=new Point(tmplist.get(tmplist.size()-1),Pointtype.Lineend);
+		   lineList.add(new Line(lineend1,lineend2));
+		   //mpointList.add(lineend1);
+		   //mpointList.add(lineend2);
+		   
 		}
 		else if(PointsFittingHelper.PointsFit(tmplist)==Graphicstype.Point) {
 			System.out.println("a point");
 			mpointList.add(new Point(tmplist.get(0)));
+		}else if(PointsFittingHelper.PointsFit(tmplist)==Graphicstype.Triangle) {
+			
+		}else if(PointsFittingHelper.PointsFit(tmplist)==Graphicstype.Circle) {
+			
 		}
 		//reset pointRecorder and pointList
 		pointRecorder=new PointRecorder();
@@ -123,6 +142,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	public void getIMG() throws IOException {
 		Graphics2D img2d=img.createGraphics();
 		this.paint(img2d);
+		
 		img2d.dispose();
 	   
 		File f=new File("/Users/zwk/Documents/pics/1.jpg");
@@ -135,6 +155,23 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		ImageIO.write(img, "jpg",f);
 
 
+	}
+	//judge if click the graphs
+	public boolean Clickgraph(int x,int y) {
+		boolean result=false;
+		Graphics2D img2d=img.createGraphics();
+		int BackgroundRGB=Backgroundcolor.getRGB();
+		this.paint(img2d);
+		if(img.getRGB(x, y)!=BackgroundRGB) {
+			result=true;
+		}
+		img2d.dispose();
+		return result;
+	}
+	//judge if the point is clicked
+	public void Pointclicked(int x,int y) {
+		boolean result=false;
+		
 	}
 	@Override
 	public void mouseDragged(MouseEvent e) {
@@ -172,6 +209,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 			System.out.println(pointRecorder.getLeftmost_point().getWidth()+" "+pointRecorder.getRightmost_point().getWidth()+" "+pointRecorder.getHighest_point().getHeight()+" "+pointRecorder.getLowest_point().getHeight());
 			System.out.print("size"+pointRecorder.Plist.size());
 		}
+		System.out.println(Clickgraph(e.getX(),e.getY()));
 		System.out.println(Isdrawing+" "+lineList.size()+" "+pointList.size()+" "+pointRecorder.Count);
 		if(Isdrawing==0) {
 			endDrawing();

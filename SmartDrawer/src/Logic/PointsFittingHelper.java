@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Iterator;
 /**
- * Last Modification 2019/01/10
+ * Last Modification 2019/01/11
  * @author zwk
  * use points coordinates to judge what type of graphs the drawing is
  */
@@ -13,18 +13,27 @@ public class PointsFittingHelper {
 	public static enum Graphicstype{
 		Point,Line,Triangle,Circle,Quadrangle
 	}
+	public static enum Pointtype{
+	    Lineend,Circlecenter,Triangleend,Quadrangleend
+	}
    
 	public static Graphicstype PointsFit(ArrayList<Dimension> plist) {
+		boolean tristub=true;
+		boolean circlestub=true;
 		if(Isapoint(plist)) {
 			return Graphicstype.Point;
 		}else if(Islinear(plist)) {
 			return Graphicstype.Line;
+		}else if(Istriangle(tristub)) {
+			return Graphicstype.Triangle;
+		}else if(Iscircle(circlestub)) {
+			return Graphicstype.Circle;
 		}
 		return null;
 	}
 	
 	//judge if the drawing is similar to a point
-	public static boolean Isapoint(ArrayList<Dimension> plist) {
+	public static  boolean Isapoint(ArrayList<Dimension> plist) {
 		boolean result=false;
 		double horizontal_error=5.00;
 		double vertical_error=5.00;
@@ -94,6 +103,15 @@ public class PointsFittingHelper {
 		   return result;
 	   }
 	  
+	   //judge if the drawing is a triangle
+	   public static  boolean Istriangle(boolean result) {
+		   return result;
+	   }
+	   
+	   //judge if the drawing is a circle
+	   public static boolean Iscircle(boolean result) {
+		   return result;
+	   }
 	  public static void main(String[] args) {
 		  /*ArrayList<Dimension> plist=new ArrayList<Dimension>();
 		  plist.add(new Dimension(1,1));
