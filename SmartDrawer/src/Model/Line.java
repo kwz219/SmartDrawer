@@ -5,7 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
 /**
- * Last modification time 2019/01/10
+ * Last modification time 2019/01/13
  * @author zwk
  * model of graph line
  */
@@ -33,7 +33,12 @@ public class Line {
 		return false;
     	
     }
-    
+    public Point getPointbyindex(int index) {
+    	    if(index==1) {
+    	    	  return startpoint;
+    	    }
+    	      return endpoint;
+    }
 	public Color getColor() {
 		return color;
 	}
@@ -46,9 +51,10 @@ public class Line {
 		return startpoint;
 	}
 
-
 	public Point getEndpoint() {
 		return endpoint;
 	}
+
+	
 
 }

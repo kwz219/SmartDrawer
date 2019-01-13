@@ -2,6 +2,7 @@ package Logic;
 
 import java.awt.Dimension;
 
+
 import java.util.ArrayList;
 import java.util.Iterator;
 /**
@@ -18,8 +19,8 @@ public class PointsFittingHelper {
 	}
    
 	public static Graphicstype PointsFit(ArrayList<Dimension> plist) {
-		boolean tristub=true;
-		boolean circlestub=true;
+		boolean tristub=false;
+		boolean circlestub=false;
 		if(Isapoint(plist)) {
 			return Graphicstype.Point;
 		}else if(Islinear(plist)) {
@@ -87,7 +88,7 @@ public class PointsFittingHelper {
 			}
 		}
 		double accuracy=(1.00*correctnum)/(plist.size()*1.00);
-		System.out.println("accuracy: "+accuracy+"correctnum"+correctnum+" "+plist.size());
+		//System.out.println("accuracy: "+accuracy+"correctnum"+correctnum+" "+plist.size());
 	
 		if(accuracy<minaccuracy) {
 			return false;
