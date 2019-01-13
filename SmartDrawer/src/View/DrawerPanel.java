@@ -227,10 +227,10 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+		
         
 		System.out.println("co:"+e.getX()+" "+e.getY());
-		//System.out.println(Isdrawing+" "+lineList.size()+" "+pointList.size()+" "+pointRecorder.Count);
+		
 		if(Drawerstatus==Drawerstate.Drawing) {
 			endDrawing();
 			this.repaint();
@@ -253,7 +253,19 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 			}
 			
 		}else if(Drawerstatus==Drawerstate.Ajusting) {
-			Drawerstatus=Drawerstate.Blank;
+			if(Clickgraph(e.getX(), e.getY())) {
+				PointIndex pi=ListTraverseHelper.FindnearestPoint(new Dimension(e.getX(),e.getY()),PointMap);
+				if(pi==null) {
+					Drawerstatus=Drawerstate.Blank;
+					System.out.println("end adjusting");
+				}else {
+					Drawerstatus=Drawerstate.Ajusting;
+					System.out.println(pi.Listindex);
+					currentPi=pi;
+				}
+			}else {
+				Drawerstatus=Drawerstate.Blank;
+			}
 		}
 		
 	}
