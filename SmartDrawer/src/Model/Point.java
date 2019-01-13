@@ -6,7 +6,7 @@ import Logic.PointsFittingHelper.Graphicstype;
 import Logic.PointsFittingHelper.Pointtype;
 
 /**
- * Last modification time  2019/01/11
+ * Last modification time  2019/01/13
  * @author zwk
  * model of graph point
  */
@@ -25,6 +25,15 @@ public class Point {
  	   Coordinate=coordinate;
  	   Name=name;
  }
+    public boolean Roughlyequal(Dimension point) {
+    	      boolean result=false;
+    	      if(Math.abs(point.width-Coordinate.width)<3&&Math.abs(point.height-Coordinate.height)<3) {
+    	    	     result=true;
+    	      }
+    	      return result;
+    	      
+    }
+    
     public Pointtype getType() {
     	        return Type;
     }
