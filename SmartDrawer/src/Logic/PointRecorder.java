@@ -3,7 +3,7 @@ package Logic;
 import java.awt.Dimension;
 import java.util.ArrayList;
 /**
- * 
+ * Last Modification 2019/01/15
  * @author zwk
  * this class is used to record points of a drawing(not all points)
  * you can get leftmostpoint,rightmostpoint,highestpoint,lowestpoint of a Drawing
@@ -13,8 +13,8 @@ public class PointRecorder {
          public ArrayList<Dimension> Plist=new ArrayList<Dimension>();//point list
          private Dimension Leftmost_point=new Dimension(10000,0);
          private Dimension Rightmost_point=new Dimension(-1,0);
-         private Dimension Highest_point=new Dimension(0,10000);
-         private Dimension Lowest_point=new Dimension(0,-1);
+         private Dimension Highest_point=new Dimension(0,-1);
+         private Dimension Lowest_point=new Dimension(0,10000);
          
          //add a point into the recorder
          public void Add(int x,int y) {
@@ -55,14 +55,14 @@ public class PointRecorder {
          }
         //judge if current point is higher,if so, change highest point
          public void Ifhigher(int x,int y) {
-        	   if(Highest_point.height>y) {
+        	   if(Highest_point.height<y) {
         		   Highest_point.setSize(x, y);
         	   }
          }
          
          //judge if current point is lower,if so, change lowest point
          public void Iflower(int x,int y) {
-        	   if(Lowest_point.height<y) {
+        	   if(Lowest_point.height>y) {
         		   Lowest_point.setSize(x, y);
         	   }
          }

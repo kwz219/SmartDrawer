@@ -50,6 +50,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
         private int Brushsize;
         private int Isdrawing;//judge if a drawing is over
 	    private BufferedImage img;
+	    private BufferedImage img2;
 	    private Long Releasetime;
 	    private ArrayList<Dimension> pointList=new ArrayList<Dimension>();//when a drawing begins,use this to record all points
 	    private ArrayList<Dimension> nofitpointList=new ArrayList<Dimension>();//record all points which is not amended
@@ -79,6 +80,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		Brushsize=10;
 		Isdrawing=0;
 		img =new BufferedImage(screenSize.width,screenSize.height,BufferedImage.TYPE_INT_ARGB);
+		img2 =new BufferedImage(screenSize.width,screenSize.height,BufferedImage.TYPE_BYTE_GRAY);
 		Drawerstatus=Drawerstate.Blank;
     }
 	
@@ -163,7 +165,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	
 	//get a image of the Jpanel,not yet used
 	public void getIMG() throws IOException {
-		Graphics2D img2d=img.createGraphics();
+		Graphics2D img2d=img2.createGraphics();
 		this.paint(img2d);
 		
 		img2d.dispose();
@@ -174,8 +176,14 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 			f.createNewFile();
 			System.out.println(123);
 		}
-	    
-		ImageIO.write(img, "jpg",f);
+		int x=pointRecorder.getLeftmost_point().width-2;
+		int y=pointRecorder.getLowest_point().height-2;
+		int w=pointRecorder.getRightmost_point().width-x+Brushsize;
+		int h=pointRecorder.getHighest_point().height-y+Brushsize;
+		System.out.println("x:"+x+" y:"+y+" w:"+w+" h"+h+" leftp:"+pointRecorder.getLeftmost_point()+" rightp"+pointRecorder.getRightmost_point()+" lowp"+pointRecorder.getLowest_point()+" highp"+pointRecorder.getHighest_point());
+	    BufferedImage partimg=img2.getSubimage(x, y, w, h);
+		ImageIO.write(partimg, "jpg",f);
+		
 
 
 	}
@@ -228,8 +236,14 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		
-        
+        /*
 		System.out.println("co:"+e.getX()+" "+e.getY());
+		try {
+			this.getIMG();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}*/
 		
 		if(Drawerstatus==Drawerstate.Drawing) {
 			endDrawing();
