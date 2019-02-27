@@ -11,6 +11,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -30,6 +32,7 @@ import Model.Line;
 import Model.Point;
 import Model.PointIndex;
 import Model.Triangle;
+import commandAnalyse.CommandAnalyst;
 import Logic.ListTraverseHelper;
 import Logic.PointRecorder;
 import Logic.PointsFittingHelper;
@@ -314,7 +317,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		
 	}
 	public void getCommand(String command) {
-		System.out.println(command);
+		//System.out.println(command);
 		this.repaint();
 	}
 	
@@ -329,4 +332,59 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		this.repaint();
 	}
 
+    public int findPointIndex_byname(String name) {
+    	     int index=-1;
+    	     for(int i=0;i<mpointList.size();i++) {
+    	    	     
+    	    	     if(name==mpointList.get(i).getName()) {
+    	    	    	    return i;
+    	    	     }
+    	     }
+    	     return index;
+    }
+
+    public int findCircleIndex_byname(String name) {
+    	     int index=-1;
+	     for(int i=0;i<circleList.size();i++) {
+	    	     
+	    	     if(name==circleList.get(i).getCenter().getName()) {
+	    	    	    return i;
+	    	     }
+	     }
+	     return index;
+    }
+    
+    public int findLineIndex_byname(String name) {
+    	     int index=-1;
+	     for(int i=0;i<lineList.size();i++) {
+	    	     Point startpoint=lineList.get(i).getStartpoint();
+	    	     Point endpoint=lineList.get(i).getEndpoint();
+	    	     String name1=startpoint.getName()+endpoint.getName();
+	    	     String name2=endpoint.getName()+startpoint.getName();
+	    	     if(name==name1||name==name2) {
+	    	    	 return i;
+	    	     }
+	    	     
+	     }
+	     return index;
+    }
+    
+    public int findTriangleIndex_byname(String name) {
+    	      int index=-1;
+    	      for(int i=0;i<triangleList.size();i++) {
+    	    	    Point v1=triangleList.get(i).getVertex1();
+    	    	    Point v2=triangleList.get(i).getVertex2();
+    	    	    Point v3=triangleList.get(i).getVertex3();
+    	    	    String name123=v1.getName()+v2.getName()+v3.getName();
+    	    	    String name132=v1.getName()+v3.getName()+v2.getName();
+    	    	    String name213=v2.getName()+v1.getName()+v3.getName();
+    	    	    String name231=v2.getName()+v3.getName()+v1.getName();
+    	    	    String name312=v3.getName()+v1.getName()+v3.getName();
+    	    	    String name321=v3.getName()+v2.getName()+v1.getName();
+    	    	    if(name==name123||name==name132||name==name213||name==name231||name==name312||name==name321) {
+    	    	    	   return i;
+    	    	    }
+    	      }
+    	      return index;
+    }
 }
