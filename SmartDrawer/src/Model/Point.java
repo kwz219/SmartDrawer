@@ -6,23 +6,31 @@ import Logic.PointsFittingHelper.Graphicstype;
 import Logic.PointsFittingHelper.Pointtype;
 
 /**
- * Last modification time  2019/01/13
+ * Last modification time  2019/02/27
  * @author zwk
  * model of graph point
  */
 public class Point {
       private String Name;
       private Dimension Coordinate;
+      private int X;
+      private int Y;
       private Pointtype Type;
     public Point(Dimension coordinate) {
     	   Coordinate=coordinate;
+    	   X=coordinate.width;
+    	   Y=coordinate.height;
     }
     public Point(Dimension coordinate,Pointtype type) {
  	   Coordinate=coordinate;
+ 	   X=coordinate.width;
+	   Y=coordinate.height;
  	   Type=type;
  }
     public Point(Dimension coordinate,String name) {
  	   Coordinate=coordinate;
+ 	   X=coordinate.width;
+	   Y=coordinate.height;
  	   Name=name;
  }
     public boolean Roughlyequal(Dimension point) {
@@ -48,6 +56,14 @@ public class Point {
 	}
 	public void setCoordinate(Dimension coordinate) {
 		Coordinate = coordinate;
+		X=coordinate.width;
+  	    Y=coordinate.height;
+	}
+	public int getX() {
+		return X;
+	}
+	public int getY() {
+		return Y;
 	}
       
 }
