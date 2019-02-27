@@ -1,5 +1,5 @@
 package commandAnalyse;
-//Õâ¸öÀàÓ¦¸ÃÖ»ÓĞÎ¨Ò»ÊµÀı
+//è¿™ä¸ªç±»åº”è¯¥åªæœ‰å”¯ä¸€å®ä¾‹
 public class CommandAnalyse {
 	//private Command com;
 	private String commandtype;
@@ -7,100 +7,100 @@ public class CommandAnalyse {
 	private CommandList list=new CommandList();
 	public void commandAnalyse(String command) {
 		Command com=new Command();
-		com.setTpye("ĞÂ½¨");
+		com.setTpye("æ–°å»º");
 		int length=command.length();
 		nextexpect="geo";
-		//Ã¿¸öÃüÁî¿ªÊ¼±ØĞëÊÇÒ»¸öÍ¼ĞÎ´Ê£¬Èç¹ûÕâ¸öÃüÁîÖ»ÓĞÍ¼ĞÎ´ÊÔòÎªĞÂ½¨ÃüÁî¡£
-		//Ã¿¸öÍ¼ĞÎ´ÊºóÃæ±ØĞëÊÇÒ»¸öÎ»ÖÃ´Ê»òÕßÕâÌõÃüÁî¾Í½áÊøÁË
+		//æ¯ä¸ªå‘½ä»¤å¼€å§‹å¿…é¡»æ˜¯ä¸€ä¸ªå›¾å½¢è¯ï¼Œå¦‚æœè¿™ä¸ªå‘½ä»¤åªæœ‰å›¾å½¢è¯åˆ™ä¸ºæ–°å»ºå‘½ä»¤ã€‚
+		//æ¯ä¸ªå›¾å½¢è¯åé¢å¿…é¡»æ˜¯ä¸€ä¸ªä½ç½®è¯æˆ–è€…è¿™æ¡å‘½ä»¤å°±ç»“æŸäº†
 		for(int i=0;i<length;i++) {
 			String word=command.substring(i, i+1);
-			//Õâ¸ö±äÁ¿ÓÃÓÚ±êÊ¶ÏÂÃæÓ¦¸ÃÓÃÊ²Ã´·½·¨À´¶ÁÈ¡£¬Èç¹ûÎªgeoÔò½ÓÏÂÈ¥ÆÚÍû¶ÁÈ¡µ½µÄÊÇÍ¼ĞÎ´Ê£¬Èç¹ûÊÇtypeÔò½ÓÏÂÈ¥ÆÚÍû¶ÁÈ¡µ½µÄÊÇÀàĞÍ´Ê
+			//è¿™ä¸ªå˜é‡ç”¨äºæ ‡è¯†ä¸‹é¢åº”è¯¥ç”¨ä»€ä¹ˆæ–¹æ³•æ¥è¯»å–ï¼Œå¦‚æœä¸ºgeoåˆ™æ¥ä¸‹å»æœŸæœ›è¯»å–åˆ°çš„æ˜¯å›¾å½¢è¯ï¼Œå¦‚æœæ˜¯typeåˆ™æ¥ä¸‹å»æœŸæœ›è¯»å–åˆ°çš„æ˜¯ç±»å‹è¯
 			switch (nextexpect){
 			case"geo": 
 				switch (word) {
-				case"µã":{
+				case"ç‚¹":{
 					CommandGeo geo=new CommandGeo ();
 					com.addGeo(geo);
 					i=i+1;
-					geo.setType("µã");
+					geo.setType("ç‚¹");
 					geo.setName(command.substring(i, i+1));
 					nextexpect="type";
 					break;}
-				case"Ö±":{
-					if(command.substring(i+1,i+2).equals("Ïß")) {
+				case"ç›´":{
+					if(command.substring(i+1,i+2).equals("çº¿")) {
 						CommandGeo geo=new CommandGeo ();
 						com.addGeo(geo);
 						i=i+2;
-						geo.setType("Ö±Ïß");
+						geo.setType("ç›´çº¿");
 						geo.setName(command.substring(i, i+2));
 						i=i+1;
 						nextexpect="type";
 					}
 					break;}
-				case"½Ç":{
+				case"è§’":{
 					if(command.charAt(i+1) >= 'A' && command.charAt(i+1) <= 'Z') {
 						CommandGeo geo=new CommandGeo ();
 						com.addGeo(geo);
 						i=i+1;
-						geo.setType("½Ç");
+						geo.setType("è§’");
 						geo.setName(command.substring(i, i+3));
 						i=i+2;
 						nextexpect="type";
 					}	
 					break;}
-				case"Ô²":{
+				case"åœ†":{
 					CommandGeo geo=new CommandGeo ();
 					com.addGeo(geo);
 					i=i+1;
-					geo.setType("Ô²");
+					geo.setType("åœ†");
 					geo.setName(command.substring(i, i+1));
 					nextexpect="type";
 					break;}
-				case"Èı":{
+				case"ä¸‰":{
 					if(command.length()>i+3) {
 						if(command.charAt(i+3) >= 'A' && command.charAt(i+3) <= 'Z') {
 							CommandGeo geo=new CommandGeo ();
 							com.addGeo(geo);
 							i=i+3;
-							geo.setType("Èı½ÇĞÎ");
+							geo.setType("ä¸‰è§’å½¢");
 							geo.setName(command.substring(i, i+3));
 							i=i+2;
 							nextexpect="type";
 						}
 					}
 					break;}
-				case"Æ½":{
+				case"å¹³":{
 					CommandGeo geo=new CommandGeo ();
 					com.addGeo(geo);
 					i=i+5;
-					geo.setType("Æ½ĞĞËÄ±ßĞÎ");
+					geo.setType("å¹³è¡Œå››è¾¹å½¢");
 					geo.setName(command.substring(i, i+4));
 					i=i+3;
 					nextexpect="type";
 					break;}
-				case"Õı":{
+				case"æ­£":{
 					CommandGeo geo=new CommandGeo ();
 					com.addGeo(geo);
 					i=i+3;
-					geo.setType("Õı·½ĞÎ");
+					geo.setType("æ­£æ–¹å½¢");
 					geo.setName(command.substring(i, i+4));
 					i=i+3;
 					nextexpect="type";
 					break;}
-				case"¾Ø":{
-					CommandGeo geo=new CommandGeo ();
-					com.addGeo(geo);
-					i=i+2;
-					geo.setType("¾ØĞÎ");
-					geo.setName(command.substring(i, i+4));
-					i=i+3;
-					nextexpect="type";
-					break;}
-				case"Áâ":{
+				case"çŸ©":{
 					CommandGeo geo=new CommandGeo ();
 					com.addGeo(geo);
 					i=i+2;
-					geo.setType("ÁâĞÎ");
+					geo.setType("çŸ©å½¢");
+					geo.setName(command.substring(i, i+4));
+					i=i+3;
+					nextexpect="type";
+					break;}
+				case"è±":{
+					CommandGeo geo=new CommandGeo ();
+					com.addGeo(geo);
+					i=i+2;
+					geo.setType("è±å½¢");
 					geo.setName(command.substring(i, i+4));
 					i=i+3;
 					nextexpect="type";
@@ -109,66 +109,66 @@ public class CommandAnalyse {
 				break;
 			case"type":
 				nextexpect="geo";
-				if(com.getTpye().equals("ĞÂ½¨")) {
+				if(com.getTpye().equals("æ–°å»º")) {
 					switch(word) {
-					case"½»":com.setTpye("½»ÓÚ");
+					case"äº¤":com.setTpye("äº¤äº");
 					break;
-					case"Æ½":
-						if(command.contains("Æ½ĞĞ")) com.setTpye("Æ½ĞĞ");
-						if(command.contains("Æ½·Ö")) com.setTpye("Æ½·Ö");
+					case"å¹³":
+						if(command.contains("å¹³è¡Œ")) com.setTpye("å¹³è¡Œ");
+						if(command.contains("å¹³åˆ†")) com.setTpye("å¹³åˆ†");
 						break;
-					case"ÔÚ":com.setTpye("Î»ÓÚ");
+					case"åœ¨":com.setTpye("ä½äº");
 						break;
-					case"µÈ":com.setTpye("µÈÓÚ");
+					case"ç­‰":com.setTpye("ç­‰äº");
 						break;
-					case"´¹":com.setTpye("´¹Ö±");
+					case"å‚":com.setTpye("å‚ç›´");
 						break;
-					case"ÇĞ":com.setTpye("ÇĞÓÚ");
+					case"åˆ‡":com.setTpye("åˆ‡äº");
 						break;
-					case"ÊÇ":
-						if(command.contains("¸ß")) {
-							com.setTpye("¸ß");
+					case"æ˜¯":
+						if(command.contains("é«˜")) {
+							com.setTpye("é«˜");
 						}
-						else if(command.contains("ÖĞÏß")) {
-							com.setTpye("ÖĞÏß");
+						else if(command.contains("ä¸­çº¿")) {
+							com.setTpye("ä¸­çº¿");
 						}
-						else if(command.contains("ÖĞÏß")) {
-							com.setTpye("ÖĞÏß");
+						else if(command.contains("ä¸­çº¿")) {
+							com.setTpye("ä¸­çº¿");
 						}
-						else if(command.contains("Æ½·ÖÏß")) {
-							com.setTpye("Æ½·ÖÏß");
+						else if(command.contains("å¹³åˆ†çº¿")) {
+							com.setTpye("å¹³åˆ†çº¿");
 						}
-						else if(command.contains("¶È")) {
-							com.setTpye("ÌØ¶¨½Ç¶È");
+						else if(command.contains("åº¦")) {
+							com.setTpye("ç‰¹å®šè§’åº¦");
 							int num;
 							String s;
-							s=command.substring(i+1,command.indexOf("¶È"));
+							s=command.substring(i+1,command.indexOf("åº¦"));
 							num=Integer.valueOf(s);						
 							com.setNumber(num);
 						}
-						else if(command.contains("Ö±½ÇÈı½ÇĞÎ")) {
-							com.setTpye("Ö±½ÇÈı½ÇĞÎ");
-							if(command.contains("µÈÑüÖ±½ÇÈı½ÇĞÎ")) {
-									com.setTpye("µÈÑüÖ±½ÇÈı½ÇĞÎ");
+						else if(command.contains("ç›´è§’ä¸‰è§’å½¢")) {
+							com.setTpye("ç›´è§’ä¸‰è§’å½¢");
+							if(command.contains("ç­‰è…°ç›´è§’ä¸‰è§’å½¢")) {
+									com.setTpye("ç­‰è…°ç›´è§’ä¸‰è§’å½¢");
 								}
 						}
-						else if(command.contains("µÈ±ßÈı½ÇĞÎ")) {
-							com.setTpye("µÈ±ßÈı½ÇĞÎ");
+						else if(command.contains("ç­‰è¾¹ä¸‰è§’å½¢")) {
+							com.setTpye("ç­‰è¾¹ä¸‰è§’å½¢");
 						}
-						else if(command.contains("µÈÑüÈı½ÇĞÎ")) {
-							com.setTpye("µÈÑüÈı½ÇĞÎ");
+						else if(command.contains("ç­‰è…°ä¸‰è§’å½¢")) {
+							com.setTpye("ç­‰è…°ä¸‰è§’å½¢");
 						}
-						else if(command.contains("ÁâĞÎ")) {
-							com.setTpye("ÁâĞÎ");
+						else if(command.contains("è±å½¢")) {
+							com.setTpye("è±å½¢");
 						}
-						else if(command.contains("Õı·½ĞÎ")) {
-							com.setTpye("Õı·½ĞÎ");
+						else if(command.contains("æ­£æ–¹å½¢")) {
+							com.setTpye("æ­£æ–¹å½¢");
 						}
-						else if(command.contains("¾ØĞÎ")) {
-							com.setTpye("¾ØĞÎ");
+						else if(command.contains("çŸ©å½¢")) {
+							com.setTpye("çŸ©å½¢");
 						}
-						else if(command.contains("Æ½ĞĞËÄ±ßĞÎ")) {
-							com.setTpye("Æ½ĞĞËÄ±ßĞÎ");
+						else if(command.contains("å¹³è¡Œå››è¾¹å½¢")) {
+							com.setTpye("å¹³è¡Œå››è¾¹å½¢");
 						}
 						break;
 					}
