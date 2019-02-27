@@ -19,7 +19,9 @@ public class MainFrame extends JFrame{
 	    	  setSize(screenSize.width,screenSize.height);
 	    	  setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    	  setVisible(true);
+	    	  this.add(CommandField.getField(),BorderLayout.BEFORE_FIRST_LINE);
 	    	  this.add(DrawerPanel.getDrawer(),BorderLayout.CENTER);//add DrawerPanel
+	    	  
 	      }
           public static void main(String[] args) {
         	        new MainFrame();

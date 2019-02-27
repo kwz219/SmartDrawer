@@ -69,6 +69,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	//singleton schema ,so private,init member value
 	private DrawerPanel(){
 		Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();//get the size of the screen
+		screenSize.setSize(screenSize.getWidth(),screenSize.getHeight()-15);
 		addMouseMotionListener(this);
 		addMouseListener(this);
 		Brushcolor=Color.BLACK;
@@ -311,6 +312,21 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	public void mouseExited(MouseEvent e) {
 		
 		
+	}
+	public void getCommand(String command) {
+		System.out.println(command);
+		this.repaint();
+	}
+	
+	
+	public void addTriangle(Triangle triangle) {
+		triangleList.add(triangle);
+		this.repaint();
+	}
+	
+	public void addCircle(Circle circle) {
+		circleList.add(circle);
+		this.repaint();
 	}
 
 }
