@@ -141,7 +141,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
             Point lineend2=new Point(tmplist.get(tmplist.size()-1),Pointtype.Lineend);
             Line newLine=new Line(lineend1,lineend2);
 		   lineList.add(newLine);
-		   System.out.println("lineend1"+lineend1.getCoordinate());
+		   //System.out.println("lineend1"+lineend1.getCoordinate());
 		   PointMap.put(lineend1,new PointIndex(lineList.indexOf(newLine),1,Pointtype.Lineend));
 		   PointMap.put(lineend2,new PointIndex(lineList.indexOf(newLine),2,Pointtype.Lineend));
 		   iffit=1;
@@ -278,7 +278,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 					System.out.println("end adjusting");
 				}else {
 					Drawerstatus=Drawerstate.Ajusting;
-					System.out.println(pi.Listindex);
+					//System.out.println(pi.Listindex);
 					currentPi=pi;
 				}
 			}else {
@@ -386,5 +386,21 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     	    	    }
     	      }
     	      return index;
+    }
+    
+    public void delpoint_byindex(int index) {
+    	   mpointList.remove(index);
+    }
+    
+    public void delline_byindex(int index) {
+    	  lineList.remove(index);
+    }
+    
+    public void deltriangle_byindex(int index) {
+    	  triangleList.remove(index);
+    }
+    
+    public void delcircle_byindex(int index) {
+    	  circleList.remove(index);
     }
 }

@@ -8,6 +8,6 @@ public class CommandAnalyst {
          public static void AnalyseCommand(String command) {
         	 CommandAnalyse ca=new CommandAnalyse();
         	 ca.commandAnalyse(command);
-        	 System.out.println("CommandAnalyst: "+command);
+        	 System.out.println("CommandAnalyst: ");
          }
 }

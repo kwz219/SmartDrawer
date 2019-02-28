@@ -2,6 +2,9 @@ package Logic;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
+
+import Logic.PointsFittingHelper.Pointtype;
+import Model.Point;
 /**
  * Last Modification 2019/01/15
  * @author zwk
@@ -91,6 +94,41 @@ public class PointRecorder {
 			return Lowest_point;
 		}
 
-		
+		public ArrayList<Point> getTriangleVertexes() {
+			ArrayList<Point> list=new ArrayList<Point>();
+			if(Math.abs(Leftmost_point.height-Rightmost_point.height)<10) {
+				if(Math.abs(Highest_point.height-Leftmost_point.height)>25) {
+					list.add(new Point(Highest_point,Pointtype.Triangleend));
+					list.add(new Point(Leftmost_point,Pointtype.Triangleend));
+					list.add(new Point(Rightmost_point,Pointtype.Triangleend));
+				}else {
+					list.add(new Point(Leftmost_point,Pointtype.Triangleend));
+					list.add(new Point(Rightmost_point,Pointtype.Triangleend));
+					list.add(new Point(Lowest_point,Pointtype.Triangleend));
+					
+				}
+			}else if((Highest_point.width-Lowest_point.width)<10) {
+				if((Rightmost_point.width-Highest_point.width)>25) {
+					list.add(new Point(Highest_point,Pointtype.Triangleend));
+					list.add(new Point(Rightmost_point,Pointtype.Triangleend));
+					list.add(new Point(Lowest_point,Pointtype.Triangleend));
+				}else {
+					list.add(new Point(Highest_point,Pointtype.Triangleend));
+					list.add(new Point(Lowest_point,Pointtype.Triangleend));
+					list.add(new Point(Leftmost_point,Pointtype.Triangleend));
+				}
+			}else {
+				if((Math.abs(Highest_point.width-Leftmost_point.width)<5)||Math.abs(Lowest_point.width-Leftmost_point.width)<5) {
+					list.add(new Point(Highest_point,Pointtype.Triangleend));
+					list.add(new Point(Rightmost_point,Pointtype.Triangleend));
+					list.add(new Point(Lowest_point,Pointtype.Triangleend));
+				}else if(Math.abs(Rightmost_point.width-Highest_point.width)<5||Math.abs(Rightmost_point.width-Lowest_point.width)<5){
+					list.add(new Point(Highest_point,Pointtype.Triangleend));
+					list.add(new Point(Lowest_point,Pointtype.Triangleend));
+					list.add(new Point(Leftmost_point,Pointtype.Triangleend));
+				}
+			}
+			return list;
+		}
          
 }
