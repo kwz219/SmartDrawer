@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Command {
 	private String tpye;
 	private int number;
-	//type包括新建，交于，垂直，平行，位于，平分，等于，高，中线，平分线，特定角度，直角三角形，等腰直角三角形，等边三角形，等腰三角形，菱形，正方形，平行四边形，矩形
+	//type鍖呮嫭鏂板缓锛屼氦浜庯紝鍨傜洿锛屽钩琛岋紝浣嶄簬锛屽钩鍒嗭紝绛変簬锛岄珮锛屼腑绾匡紝骞冲垎绾匡紝鐗瑰畾瑙掑害锛岀洿瑙掍笁瑙掑舰锛岀瓑鑵扮洿瑙掍笁瑙掑舰锛岀瓑杈逛笁瑙掑舰锛岀瓑鑵颁笁瑙掑舰锛岃彵褰紝姝ｆ柟褰紝骞宠鍥涜竟褰紝鐭╁舰
 	private ArrayList<CommandGeo> Geolist=new ArrayList<CommandGeo>();
 	public String getTpye() {
 		return tpye;
@@ -35,5 +35,4 @@ public class Command {
 		}
 		System.out.println(this.tpye);
 	}
-
 }

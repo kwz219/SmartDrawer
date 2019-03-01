@@ -1,5 +1,4 @@
 package commandAnalyse;
-//这个类应该只有唯一实例
 import java.util.ArrayList;
 
 public class CommandList {
@@ -13,5 +12,10 @@ public class CommandList {
 	}
 	public void add(Command com) {
 		list.add(com);
+	}
+	public void printAll() {
+		for(int i=0;i<list.size();i++) {
+			list.get(i).print();
+		}
 	}
 }
