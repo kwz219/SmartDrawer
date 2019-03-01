@@ -6,6 +6,7 @@ public interface CommandExucuteInterface {
 	public void createCircle(Point o,int radius);
 	public void createTriangle(Point A,Point B,Point C);
 	public void creadPoint(Point A);
+	public void createLine(Line l);
 	public void changeLine(Line l);
 	public void changeCircle(Circle o);
 	public void changePoint(Point p);
