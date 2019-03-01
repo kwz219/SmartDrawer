@@ -1,9 +1,13 @@
 package Logic;
 
+import Model.Circle;
+import Model.Line;
+import Model.Point;
+import Model.Triangle;
 import View.DrawerPanel;
 
 /**
- * Last modification time 2019/02/27
+ * Last modification time 2019/03/01
  * @author zwk
  * to find a geo with name or check if it exists
  */
@@ -43,5 +47,25 @@ public class FindCommand {
     		   result=true;
     	   }
     	   return result;
+       }
+       
+       public static Point getPoint(String name) {
+    	      int pindex=DrawerPanel.getDrawer().findPointIndex_byname(name);
+    	      return DrawerPanel.getDrawer().getpoint_byindex(pindex);
+       }
+       
+       public static Line getLine(String name) {
+    	      int lindex=DrawerPanel.getDrawer().findLineIndex_byname(name);
+    	      return DrawerPanel.getDrawer().getline_byindex(lindex);
+       }
+       
+       public static Triangle getTriangle(String name) {
+    	      int tindex=DrawerPanel.getDrawer().findTriangleIndex_byname(name);
+    	      return DrawerPanel.getDrawer().gettriangle_byindex(tindex);
+       }
+       
+       public static Circle getCircle(String name) {
+    	      int cindex=DrawerPanel.getDrawer().findCircleIndex_byname(name);
+    	      return DrawerPanel.getDrawer().getcircle_byindex(cindex);
        }
 }

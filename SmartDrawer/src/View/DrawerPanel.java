@@ -332,6 +332,15 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		this.repaint();
 	}
 
+	public void addPoint(Point A) {
+		mpointList.add(A);
+		this.repaint();
+	}
+	
+	public void addLine(Line l) {
+		lineList.add(l);
+		this.repaint();
+	}
     public int findPointIndex_byname(String name) {
     	     int index=-1;
     	     for(int i=0;i<mpointList.size();i++) {
@@ -402,5 +411,21 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     
     public void delcircle_byindex(int index) {
     	  circleList.remove(index);
+    }
+    
+    public Point getpoint_byindex(int index) {
+    	      return mpointList.get(index);
+    }
+    
+    public Line getline_byindex(int index) {
+    	      return lineList.get(index);
+    }
+    
+    public Triangle gettriangle_byindex(int index) {
+    	     return triangleList.get(index);
+    }
+    
+    public Circle getcircle_byindex(int index) {
+    	     return circleList.get(index);
     }
 }

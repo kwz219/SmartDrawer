@@ -6,7 +6,7 @@ import Logic.PointsFittingHelper.Graphicstype;
 import Logic.PointsFittingHelper.Pointtype;
 
 /**
- * Last modification time  2019/02/27
+ * Last modification time  2019/03/01
  * @author zwk
  * model of graph point
  */
@@ -64,6 +64,14 @@ public class Point {
 	}
 	public int getY() {
 		return Y;
+	}
+	
+	public void setX(int x) {
+		X=x;
+	}
+	
+	public void setY(int y) {
+		Y=y;
 	}
       
 }
