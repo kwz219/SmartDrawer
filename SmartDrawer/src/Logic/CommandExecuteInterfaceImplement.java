@@ -8,37 +8,37 @@ import commandAnalyse.CommandExucuteInterface;
 /**
  * Last modification time 2019/03/01
  * @author zwk
- *
+ * the implement of commandAnalyse.CommandExecuteInterface
  */
 public class CommandExecuteInterfaceImplement implements CommandExucuteInterface{
 
 	@Override
 	public void createCircle(Point o, int radius) {
-		// TODO Auto-generated method stub
+		
 		DrawCommand.createCircle(o, radius);
 	}
 
 	@Override
 	public void createTriangle(Point A, Point B, Point C) {
-		// TODO Auto-generated method stub
+		
 		DrawCommand.createTriangle(A, B, C);
 	}
 
 	@Override
 	public void creadPoint(Point A) {
-		// TODO Auto-generated method stub
+		
 		DrawCommand.createPoint(A);
 	}
 
 	@Override
 	public void createLine(Line l) {
-		// TODO Auto-generated method stub
+		
 		DrawCommand.createLine(l);
 	}
 
 	@Override
 	public void changeLine(Line l) {
-		// TODO Auto-generated method stub
+		
 		String lname=l.getStartpoint().getName()+l.getEndpoint().getName();
 		if(FindCommand.LineExist(lname)) {
 			AjustCommand.Del_line(lname);
@@ -50,7 +50,7 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 
 	@Override
 	public void changeCircle(Circle o) {
-		// TODO Auto-generated method stub
+		
 		String cname=o.getCenter().getName();
 		if(FindCommand.CircleExist(cname)) {
 			AjustCommand.Del_circle(cname);
@@ -62,7 +62,7 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 
 	@Override
 	public void changePoint(Point p) {
-		// TODO Auto-generated method stub
+		
 		String pname=p.getName();
 		if(FindCommand.PointExist(pname)) {
 			AjustCommand.Del_point(pname);
@@ -74,7 +74,7 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 
 	@Override
 	public Point getPoint(String name) {
-		// TODO Auto-generated method stub
+		
 		
 		if(FindCommand.PointExist(name)) {
 			return FindCommand.getPoint(name);
@@ -84,7 +84,7 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 
 	@Override
 	public Circle getCirlce(String name) {
-		// TODO Auto-generated method stub
+		
 		if(FindCommand.CircleExist(name)) {
 			return FindCommand.getCircle(name);
 		}
@@ -93,7 +93,7 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 
 	@Override
 	public Triangle getTriangle(String name) {
-		// TODO Auto-generated method stub
+		
 		if(FindCommand.TriangleExist(name)) {
 			return FindCommand.getTriangle(name);
 		}

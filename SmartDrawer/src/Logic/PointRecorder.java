@@ -4,9 +4,10 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 
 import Logic.PointsFittingHelper.Pointtype;
+import Model.Circle;
 import Model.Point;
 /**
- * Last Modification 2019/01/15
+ * Last Modification 2019/03/01
  * @author zwk
  * this class is used to record points of a drawing(not all points)
  * you can get leftmostpoint,rightmostpoint,highestpoint,lowestpoint of a Drawing
@@ -94,6 +95,7 @@ public class PointRecorder {
 			return Lowest_point;
 		}
 
+		//get three vertexes of a triangle from a similar graph
 		public ArrayList<Point> getTriangleVertexes() {
 			ArrayList<Point> list=new ArrayList<Point>();
 			if(Math.abs(Leftmost_point.height-Rightmost_point.height)<10) {
@@ -129,6 +131,15 @@ public class PointRecorder {
 				}
 			}
 			return list;
+		}
+		
+		// get a circle from a series of nofit points
+		public Circle getSimilarCircle() {
+			int length=Math.abs(Rightmost_point.width-Leftmost_point.width);
+			int height=Math.abs(Highest_point.height-Lowest_point.height);
+			int radius=(length+height)/2;
+			Point center=new Point(new Dimension(Leftmost_point.width+length/2,Highest_point.height+height/2));
+			return new Circle(center,radius);
 		}
          
 }

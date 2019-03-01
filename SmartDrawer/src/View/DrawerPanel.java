@@ -156,9 +156,10 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 			iffit=1;
 		}
 		if(iffit==0) {
+			pointLptr=nofitpointList.size();
 			nofitpointList.addAll(pointList);
 		}
-		pointLptr=pointList.size();
+		
 		}
 		//reset pointRecorder and pointList
 		pointRecorder=new PointRecorder();
@@ -324,21 +325,25 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	
 	public void addTriangle(Triangle triangle) {
 		triangleList.add(triangle);
+		nofitpointList.removeAll(nofitpointList.subList(pointLptr, nofitpointList.size()));
 		this.repaint();
 	}
 	
 	public void addCircle(Circle circle) {
 		circleList.add(circle);
+		nofitpointList.removeAll(nofitpointList.subList(pointLptr, nofitpointList.size()));
 		this.repaint();
 	}
 
 	public void addPoint(Point A) {
 		mpointList.add(A);
+		nofitpointList.removeAll(nofitpointList.subList(pointLptr, nofitpointList.size()));
 		this.repaint();
 	}
 	
 	public void addLine(Line l) {
 		lineList.add(l);
+		nofitpointList.removeAll(nofitpointList.subList(pointLptr, nofitpointList.size()));
 		this.repaint();
 	}
     public int findPointIndex_byname(String name) {
