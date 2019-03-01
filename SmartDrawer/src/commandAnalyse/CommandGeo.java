@@ -2,7 +2,7 @@ package commandAnalyse;
 
 public class CommandGeo {
 	private String name;
-	private String type;//÷÷¿‡”–circle,line,point,triangle;
+	private String type;//circle,line,point,triangle;
 	public String getName() {
 		return name;
 	}

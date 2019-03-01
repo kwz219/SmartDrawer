@@ -1,10 +1,10 @@
 package commandAnalyse;
-//这个类应该只有唯一实例
+//这个类应该只有唯一实例,需要补充一个单例模式
 public class CommandAnalyse {
 	//private Command com;
 	private String commandtype;
 	private String nextexpect="geo";
-	private CommandList list=new CommandList();
+	static CommandList list=new CommandList();
 	public void commandAnalyse(String command) {
 		Command com=new Command();
 		com.setTpye("新建");
@@ -177,9 +177,8 @@ public class CommandAnalyse {
 				}
 			}
 		}
-		com.print();
 		this.list.add(com);
+		list.printAll();
+		System.out.println(list.getList().size());
 	}
-	
-	
 }
