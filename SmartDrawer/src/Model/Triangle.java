@@ -69,5 +69,21 @@ public class Triangle {
 		Angle3 = angle3;
 	}
 	
+	public int[] getXpoints() {
+		int []xPoints=new int[3];
+		xPoints[0]=Vertex1.getX();
+		xPoints[1]=Vertex2.getX();
+		xPoints[2]=Vertex3.getX();
+		return xPoints;
+	}
+	
+	public int[] getYpoints() {
+		int []yPoints=new int[3];
+		yPoints[0]=Vertex1.getY();
+		yPoints[1]=Vertex2.getY();
+		yPoints[2]=Vertex3.getY();
+		return yPoints;
+	}
+	
        
 }
