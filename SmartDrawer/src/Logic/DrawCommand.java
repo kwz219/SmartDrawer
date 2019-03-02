@@ -16,8 +16,8 @@ public class DrawCommand {
 		DrawerPanel.getDrawer().addTriangle(tri);
 	}
 
-	public static void createCircle(Point o,int radius) {	
-		Circle cir=new Circle(o,radius);
+	public static void createCircle(Circle cir) {	
+		
 		DrawerPanel.getDrawer().addCircle(cir);
 	}
 	

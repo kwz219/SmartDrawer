@@ -122,8 +122,16 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
         	   g2d.fillOval(mpointList.get(i).getCoordinate().width, mpointList.get(i).getCoordinate().height,Brushsize,Brushsize);
         }
         
+        //draw all triangles
+        for(int i=0;i<triangleList.size();i++) {
+        	
+        }        
         
-       
+        //draw all cricles
+        for(int i=0;i<circleList.size();i++) {
+        	   g2d.drawOval(circleList.get(i).getUpperleft().width, circleList.get(i).getUpperleft().height,circleList.get(i).getRadius()*2,circleList.get(i).getRadius()*2);
+        }
+        
         g2d.dispose();
         
         

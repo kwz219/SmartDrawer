@@ -3,7 +3,7 @@ package commandAnalyse;
 import Model.*;
 
 public interface CommandExucuteInterface {
-	public void createCircle(Point o,int radius);
+	public void createCircle(Circle o);
 	public void createTriangle(Point A,Point B,Point C);
 	public void creadPoint(Point A);
 	public void createLine(Line l);

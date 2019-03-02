@@ -13,9 +13,9 @@ import commandAnalyse.CommandExucuteInterface;
 public class CommandExecuteInterfaceImplement implements CommandExucuteInterface{
 
 	@Override
-	public void createCircle(Point o, int radius) {
+	public void createCircle(Circle o) {
 		
-		DrawCommand.createCircle(o, radius);
+		DrawCommand.createCircle(o);
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 		}else {
 			System.out.println("Circle "+cname+" doesn't exist");
 		}
-		DrawCommand.createCircle(o.getCenter(),o.getRadius());
+		DrawCommand.createCircle(o);
 	}
 
 	@Override
