@@ -35,7 +35,7 @@ public class Point {
  }
     public boolean Roughlyequal(Dimension point) {
     	      boolean result=false;
-    	      if(Math.abs(point.width-Coordinate.width)<3&&Math.abs(point.height-Coordinate.height)<3) {
+    	      if(Math.abs(point.width-Coordinate.width)<5&&Math.abs(point.height-Coordinate.height)<5) {
     	    	     result=true;
     	      }
     	      return result;

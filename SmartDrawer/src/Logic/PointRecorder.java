@@ -138,8 +138,9 @@ public class PointRecorder {
 			int length=Math.abs(Rightmost_point.width-Leftmost_point.width);
 			int height=Math.abs(Highest_point.height-Lowest_point.height);
 			int radius=(length+height)/4;
-			Point center=new Point(new Dimension(Leftmost_point.width+length/2,Highest_point.height+height/2));
+			
 			Dimension upperleft=new Dimension(Leftmost_point.width,Lowest_point.height);
+			Point center=new Point(new Dimension(upperleft.width+radius,upperleft.height+radius));
 			return new Circle(center,radius,upperleft);
 		}
          

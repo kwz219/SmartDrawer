@@ -129,7 +129,9 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
         
         //draw all cricles
         for(int i=0;i<circleList.size();i++) {
+           g2d.fillOval(circleList.get(i).getCenter().getX()-Brushsize/2,circleList.get(i).getCenter().getY()-Brushsize/2,Brushsize, Brushsize);
         	   g2d.drawOval(circleList.get(i).getUpperleft().width, circleList.get(i).getUpperleft().height,circleList.get(i).getRadius()*2,circleList.get(i).getRadius()*2);
+        	   
         }
         /*int []x= {100,100,200};
         int []y= {100,200,100};
@@ -143,10 +145,10 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	public void endDrawing() {
 		int iffit=0;
 		ArrayList<Dimension> tmplist=pointRecorder.getPlist();
-		System.out.println(tmplist.size());
+		
 		if(tmplist.size()>0) {
 		if(PointsFittingHelper.PointsFit(tmplist)==Graphicstype.Line) {
-            System.out.println("a line");
+            System.out.println("a line ");
             Point lineend1=new Point(tmplist.get(0),Pointtype.Lineend);
             Point lineend2=new Point(tmplist.get(tmplist.size()-1),Pointtype.Lineend);
             Line newLine=new Line(lineend1,lineend2);
@@ -157,7 +159,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		   iffit=1;
 		}
 		else if(PointsFittingHelper.PointsFit(tmplist)==Graphicstype.Point) {
-			System.out.println("a point");
+			System.out.println("a point ");
 			mpointList.add(new Point(tmplist.get(0)));
 			iffit=1;
 		}else if(PointsFittingHelper.PointsFit(tmplist)==Graphicstype.Triangle) {
@@ -225,7 +227,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 			}else if(currentPi.Type==Pointtype.Triangleend) {
 				triangleList.get(currentPi.Listindex).getPoint_byindex(currentPi.Innerindex).setCoordinate(new Dimension(e.getX(),e.getY()));
 			}else if(currentPi.Type==Pointtype.Circlecenter) {
-				
+				circleList.get(currentPi.Listindex).moveCenter(new Dimension(e.getX(),e.getY()));
 			}
 		}else if(Drawerstatus==Drawerstate.Drawing) {
 			pointList.add(new Dimension(e.getX(),e.getY()));
@@ -269,6 +271,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 			//Isdrawing=1;
 		}else if(Drawerstatus==Drawerstate.EndDrawing) {
 			if(Clickgraph(e.getX(), e.getY())) {
+				System.out.println(e.getX()+" "+e.getY());
 				PointIndex pi=ListTraverseHelper.FindnearestPoint(new Dimension(e.getX(),e.getY()),PointMap);
 				if(pi==null) {
 					
@@ -277,6 +280,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 					Drawerstatus=Drawerstate.Ajusting;
 					//System.out.println(pi.Listindex);
 					currentPi=pi;
+				    System.out.println("A "+pi.Type.toString()+" is selected");
 				}
 			}else {
 				Drawerstatus=Drawerstate.Blank;
@@ -347,6 +351,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	public void addCircle(Circle circle) {
 		circleList.add(circle);
 		PointMap.put(circle.getCenter(),new PointIndex(circleList.indexOf(circle),0,Pointtype.Circlecenter));
+		
 		nofitpointList.removeAll(nofitpointList.subList(pointLptr, nofitpointList.size()));
 		this.repaint();
 	}

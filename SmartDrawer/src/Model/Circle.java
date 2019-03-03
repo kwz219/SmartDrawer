@@ -28,6 +28,11 @@ public class Circle {
 			this.upperleft = upperleft;
 		}
 		
-        
+        public void moveCenter(Dimension d) {
+        	    upperleft.setSize(upperleft.width+d.width-Center.getX(),upperleft.height+d.height-Center.getY());
+        	    Center.setCoordinate(d);
+        	   
+        	    
+        }
         
 }
