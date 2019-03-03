@@ -7,7 +7,7 @@ public class CommandAnalyse {
 	static CommandList list=new CommandList();
 	public void commandAnalyse(String command) {
 		Command com=new Command();
-		com.setTpye("新建");
+		com.settype("新建");
 		int length=command.length();
 		nextexpect="geo";
 		//每个命令开始必须是一个图形词，如果这个命令只有图形词则为新建命令。
@@ -109,37 +109,37 @@ public class CommandAnalyse {
 				break;
 			case"type":
 				nextexpect="geo";
-				if(com.getTpye().equals("新建")) {
+				if(com.gettype().equals("新建")) {
 					switch(word) {
-					case"交":com.setTpye("交于");
+					case"交":com.settype("交于");
 					break;
 					case"平":
-						if(command.contains("平行")) com.setTpye("平行");
-						if(command.contains("平分")) com.setTpye("平分");
+						if(command.contains("平行")) com.settype("平行");
+						if(command.contains("平分")) com.settype("平分");
 						break;
-					case"在":com.setTpye("位于");
+					case"在":com.settype("位于");
 						break;
-					case"等":com.setTpye("等于");
+					case"等":com.settype("等于");
 						break;
-					case"垂":com.setTpye("垂直");
+					case"垂":com.settype("垂直");
 						break;
-					case"切":com.setTpye("切于");
+					case"切":com.settype("切于");
 						break;
 					case"是":
 						if(command.contains("高")) {
-							com.setTpye("高");
+							com.settype("高");
 						}
 						else if(command.contains("中线")) {
-							com.setTpye("中线");
+							com.settype("中线");
 						}
 						else if(command.contains("中线")) {
-							com.setTpye("中线");
+							com.settype("中线");
 						}
 						else if(command.contains("平分线")) {
-							com.setTpye("平分线");
+							com.settype("平分线");
 						}
 						else if(command.contains("度")) {
-							com.setTpye("特定角度");
+							com.settype("特定角度");
 							int num;
 							String s;
 							s=command.substring(i+1,command.indexOf("度"));
@@ -147,28 +147,28 @@ public class CommandAnalyse {
 							com.setNumber(num);
 						}
 						else if(command.contains("直角三角形")) {
-							com.setTpye("直角三角形");
+							com.settype("直角三角形");
 							if(command.contains("等腰直角三角形")) {
-									com.setTpye("等腰直角三角形");
+									com.settype("等腰直角三角形");
 								}
 						}
 						else if(command.contains("等边三角形")) {
-							com.setTpye("等边三角形");
+							com.settype("等边三角形");
 						}
 						else if(command.contains("等腰三角形")) {
-							com.setTpye("等腰三角形");
+							com.settype("等腰三角形");
 						}
 						else if(command.contains("菱形")) {
-							com.setTpye("菱形");
+							com.settype("菱形");
 						}
 						else if(command.contains("正方形")) {
-							com.setTpye("正方形");
+							com.settype("正方形");
 						}
 						else if(command.contains("矩形")) {
-							com.setTpye("矩形");
+							com.settype("矩形");
 						}
 						else if(command.contains("平行四边形")) {
-							com.setTpye("平行四边形");
+							com.settype("平行四边形");
 						}
 						break;
 					}
@@ -178,7 +178,6 @@ public class CommandAnalyse {
 			}
 		}
 		this.list.add(com);
-		list.printAll();
-		System.out.println(list.getList().size());
+		com.execute();
 	}
 }

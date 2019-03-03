@@ -13,13 +13,13 @@ public class CommandPoint extends CommandGeo{
     private int X;
     private int Y;
     public CommandPoint( ) {
-   	 	this.setType("point");
+   	 	this.setType("点");
     }
     public CommandPoint( int X,int Y,String name) {
     	this.setX(X);
     	this.setY(Y);
  	   this.setName(name);
- 	   this.setType("point");
+ 	   this.setType("点");
  }
 	public int getX() {
 		return X;
@@ -34,7 +34,7 @@ public class CommandPoint extends CommandGeo{
 		Y = y;
 	}
 	public Point changeToPoint() {
-		Point p=new Point(null);
+		Point p=new Point(new Dimension ());
 		p.setName(this.getName());
 		p.setX(this.getX());
 		p.setY(this.getY());
