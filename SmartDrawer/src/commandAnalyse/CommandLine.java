@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
+import Model.Line;
+import Model.Point;
+
 public class CommandLine extends CommandGeo{
 	   private  CommandPoint startpoint;
 	   private CommandPoint endpoint;
@@ -16,8 +19,14 @@ public class CommandLine extends CommandGeo{
     	this.setLength(spoint.getLength(epoint));
     	this.setK((spoint.getY()-epoint.getY())/(spoint.getX()-epoint.getX()));
     	this.setB(spoint.getY()-spoint.getX()*k);
-    	this.setType("line");
+    	this.setType("直线");
    	 	this.setName(spoint.getName()+epoint.getName());
+    }
+    public CommandLine(String name) {
+    	startpoint=new CommandPoint(0,0,name.substring(0, 1));
+    	endpoint =new CommandPoint(0,0,name.substring(1,2));
+    	this.setName(name);
+    	this.setType("直线");
     }
     
     public static boolean Isvertical(Dimension Highestpoint,Dimension Lowestpoint) {
@@ -75,5 +84,9 @@ public class CommandLine extends CommandGeo{
 
 	public void setLength(double length) {
 		this.length = length;
+	}
+	public Line changeToLine() {
+		Line l=new Line(this.startpoint.changeToPoint(),this.endpoint.changeToPoint());
+		return l;
 	}
 }

@@ -11,8 +11,14 @@ public class CommandCircle extends CommandGeo{
         public CommandCircle(CommandPoint center,int radius) {
         	 Center=center;
         	 Radius=radius;
-        	 this.setType("circle");
+        	 this.setType("圆");
         	 this.setName(center.getName());
+        }
+        public CommandCircle(String name) {
+        	this.Center=new CommandPoint(0,0,name);
+        	this.Radius=0;
+       	 	this.setType("圆");
+        	this.setName(name);
         }
 		public CommandPoint getCenter() {
 			return Center;

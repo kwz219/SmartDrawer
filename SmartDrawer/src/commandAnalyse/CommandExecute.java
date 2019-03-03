@@ -1,21 +1,37 @@
 package commandAnalyse;
 
+import Logic.CommandExecuteInterfaceImplement;
 import Logic.DrawCommand;
+import Model.Circle;
+import Model.Line;
 import Model.Point;
+import Model.Triangle;
 
 //这个类用来执行两个图形之间的交互命令
 public class CommandExecute {
-	private DrawCommand dc=new DrawCommand();
-	boolean newCirlcle(CommandCircle circle) {
+	private CommandExucuteInterface cei= new CommandExecuteInterfaceImplement();
+	boolean newPoint (CommandPoint point) {
+		Point p=point.changeToPoint();
+		cei.creadPoint(p);
+		return true;
+	}
+	boolean newLine(CommandLine line) {
+		Line l=line.changeToLine();
+		cei.createLine(l);
+		return true;
+	}
+	boolean newCircle(CommandCircle circle) {
 		Point  o=circle.getCenter().changeToPoint();
-		dc.createCircle(o, circle.getRadius());//暂时这么写之后都换成接口的形式
+		Circle c=new Circle(o,0,null);
+		System.out.println("do have a circle");
+		cei.createCircle(c);
 		return true;
 	}
 	boolean newTriangle(CommandTriangle tri) {
 		Point A=tri.getVertex1().changeToPoint();
 		Point B=tri.getVertex2().changeToPoint();
 		Point C=tri.getVertex3().changeToPoint();
-		dc.createTriangle(A, B, C);
+		cei.createTriangle(A, B, C);
 		return true;
 	}
 	/**
@@ -31,8 +47,9 @@ public class CommandExecute {
 		int Y=(int)(l1.getK()*X+l1.getB());
 		p.setX(X);
 		p.setY(Y);
-		dc.creatPoint(p.changeToPoint());
-		return true;
+		Point po=p.changeToPoint();
+		cei.creadPoint(po);
+		return p;
 	}
 	/**
 	 * 这个方法可以扩大化为两条直线的夹角度数，现在垂直为特殊的九十度
@@ -55,6 +72,7 @@ public class CommandExecute {
 		ep.setY((int)(p.getY()+letfLength*Math.sin(r)));
 		l1.setStartpoint(sp);
 		l1.setEndpoint(ep);
+		cei.changeLine(l1.changeToLine());
 		return true;
 	}
 	/**

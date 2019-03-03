@@ -18,8 +18,15 @@ public class CommandTriangle extends CommandGeo{
     	       Vertex1=vertex1;
     	       Vertex2=vertex2;
     	       Vertex3=vertex3;
-    	   	   this.setType("triangle");
+    	   	   this.setType("三角形");
     	   	   this.setName(vertex1.getName()+vertex2.getName()+vertex3.getName());
+       }
+       public CommandTriangle(String name) {
+    	   this.setType("三角形");
+    	   this.setName(name);
+    	   this.Vertex1=new CommandPoint (0,0,name.substring(0, 1));
+    	   this.Vertex2=new CommandPoint (0,0,name.substring(1, 2));
+    	   this.Vertex3=new CommandPoint (0,0,name.substring(2, 3));
        }
 
 	public CommandPoint getVertex1() {
