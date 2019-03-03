@@ -85,5 +85,15 @@ public class Triangle {
 		return yPoints;
 	}
 	
+	public Point getPoint_byindex(int index) {
+		if(index==1) {
+			return Vertex1;
+		}else if(index==2) {
+			return Vertex2;
+		}else if(index==3) {
+			return Vertex3;
+		}
+		return null;
+	}
        
 }

@@ -223,7 +223,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 			if(currentPi.Type==Pointtype.Lineend) {
 				lineList.get(currentPi.Listindex).getPointbyindex(currentPi.Innerindex).setCoordinate(new Dimension(e.getX(),e.getY()));
 			}else if(currentPi.Type==Pointtype.Triangleend) {
-				
+				triangleList.get(currentPi.Listindex).getPoint_byindex(currentPi.Innerindex).setCoordinate(new Dimension(e.getX(),e.getY()));
 			}else if(currentPi.Type==Pointtype.Circlecenter) {
 				
 			}
@@ -275,7 +275,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 					System.out.println("not a point");
 				}else {
 					Drawerstatus=Drawerstate.Ajusting;
-					System.out.println(pi.Listindex);
+					//System.out.println(pi.Listindex);
 					currentPi=pi;
 				}
 			}else {
@@ -337,12 +337,16 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	
 	public void addTriangle(Triangle triangle) {
 		triangleList.add(triangle);
+		PointMap.put(triangle.getVertex1(),new PointIndex(triangleList.indexOf(triangle),1,Pointtype.Triangleend) );
+		PointMap.put(triangle.getVertex2(),new PointIndex(triangleList.indexOf(triangle),2,Pointtype.Triangleend) );
+		PointMap.put(triangle.getVertex3(),new PointIndex(triangleList.indexOf(triangle),3,Pointtype.Triangleend) );
 		nofitpointList.removeAll(nofitpointList.subList(pointLptr, nofitpointList.size()));
 		this.repaint();
 	}
 	
 	public void addCircle(Circle circle) {
 		circleList.add(circle);
+		PointMap.put(circle.getCenter(),new PointIndex(circleList.indexOf(circle),0,Pointtype.Circlecenter));
 		nofitpointList.removeAll(nofitpointList.subList(pointLptr, nofitpointList.size()));
 		this.repaint();
 	}
