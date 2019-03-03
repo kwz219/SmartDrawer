@@ -1,12 +1,14 @@
 package Logic;
 
+import java.util.ArrayList;
+
 import Model.Circle;
 import Model.Line;
 import Model.Point;
 import Model.Triangle;
 import commandAnalyse.CommandExucuteInterface;
 /**
- * Last modification time 2019/03/01
+ * Last modification time 2019/03/03
  * @author zwk
  * the implement of commandAnalyse.CommandExecuteInterface
  */
@@ -19,9 +21,9 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 	}
 
 	@Override
-	public void createTriangle(Point A, Point B, Point C) {
+	public void createTriangle(Triangle T) {
 		
-		DrawCommand.createTriangle(A, B, C);
+		DrawCommand.createTriangle(T);
 	}
 
 	@Override
@@ -98,6 +100,18 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 			return FindCommand.getTriangle(name);
 		}
 		return null;
+	}
+
+	@Override
+	public ArrayList<Point> getTriangleVertexes_fromDrawing() {
+		// TODO Auto-generated method stub
+		return FindCommand.getTriPoints_byDrawing();
+	}
+
+	@Override
+	public Circle getCircle_fromDrawing() {
+		// TODO Auto-generated method stub
+		return FindCommand.getCircle_byDrawing();
 	}
 
 }

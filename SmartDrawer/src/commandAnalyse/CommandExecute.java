@@ -1,5 +1,7 @@
 package commandAnalyse;
 
+import java.util.ArrayList;
+
 import Logic.CommandExecuteInterfaceImplement;
 import Logic.DrawCommand;
 import Model.Circle;
@@ -21,17 +23,19 @@ public class CommandExecute {
 		return true;
 	}
 	boolean newCircle(CommandCircle circle) {
-		Point  o=circle.getCenter().changeToPoint();
-		Circle c=new Circle(o,0,null);
+		
+		Circle c=cei.getCircle_fromDrawing();
 		System.out.println("do have a circle");
 		cei.createCircle(c);
 		return true;
 	}
 	boolean newTriangle(CommandTriangle tri) {
-		Point A=tri.getVertex1().changeToPoint();
-		Point B=tri.getVertex2().changeToPoint();
-		Point C=tri.getVertex3().changeToPoint();
-		cei.createTriangle(A, B, C);
+		ArrayList<Point> points=cei.getTriangleVertexes_fromDrawing();	
+		points.get(0).setName(tri.getVertex1().getName());
+		points.get(1).setName(tri.getVertex2().getName());
+		points.get(2).setName(tri.getVertex3().getName());
+		Triangle triangle=new Triangle(points.get(0),points.get(1),points.get(2));
+		cei.createTriangle(triangle);
 		return true;
 	}
 	/**

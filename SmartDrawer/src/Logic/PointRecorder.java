@@ -7,7 +7,7 @@ import Logic.PointsFittingHelper.Pointtype;
 import Model.Circle;
 import Model.Point;
 /**
- * Last Modification 2019/03/01
+ * Last Modification 2019/03/03
  * @author zwk
  * this class is used to record points of a drawing(not all points)
  * you can get leftmostpoint,rightmostpoint,highestpoint,lowestpoint of a Drawing
@@ -137,7 +137,7 @@ public class PointRecorder {
 		public Circle getSimilarCircle() {
 			int length=Math.abs(Rightmost_point.width-Leftmost_point.width);
 			int height=Math.abs(Highest_point.height-Lowest_point.height);
-			int radius=(length+height)/2;
+			int radius=(length+height)/4;
 			Point center=new Point(new Dimension(Leftmost_point.width+length/2,Highest_point.height+height/2));
 			Dimension upperleft=new Dimension(Leftmost_point.width,Lowest_point.height);
 			return new Circle(center,radius,upperleft);

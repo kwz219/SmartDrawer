@@ -1,5 +1,7 @@
 package Logic;
 
+import java.util.ArrayList;
+
 import Model.Circle;
 import Model.Line;
 import Model.Point;
@@ -7,7 +9,7 @@ import Model.Triangle;
 import View.DrawerPanel;
 
 /**
- * Last modification time 2019/03/01
+ * Last modification time 2019/03/03
  * @author zwk
  * to find a geo with name or check if it exists
  */
@@ -67,5 +69,13 @@ public class FindCommand {
        public static Circle getCircle(String name) {
     	      int cindex=DrawerPanel.getDrawer().findCircleIndex_byname(name);
     	      return DrawerPanel.getDrawer().getcircle_byindex(cindex);
+       }
+       
+       public static ArrayList<Point> getTriPoints_byDrawing(){
+    	      return DrawerPanel.getDrawer().getTriPoints_byDrawing();
+       }
+       
+       public static Circle getCircle_byDrawing() {
+    	      return DrawerPanel.getDrawer().getCircle_byDrawing();
        }
 }

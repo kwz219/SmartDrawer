@@ -6,14 +6,14 @@ import Model.Point;
 import Model.Triangle;
 import View.DrawerPanel;
 /**
- * Last Modification Time 2019/03/01
+ * Last Modification Time 2019/03/03
  * @author zwk
  *
  */
 public class DrawCommand {
-	public static void createTriangle(Point A,Point B,Point C) {	
-		Triangle tri=new Triangle(A,B,C);
-		DrawerPanel.getDrawer().addTriangle(tri);
+	public static void createTriangle(Triangle T) {	
+		
+		DrawerPanel.getDrawer().addTriangle(T);
 	}
 
 	public static void createCircle(Circle cir) {	

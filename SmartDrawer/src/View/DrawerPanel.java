@@ -59,7 +59,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	    private ArrayList<Dimension> nofitpointList=new ArrayList<Dimension>();//record all points which is not amended
 	    private int pointLptr;
 	    private PointRecorder pointRecorder=new PointRecorder();//when a drawing begins,use this to record several points of a drawing
-	    
+	    private PointRecorder pointRecorderBuff=new PointRecorder();
 	    private HashMap<Point,PointIndex> PointMap=new HashMap<Point,PointIndex>();
 	    private PointIndex currentPi;
 	    private ArrayList<Line> lineList=new ArrayList<Line>();//maintain a list of lines
@@ -172,6 +172,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		
 		}
 		//reset pointRecorder and pointList
+		pointRecorderBuff=pointRecorder;
 		pointRecorder=new PointRecorder();
 		pointList.clear();
 		
@@ -293,6 +294,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 					currentPi=pi;
 				}
 			}else {
+				pointRecorderBuff=new PointRecorder();
 				Drawerstatus=Drawerstate.Blank;
 			}
 		}
@@ -442,5 +444,13 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     
     public Circle getcircle_byindex(int index) {
     	     return circleList.get(index);
+    }
+    
+    public ArrayList<Point> getTriPoints_byDrawing(){
+    	       return pointRecorderBuff.getTriangleVertexes();
+    }
+    
+    public Circle getCircle_byDrawing() {
+    	       return pointRecorderBuff.getSimilarCircle();
     }
 }
