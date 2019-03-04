@@ -78,4 +78,8 @@ public class FindCommand {
        public static Circle getCircle_byDrawing() {
     	      return DrawerPanel.getDrawer().getCircle_byDrawing();
        }
+       
+       public static Line getLine_byDrawing() {
+    	      return DrawerPanel.getDrawer().getLine_byDrawing();
+       }
 }

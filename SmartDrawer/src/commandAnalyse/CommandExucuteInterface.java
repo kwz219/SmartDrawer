@@ -22,4 +22,5 @@ public interface CommandExucuteInterface {
 	
 	public ArrayList<Point> getTriangleVertexes_fromDrawing();// zwk added，get 3 points after drawing a triangle
 	public Circle getCircle_fromDrawing();//zwk added,find a circle after drawing a circle
+	public Line getLine_fromDrawing();//find a line after drawing a line;
 }

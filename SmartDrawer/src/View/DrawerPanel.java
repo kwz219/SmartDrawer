@@ -424,7 +424,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     }
     
     public void delpoint_byindex(int index) {
-    	
+    	   PointMap.remove(mpointList.get(index));
     	   mpointList.remove(index);
     }
     
@@ -465,5 +465,9 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     
     public Circle getCircle_byDrawing() {
     	       return pointRecorderBuff.getSimilarCircle();
+    }
+    
+    public Line getLine_byDrawing() {
+    	       return pointRecorderBuff.getSimilarLine();
     }
 }

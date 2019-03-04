@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import Logic.PointsFittingHelper.Pointtype;
 import Model.Circle;
+import Model.Line;
 import Model.Point;
 /**
  * Last Modification 2019/03/03
@@ -143,5 +144,14 @@ public class PointRecorder {
 			Point center=new Point(new Dimension(upperleft.width+radius,upperleft.height+radius));
 			return new Circle(center,radius,upperleft);
 		}
+		
+		//get a line from a series of nofit points
+		public Line getSimilarLine() {
+			Point spoint=new Point(Plist.get(0));
+			Point epoint=new Point(Plist.get(Plist.size()-1));
+			return new Line(spoint,epoint);
+			
+		}
+	
          
 }
