@@ -345,6 +345,8 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		cei.changeLine(new Line(new Point(new Dimension(100,100),"A"),new Point(new Dimension(200,200),"B")));
 		}else if(command.equals("ct")) {
 			cei.changeTriangle(new Triangle(new Point(new Dimension(250,250),"Q"),new Point(new Dimension(250,350),"W"),new Point(new Dimension(350,250),"E")));
+		}else if(command.equals("cc")) {
+			cei.changeCircle(new Circle(new Point(new Dimension(100,100),"O"),50));
 		}
 		this.repaint();
 	}

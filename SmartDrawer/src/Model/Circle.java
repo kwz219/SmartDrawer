@@ -10,6 +10,11 @@ public class Circle {
         private Point Center;
         private int Radius;
         private Dimension upperleft;
+        public Circle(Point center,int radius) {
+        	 Center=center;
+        	 Radius=radius;
+        	 upperleft=new Dimension(center.getX()-radius,center.getY()-radius);
+        }
         public Circle(Point center,int radius,Dimension Upperleft) {
         	 Center=center;
         	 Radius=radius;
