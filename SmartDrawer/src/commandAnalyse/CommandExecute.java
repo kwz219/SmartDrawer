@@ -56,8 +56,8 @@ public class CommandExecute {
 	 */
 	ArrayList<CommandPoint> CircleIntersectLineAt2Points(CommandCircle c,CommandLine l1,CommandPoint p1,CommandPoint p2) {
 		c.loadCirlce(cei.getCirlce(c.getName()));
-		l1.LoadLine(cei.getLine(c.getName()));
-
+		l1.LoadLine(cei.getLine(l1.getName()));
+		System.out.println("come to circle");
 		ArrayList<CommandPoint> points=new ArrayList<CommandPoint>();
 		double k=l1.getK();//直线斜率
 		double b=l1.getB();//直线截距
@@ -81,9 +81,9 @@ public class CommandExecute {
 			if(l1.getStartpoint().getX()<x1&&x1<l1.getEndpoint().getX()&&l1.getStartpoint().getX()<x2&&x2<l1.getEndpoint().getX()) {
 				//这里是图上的圆和直线已经有两个交点了，这里只是设置名字
 				p1.setX((int)(x1));
-				p1.setY(-l1.CalculateY(p1.getX()));
+				p1.setY(l1.CalculateY(p1.getX()));
 				p2.setX((int)(x2));
-				p2.setY(-l1.CalculateY(p2.getX()));
+				p2.setY(l1.CalculateY(p2.getX()));
 				cei.creadPoint(p1.changeToPoint());
 				cei.creadPoint(p2.changeToPoint());
 				points.add(p1);
@@ -91,11 +91,17 @@ public class CommandExecute {
 				return points;
 			}
 			else {
+				System.out.println("delta>0 and changed");
 				c.setRadius((int)(minDistance+verticalDistance)/2);
 				cei.changeCircle(c.changeToCircle());
 			}
 		}else if(delta==0) {
 			
+		}
+		else if(delta<0) {
+			System.out.println("delta<0");
+			c.setRadius((int)(minDistance+verticalDistance)/2);
+			cei.changeCircle(c.changeToCircle());
 		}
 		
 		return null;
@@ -161,6 +167,8 @@ public class CommandExecute {
 		System.out.println("end reading");
 
 		cei.changeLine(l1.changeToLine());
+		System.out.println("change finish");
+
 		return true;
 	}
 	/**
@@ -181,23 +189,33 @@ public class CommandExecute {
 	 * @return
 	 */
 	boolean lineEqual(CommandLine l1,CommandLine l2) {
-		CommandPoint sp=l1.getStartpoint();
-		CommandPoint ep=l1.getEndpoint();
-		Point p=ep.changeToPoint();
 		l1.LoadLine(cei.getLine(l1.getName()));
 		l2.LoadLine(cei.getLine(l2.getName()));
-		double lentgh=l2.getLength();
+		CommandPoint sp=l1.getStartpoint();
+		CommandPoint ep=l1.getEndpoint();
+		double length=l2.getLength();
 		double k=l1.getK();
 		double r=Math.atan(k);
-		if(ep.getX()>=sp.getX()) {
-			ep.setX((int)(sp.getX()+lentgh*Math.cos(r)));
-			ep.setY((int)(sp.getY()+lentgh*Math.sin(r)));
+		System.out.println(k);
+		System.out.println(Math.cos(r));
+		System.out.println(Math.sin(r));
+		if(sp.getX()<=ep.getX()) {
+			System.out.println("点A在左边");
+			System.out.println(sp.getX());
+				ep.setX(sp.getX()+length*Math.cos(r));
+				ep.setY(sp.getY()+length*Math.sin(r));
+				sp.PrintSelf();
+				ep.PrintSelf();
+				l1.setEndpoint(ep);
 		}
 		else {
-			ep.setX((int)(sp.getX()-lentgh*Math.cos(r)));
-			ep.setY((int)(sp.getY()-lentgh*Math.sin(r)));
+			System.out.println("点B在左边");
+			sp.setX(ep.getX()+length*Math.cos(r));
+			sp.setY(ep.getY()+length*Math.sin(r));
+			sp.PrintSelf();
+			ep.PrintSelf();
+			l1.setStartpoint(sp);
 		}
-		l1.setEndpoint(ep);
 		Line l=l1.changeToLine();
 		System.out.println(l1.getLength());
 		System.out.println(l2.getLength());
