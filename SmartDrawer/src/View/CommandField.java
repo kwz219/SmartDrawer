@@ -41,8 +41,15 @@ public class CommandField extends JTextField implements KeyListener{
 		if(e.getKeyCode()==KeyEvent.VK_ENTER) {
 			String Command=this.getText();
 			if(Command!="") {
+				if(Command.equals("cl")) {
+					DrawerPanel.getDrawer().getCommand(Command);
+				}else if(Command.equals("ct")) {
+					DrawerPanel.getDrawer().getCommand(Command);
+				}
+				else {
 				CommandAnalyst.AnalyseCommand(Command);
-				DrawerPanel.getDrawer().getCommand(Command);
+				}
+
 			}
 			this.setText("");
 			

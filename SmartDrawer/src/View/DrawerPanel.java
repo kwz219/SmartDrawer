@@ -33,6 +33,8 @@ import Model.Point;
 import Model.PointIndex;
 import Model.Triangle;
 import commandAnalyse.CommandAnalyst;
+import commandAnalyse.CommandExucuteInterface;
+import Logic.CommandExecuteInterfaceImplement;
 import Logic.ListTraverseHelper;
 import Logic.PointRecorder;
 import Logic.PointsFittingHelper;
@@ -68,7 +70,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	    private ArrayList<Circle> circleList=new ArrayList<Circle>();//maintain a list of Circles
 	    
 	    int x=0;
-	
+	    private CommandExucuteInterface cei= new CommandExecuteInterfaceImplement();
 	//singleton schema ,so private,init member value
 	private DrawerPanel(){
 		Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();//get the size of the screen
@@ -339,6 +341,11 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	}
 	public void getCommand(String command) {
 		//System.out.println(command);
+		if(command.equals("cl")) {
+		cei.changeLine(new Line(new Point(new Dimension(100,100),"A"),new Point(new Dimension(200,200),"B")));
+		}else if(command.equals("ct")) {
+			cei.changeTriangle(new Triangle(new Point(new Dimension(250,250),"Q"),new Point(new Dimension(250,350),"W"),new Point(new Dimension(350,250),"E")));
+		}
 		this.repaint();
 	}
 	
