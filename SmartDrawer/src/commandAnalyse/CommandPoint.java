@@ -21,6 +21,10 @@ public class CommandPoint extends CommandGeo{
  	   this.setName(name);
  	   this.setType("点");
  }
+	public CommandPoint(String name) {
+		this.setType("点");
+		this.setName(name);
+	}
 	public int getX() {
 		return X;
 	}

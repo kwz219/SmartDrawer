@@ -62,7 +62,22 @@ public class Command {
 					ce.newTriangle(triangle);break;
 				}
 			}
+				break;
 			}
+		case"交于":{
+			CommandLine l1=new CommandLine(this.Geolist.get(0).getName());
+			CommandLine l2=new CommandLine(this.Geolist.get(1).getName());
+			CommandPoint p=new CommandPoint(this.Geolist.get(2).getName());
+			ce.lineIntersect(l1, l2, p);
+			break;
+		}
+		case"垂直":{
+			CommandLine l1=new CommandLine(this.Geolist.get(0).getName());
+			CommandLine l2=new CommandLine(this.Geolist.get(1).getName());
+			CommandPoint p=new CommandPoint(this.Geolist.get(2).getName());
+			ce.lineVertical(l1, l2, p);
+			break;
+		}
 		}
 	}
 }

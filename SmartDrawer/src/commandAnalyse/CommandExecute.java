@@ -102,6 +102,8 @@ public class CommandExecute {
 	 */
 	CommandPoint lineIntersect(CommandLine l1,CommandLine l2,CommandPoint p) {
 		//应该要检查这个点是否出现过，这里先默认没有这个点还没有，所以在代码的最后创建这个点
+		l1.LoadLine(cei.getLine(l1.getName()));
+		l2.LoadLine(cei.getLine(l2.getName()));
 		int X=(int) ((l2.getB()-l1.getB())/(l1.getK()-l2.getK()));
 		int Y=(int)(l1.getK()*X+l1.getB());
 		p.setX(X);
