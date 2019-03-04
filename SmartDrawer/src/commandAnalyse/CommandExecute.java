@@ -18,14 +18,18 @@ public class CommandExecute {
 		return true;
 	}
 	boolean newLine(CommandLine line) {
-		Line l=line.changeToLine();
+		Line l=cei.getLine_fromDrawing();
+		l.getStartpoint().setName(line.getStartpoint().getName());
+		l.getEndpoint().setName(line.getEndpoint().getName());
 		cei.createLine(l);
+		System.out.println(cei.getLine(line.getName()));
+		System.out.println(cei.getLine(line.getStartpoint().getName()));
 		return true;
 	}
 	boolean newCircle(CommandCircle circle) {
 		
 		Circle c=cei.getCircle_fromDrawing();
-		System.out.println("do have a circle");
+		c.getCenter().setName(circle.getName());
 		cei.createCircle(c);
 		return true;
 	}
