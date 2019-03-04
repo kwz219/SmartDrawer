@@ -424,18 +424,22 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     }
     
     public void delpoint_byindex(int index) {
+    	
     	   mpointList.remove(index);
     }
     
     public void delline_byindex(int index) {
+    	  PointMap.remove(lineList.get(index));
     	  lineList.remove(index);
     }
     
     public void deltriangle_byindex(int index) {
+    	  PointMap.remove(triangleList.get(index));
     	  triangleList.remove(index);
     }
     
     public void delcircle_byindex(int index) {
+    	  PointMap.remove(circleList.get(index));
     	  circleList.remove(index);
     }
     
