@@ -40,6 +40,9 @@ public class CommandCircle extends CommandGeo{
 		public int getRadius() {
 			return Radius;
 		}
-        
+        public Circle changeToCircle() {
+        	Circle c=new Circle(this.Center.changeToPoint(),this.Radius,null);
+        	return c;
+        }
         
 }
