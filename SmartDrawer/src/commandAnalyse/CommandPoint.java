@@ -41,8 +41,7 @@ public class CommandPoint extends CommandGeo{
 		Point p=new Point(new Dimension ());
 		p.setName(this.getName());
 		p.setX((int)this.getX());
-		p.setY((int)this.getY());
-//		System.out.println("这个点坐标是"+p.getX()+" "+p.getY());
+		p.setY(-(int)this.getY());
 		return p;
 	}
      public double getLength(CommandPoint p) {
@@ -59,7 +58,10 @@ public class CommandPoint extends CommandGeo{
     	 return (Math.abs(k*x+b-y))/(Math.pow((k*k+1), 0.5));
      }
      public void loadPoint(Point p) {
+    	 this.setName(p.getName());
     	 this.setX(p.getX());
-    	 this.setY(p.getY());
+    	 this.setY(-p.getY());
+    	 System.out.println("点"+this.getName()+"坐标是"+this.getX()+","+this.getY());
+    	 
      }
 }
