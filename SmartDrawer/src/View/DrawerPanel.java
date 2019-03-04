@@ -148,7 +148,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		
 		if(tmplist.size()>0) {
 		if(PointsFittingHelper.PointsFit(tmplist)==Graphicstype.Line) {
-            System.out.println("a line ");
+            //System.out.println("a line ");
             Point lineend1=new Point(tmplist.get(0),Pointtype.Lineend);
             Point lineend2=new Point(tmplist.get(tmplist.size()-1),Pointtype.Lineend);
             Line newLine=new Line(lineend1,lineend2);
@@ -159,7 +159,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		   iffit=1;
 		}
 		else if(PointsFittingHelper.PointsFit(tmplist)==Graphicstype.Point) {
-			System.out.println("a point ");
+			//System.out.println("a point ");
 			mpointList.add(new Point(tmplist.get(0)));
 			iffit=1;
 		}else if(PointsFittingHelper.PointsFit(tmplist)==Graphicstype.Triangle) {
@@ -178,7 +178,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		pointRecorder=new PointRecorder();
 		pointList.clear();
 		
-		System.out.println("endDrawing");
+		//System.out.println("endDrawing");
 	}
 	
 	//get a image of the Jpanel,not yet used
@@ -267,23 +267,26 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 			endDrawing();
 			this.repaint();
 			Drawerstatus=Drawerstate.EndDrawing;
+			printstate();
 			//pointRecorder.Empty();
 			//Isdrawing=1;
 		}else if(Drawerstatus==Drawerstate.EndDrawing) {
 			if(Clickgraph(e.getX(), e.getY())) {
-				System.out.println(e.getX()+" "+e.getY());
+				
 				PointIndex pi=ListTraverseHelper.FindnearestPoint(new Dimension(e.getX(),e.getY()),PointMap);
 				if(pi==null) {
 					
 					System.out.println("not a point");
 				}else {
 					Drawerstatus=Drawerstate.Ajusting;
+					printstate();
 					//System.out.println(pi.Listindex);
 					currentPi=pi;
 				    System.out.println("A "+pi.Type.toString()+" is selected");
 				}
 			}else {
 				Drawerstatus=Drawerstate.Blank;
+				printstate();
 			}
 			
 		}else if(Drawerstatus==Drawerstate.Ajusting) {
@@ -291,15 +294,18 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 				PointIndex pi=ListTraverseHelper.FindnearestPoint(new Dimension(e.getX(),e.getY()),PointMap);
 				if(pi==null) {
 					Drawerstatus=Drawerstate.Blank;
+					printstate();
 					System.out.println("end adjusting");
 				}else {
 					Drawerstatus=Drawerstate.Ajusting;
+					printstate();
 					//System.out.println(pi.Listindex);
 					currentPi=pi;
 				}
 			}else {
 				pointRecorderBuff=new PointRecorder();
 				Drawerstatus=Drawerstate.Blank;
+				printstate();
 			}
 		}
 		
@@ -309,6 +315,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	public void mousePressed(MouseEvent e) {
 		if(Drawerstatus==Drawerstate.Blank) {
 			Drawerstatus=Drawerstate.Drawing;
+			printstate();
 		}
 		
 		//System.out.println(e.getY());
@@ -316,9 +323,6 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		Releasetime=System.currentTimeMillis();
-		
-		
 		
 	}
 
@@ -469,5 +473,9 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     
     public Line getLine_byDrawing() {
     	       return pointRecorderBuff.getSimilarLine();
+    }
+    
+    public void printstate() {
+    	       System.out.println("Drawerstate: "+Drawerstatus);
     }
 }
