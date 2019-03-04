@@ -22,8 +22,8 @@ public class CommandExecute {
 		l.getStartpoint().setName(line.getStartpoint().getName());
 		l.getEndpoint().setName(line.getEndpoint().getName());
 		cei.createLine(l);
+		System.out.println(line.getName());
 		System.out.println(cei.getLine(line.getName()));
-		System.out.println(cei.getLine(line.getStartpoint().getName()));
 		return true;
 	}
 	boolean newCircle(CommandCircle circle) {
@@ -106,10 +106,11 @@ public class CommandExecute {
 	 */
 	CommandPoint lineIntersect(CommandLine l1,CommandLine l2,CommandPoint p) {
 		//应该要检查这个点是否出现过，这里先默认没有这个点还没有，所以在代码的最后创建这个点
+
 		l1.LoadLine(cei.getLine(l1.getName()));
 		l2.LoadLine(cei.getLine(l2.getName()));
-		int X=(int) ((l2.getB()-l1.getB())/(l1.getK()-l2.getK()));
-		int Y=(int)(l1.getK()*X+l1.getB());
+		double X= ((l2.getB()-l1.getB())/(l1.getK()-l2.getK()));
+		double Y= (l1.getK()*X+l1.getB());
 		p.setX(X);
 		p.setY(Y);
 		Point po=p.changeToPoint();
@@ -124,7 +125,13 @@ public class CommandExecute {
 	 * @return
 	 */
 	boolean lineVertical(CommandLine l1,CommandLine l2,CommandPoint p) {
+	
+
 		p=this.lineIntersect(l1,l2,p);//先相交一下
+		System.out.println("come to vertical");
+		l1.LoadLine(cei.getLine(l1.getName()));
+		l2.LoadLine(cei.getLine(l2.getName()));
+
 		double k=(-1)/l2.getK();
 		double r=Math.atan(k);
 		CommandPoint sp=l1.getStartpoint();
@@ -133,10 +140,12 @@ public class CommandExecute {
 		double rightLength=p.getLength(ep);
 		sp.setX((int)(p.getX()-letfLength*Math.cos(r)));
 		sp.setY((int)(p.getY()-letfLength*Math.sin(r)));
-		ep.setX((int)(p.getX()+letfLength*Math.cos(r)));
-		ep.setY((int)(p.getY()+letfLength*Math.sin(r)));
+		ep.setX((int)(p.getX()+rightLength*Math.cos(r)));
+		ep.setY((int)(p.getY()+rightLength*Math.sin(r)));
 		l1.setStartpoint(sp);
 		l1.setEndpoint(ep);
+		System.out.println("end reading");
+
 		cei.changeLine(l1.changeToLine());
 		return true;
 	}

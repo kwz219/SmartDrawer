@@ -10,8 +10,8 @@ import Model.Point;
  * model of graph point
  */
 public class CommandPoint extends CommandGeo{
-    private int X;
-    private int Y;
+    private double X;
+    private double Y;
     public CommandPoint( ) {
    	 	this.setType("点");
     }
@@ -25,27 +25,28 @@ public class CommandPoint extends CommandGeo{
 		this.setType("点");
 		this.setName(name);
 	}
-	public int getX() {
+	public double getX() {
 		return X;
 	}
-	public void setX(int x) {
+	public void setX(double x) {
 		X = x;
 	}
-	public int getY() {
+	public double getY() {
 		return Y;
 	}
-	public void setY(int y) {
+	public void setY(double y) {
 		Y = y;
 	}
 	public Point changeToPoint() {
 		Point p=new Point(new Dimension ());
 		p.setName(this.getName());
-		p.setX(this.getX());
-		p.setY(this.getY());
+		p.setX((int)this.getX());
+		p.setY((int)this.getY());
+//		System.out.println("这个点坐标是"+p.getX()+" "+p.getY());
 		return p;
 	}
      public double getLength(CommandPoint p) {
-    	double length=((this.getX()-p.getX())^2+(this.getY()-p.getY())^2);
+    	double length=((this.getX()-p.getX())*(this.getX()-p.getX())+(this.getY()-p.getY())*(this.getY()-p.getY()));
     	length=Math.pow(length, 0.5);
 		return length;
     	 
