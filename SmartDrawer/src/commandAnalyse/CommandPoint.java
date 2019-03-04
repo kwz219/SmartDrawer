@@ -65,4 +65,7 @@ public class CommandPoint extends CommandGeo{
     	 System.out.println("点"+this.getName()+"坐标是"+this.getX()+","+this.getY());
     	 
      }
+     public void PrintSelf() {
+    	 System.out.println("点"+this.getName()+"坐标是"+this.getX()+","+this.getY());
+     }
 }

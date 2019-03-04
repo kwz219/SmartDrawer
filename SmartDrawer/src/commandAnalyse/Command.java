@@ -65,10 +65,21 @@ public class Command {
 				break;
 			}
 		case"交于":{
-			CommandLine l1=new CommandLine(this.Geolist.get(0).getName());
-			CommandLine l2=new CommandLine(this.Geolist.get(1).getName());
-			CommandPoint p=new CommandPoint(this.Geolist.get(2).getName());
-			ce.lineIntersect(l1, l2, p);
+			//线与线有一个焦点
+			if(this.Geolist.size()==3) {
+				CommandLine l1=new CommandLine(this.Geolist.get(0).getName());
+				CommandLine l2=new CommandLine(this.Geolist.get(1).getName());
+				CommandPoint p=new CommandPoint(this.Geolist.get(2).getName());
+				ce.lineIntersect(l1, l2, p);
+			}
+			else if(this.Geolist.size()==4) {
+				CommandCircle c=new CommandCircle(this.Geolist.get(0).getName());
+				CommandLine l1=new CommandLine(this.Geolist.get(1).getName());
+				CommandPoint p1=new CommandPoint(this.Geolist.get(2).getName());
+				CommandPoint p2=new CommandPoint(this.Geolist.get(3).getName());
+				ce.CircleIntersectLineAt2Points(c, l1, p1, p2);
+			}	
+
 			break;
 		}
 		case"垂直":{
@@ -83,6 +94,11 @@ public class Command {
 			CommandLine l2=new CommandLine(this.Geolist.get(1).getName());
 			ce.lineEqual(l1, l2);
 			break;
+		}
+		case"平行":{
+			CommandLine l1=new CommandLine(this.Geolist.get(0).getName());
+			CommandLine l2=new CommandLine(this.Geolist.get(1).getName());
+			ce.lineParallel(l1, l2);
 		}
 		}
 	}
