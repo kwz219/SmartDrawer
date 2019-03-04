@@ -1,5 +1,6 @@
 package Logic;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import Model.Point;
@@ -22,5 +23,25 @@ public class ListTraverseHelper {
     	    
 		return null;
     	 
+     }
+     
+     //find all points by the same name
+     public static ArrayList<Point> Findallpoints(String name,HashMap<Point,PointIndex> map){
+    	     ArrayList<Point> pointsList=new ArrayList<Point>();
+    	     for(Point p:map.keySet()) {
+    	    	   if(name.equals(p.getName()))
+    	    		   pointsList.add(p);
+    	     }
+    	     return pointsList;
+     }
+     
+     //find a point by name
+     public static Point Findapoint(String name,HashMap<Point,PointIndex> map){
+    	      for(Point p:map.keySet()) {
+    	    	    if(name.equals(p.getName())) {
+    	    	    	   return p;
+    	    	    }
+    	      }
+    	      return null;
      }
 }

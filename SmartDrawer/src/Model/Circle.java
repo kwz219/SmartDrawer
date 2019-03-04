@@ -35,4 +35,10 @@ public class Circle {
         	    
         }
         
+        public void setCenter(Point p) {
+        	    upperleft.setSize(upperleft.width+p.getX()-Center.getX(),upperleft.height+p.getY()-Center.getY());
+        	    Center=p;
+        	    
+        }
+        
 }

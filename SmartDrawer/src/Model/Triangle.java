@@ -95,5 +95,15 @@ public class Triangle {
 		}
 		return null;
 	}
+	
+	public void setPoint_byindex(int index,Point p) {
+		if(index==1) {
+			Vertex1=p;
+		}else if(index==2) {
+			Vertex2=p;
+		}else if(index==3) {
+			Vertex3=p;
+		}
+	}
        
 }

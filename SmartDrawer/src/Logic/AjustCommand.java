@@ -1,5 +1,8 @@
 package Logic;
 
+import java.util.ArrayList;
+
+import Model.Point;
 import View.DrawerPanel;
 /**
  * Last modification time 2019/02/28
@@ -36,6 +39,21 @@ public class AjustCommand {
     	         }
        }
        
+       public static ArrayList<Point> getAllpoints(String name) {
+    	         ArrayList<Point> plist=DrawerPanel.getDrawer().getAllpoint_byname(name);
+    	         return plist;
+       }
        
+       public static void moveLineend(Point prepoint,Point point) {
+    	          DrawerPanel.getDrawer().changeLineend(prepoint, point);
+       }
+       
+       public static void moveTriangleend(Point prepoint,Point point) {
+    	          DrawerPanel.getDrawer().changeTriangleend(prepoint, point);
+       }
+       
+       public static void moveCirclecenteer(Point prepoint,Point point) {
+    	          DrawerPanel.getDrawer().changeCirclecenter(prepoint, point);
+       }
 }
 

@@ -484,4 +484,24 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     public void printstate() {
     	       System.out.println("Drawerstate: "+Drawerstatus);
     }
+    
+    public ArrayList<Point> getAllpoint_byname(String name){
+    	       return ListTraverseHelper.Findallpoints(name, PointMap);
+    }
+    
+    public void changeLineend(Point preend,Point point){
+    	      PointIndex Pi=PointMap.get(preend);
+    	      lineList.get(Pi.Listindex).setPointbyindex(Pi.Innerindex, point);
+    }
+    
+    public void changeTriangleend(Point preend,Point point) {
+    	      PointIndex Pi=PointMap.get(preend);
+    	      triangleList.get(Pi.Listindex).setPoint_byindex(Pi.Innerindex, point);
+    }
+    
+    public void changeCirclecenter(Point preend,Point point) {
+    	      PointIndex Pi=PointMap.get(preend);
+    	      circleList.get(Pi.Listindex).setCenter(point);
+    }
+    
 }

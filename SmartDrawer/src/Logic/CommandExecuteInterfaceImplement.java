@@ -2,6 +2,7 @@ package Logic;
 
 import java.util.ArrayList;
 
+import Logic.PointsFittingHelper.Pointtype;
 import Model.Circle;
 import Model.Line;
 import Model.Point;
@@ -45,6 +46,8 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 		if(FindCommand.LineExist(lname)) {
 			AjustCommand.Del_line(lname);
 			DrawCommand.createLine(l);
+			changeALlpoints(l.getStartpoint().getName(),l.getStartpoint());
+			changeALlpoints(l.getEndpoint().getName(), l.getEndpoint());
 		}else {
 			System.out.println("Line "+lname+" doesn't exist");
 		}
@@ -58,6 +61,7 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 		if(FindCommand.CircleExist(cname)) {
 			AjustCommand.Del_circle(cname);
 			DrawCommand.createCircle(o);
+			changeALlpoints(o.getCenter().getName(),o.getCenter());
 		}else {
 			System.out.println("Circle "+cname+" doesn't exist");
 		}
@@ -124,6 +128,9 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 		if(FindCommand.TriangleExist(tname)) {
 			AjustCommand.Del_triangle(tname);
 			DrawCommand.createTriangle(tri);
+			this.changeALlpoints(tri.getVertex1().getName(),tri.getVertex1());
+			this.changeALlpoints(tri.getVertex2().getName(),tri.getVertex2());
+			this.changeALlpoints(tri.getVertex3().getName(),tri.getVertex3());
 		}else {
 			System.out.println("Triangle "+tname+" doesn't exist");
 		}
@@ -150,4 +157,21 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 		return FindCommand.getPoint_byDrawing();
 	}
 
+	public void changeALlpoints(String name,Point point) {
+		ArrayList<Point> plist=AjustCommand.getAllpoints(name);
+		if(plist.size()>1) {
+			for(int i=0;i<plist.size();i++) {
+				Point p=plist.get(i);
+				if(p.getType()==Pointtype.Lineend) {
+					AjustCommand.moveLineend(p, point);
+				}else if(p.getType()==Pointtype.Triangleend) {
+					AjustCommand.moveTriangleend(p, point);
+				}else if(p.getType()==Pointtype.Circlecenter) {
+					AjustCommand.moveCirclecenteer(p, point);
+				}
+			}
+		}else {
+			
+		}
+	}
 }

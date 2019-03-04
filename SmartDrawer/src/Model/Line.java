@@ -39,6 +39,13 @@ public class Line {
     	    }
     	      return endpoint;
     }
+    
+    public void setPointbyindex(int index,Point p) {
+    	if(index==1) {
+	    	   startpoint=p;
+	    }
+	       endpoint=p;
+    }
 	public Color getColor() {
 		return color;
 	}
