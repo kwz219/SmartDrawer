@@ -42,6 +42,7 @@ public class CommandPoint extends CommandGeo{
 		p.setName(this.getName());
 		p.setX((int)this.getX());
 		p.setY(-(int)this.getY());
+		p.setCoordinate(new Dimension(p.getX(),p.getY()));
 		return p;
 	}
      public double getLength(CommandPoint p) {

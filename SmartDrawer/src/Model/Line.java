@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * model of graph line
  */
 public class Line {
-	   Color color;
+	  
 	   Point startpoint;
 	   Point endpoint;
 	
@@ -19,6 +19,12 @@ public class Line {
     	endpoint=epoint;
     }
     
+    public void print() {
+    	  System.out.print("end1 ");
+    	  startpoint.print();
+    	  System.out.print("end2 ");
+    	  endpoint.print();
+    }
     public static boolean Isvertical(Dimension Highestpoint,Dimension Lowestpoint) {
     	    if(Highestpoint.width==Lowestpoint.getWidth()) {
     	    	   return true;
@@ -46,13 +52,7 @@ public class Line {
 	    }
 	       endpoint=p;
     }
-	public Color getColor() {
-		return color;
-	}
-
-	public void setColor(Color color) {
-		this.color = color;
-	}
+	
 
 	public Point getStartpoint() {
 		return startpoint;
@@ -62,6 +62,14 @@ public class Line {
 		return endpoint;
 	}
 
-	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Line) {
+			if(this.getStartpoint().equals(((Line) obj).getStartpoint())&&this.getEndpoint().equals(((Line) obj).getEndpoint())){
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

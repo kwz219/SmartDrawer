@@ -155,7 +155,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
             Point lineend2=new Point(tmplist.get(tmplist.size()-1),Pointtype.Lineend);
             Line newLine=new Line(lineend1,lineend2);
 		   lineList.add(newLine);
-		   //System.out.println("lineend1"+lineend1.getCoordinate());
+		   //newLine.print();
 		   PointMap.put(lineend1,new PointIndex(lineList.indexOf(newLine),1,Pointtype.Lineend));
 		   PointMap.put(lineend2,new PointIndex(lineList.indexOf(newLine),2,Pointtype.Lineend));
 		   iffit=1;
@@ -374,8 +374,24 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	}
 	
 	public void addLine(Line l) {
+		Point ps=new Point(l.getStartpoint().getCoordinate(),Pointtype.Lineend);
+		Point pe=new Point(l.getEndpoint().getCoordinate(),Pointtype.Lineend);
+		
+		
+		Line prel=new Line(ps,pe);
+		int index=lineList.indexOf(prel);
+		if(index!=-1) {
+			lineList.get(index).getStartpoint().setName(l.getStartpoint().getName());
+			lineList.get(index).getEndpoint().setName(l.getEndpoint().getName());
+			PointMap.remove(ps);
+			PointMap.remove(pe);
+			PointMap.put(ps, new PointIndex(index,1,Pointtype.Lineend));
+			PointMap.put(pe, new PointIndex(index,2,Pointtype.Lineend));
+		}else {
+		
 		lineList.add(l);
 		nofitpointList.removeAll(nofitpointList.subList(pointLptr, nofitpointList.size()));
+		}
 		this.repaint();
 	}
     public int findPointIndex_byname(String name) {

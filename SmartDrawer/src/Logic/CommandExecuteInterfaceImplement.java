@@ -49,7 +49,7 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 			changeALlpoints(l.getStartpoint().getName(),l.getStartpoint());
 			changeALlpoints(l.getEndpoint().getName(), l.getEndpoint());
 		}else {
-			System.out.println("Line "+lname+" doesn't exist");
+			//System.out.println("Line "+lname+" doesn't exist");
 		}
 		
 	}

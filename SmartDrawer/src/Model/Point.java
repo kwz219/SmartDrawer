@@ -20,18 +20,22 @@ public class Point {
     	   Coordinate=coordinate;
     	   X=coordinate.width;
     	   Y=coordinate.height;
+    	   Name="noname";
+    	   Type=Pointtype.Undefined;
     }
     public Point(Dimension coordinate,Pointtype type) {
  	   Coordinate=coordinate;
  	   X=coordinate.width;
 	   Y=coordinate.height;
  	   Type=type;
+ 	   Name="noname";
  }
     public Point(Dimension coordinate,String name) {
  	   Coordinate=coordinate;
  	   X=coordinate.width;
 	   Y=coordinate.height;
  	   Name=name;
+ 	   Type=Pointtype.Undefined;
  }
     public boolean Roughlyequal(Dimension point) {
     	      boolean result=false;
@@ -73,5 +77,17 @@ public class Point {
 	public void setY(int y) {
 		Y=y;
 	}
-      
+    public void print() {
+    	   System.out.println("Cor "+Coordinate+" X "+X+" Y "+Y+" Type "+Type+" name "+Name);
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+    	    if(obj instanceof Point) {
+    	    	   if(this.getX()==((Point)obj).getX()&&this.getY()==((Point)obj).getY()&&this.getType()==((Point)obj).getType()&&this.getName().equals(((Point)obj).getName())) {
+    	    		   return true;
+    	    	   }
+    	    }
+    	    	return false;
+    }
 }
