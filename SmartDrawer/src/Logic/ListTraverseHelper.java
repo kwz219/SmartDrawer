@@ -29,8 +29,10 @@ public class ListTraverseHelper {
      public static ArrayList<Point> Findallpoints(String name,HashMap<Point,PointIndex> map){
     	     ArrayList<Point> pointsList=new ArrayList<Point>();
     	     for(Point p:map.keySet()) {
-    	    	   if(name.equals(p.getName()))
+    	    	   if(p.getName()!=null)
+    	    		   if(p.getName().equals(name)) {
     	    		   pointsList.add(p);
+    	    		   }
     	     }
     	     return pointsList;
      }

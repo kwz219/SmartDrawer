@@ -22,6 +22,7 @@ public class DrawCommand {
 	}
 	
 	public static void createPoint(Point A) {
+		System.out.println("A: "+A.getCoordinate());
 		DrawerPanel.getDrawer().addPoint(A);
 	}
 	
