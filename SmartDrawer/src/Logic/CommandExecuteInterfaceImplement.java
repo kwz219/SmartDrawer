@@ -44,10 +44,11 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 		String lname=l.getStartpoint().getName()+l.getEndpoint().getName();
 		if(FindCommand.LineExist(lname)) {
 			AjustCommand.Del_line(lname);
+			DrawCommand.createLine(l);
 		}else {
 			System.out.println("Line "+lname+" doesn't exist");
 		}
-		DrawCommand.createLine(l);
+		
 	}
 
 	@Override
@@ -56,10 +57,11 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 		String cname=o.getCenter().getName();
 		if(FindCommand.CircleExist(cname)) {
 			AjustCommand.Del_circle(cname);
+			DrawCommand.createCircle(o);
 		}else {
 			System.out.println("Circle "+cname+" doesn't exist");
 		}
-		DrawCommand.createCircle(o);
+		
 	}
 
 	@Override
@@ -68,10 +70,11 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 		String pname=p.getName();
 		if(FindCommand.PointExist(pname)) {
 			AjustCommand.Del_point(pname);
+			DrawCommand.createPoint(p);
 		}else {
 			System.out.println("Point "+pname+" doesn't exist");
 		}
-		DrawCommand.createPoint(p);
+		
 	}
 
 	@Override
@@ -112,6 +115,27 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 	public Circle getCircle_fromDrawing() {
 		// TODO Auto-generated method stub
 		return FindCommand.getCircle_byDrawing();
+	}
+
+	@Override
+	public void changeTriangle(Triangle tri) {
+		// TODO Auto-generated method stub
+		String tname=tri.getVertex1().getName()+tri.getVertex2().getName()+tri.getVertex3().getName();
+		if(FindCommand.TriangleExist(tname)) {
+			AjustCommand.Del_triangle(tname);
+			DrawCommand.createTriangle(tri);
+		}else {
+			System.out.println("Triangle "+tname+" doesn't exist");
+		}
+	}
+
+	@Override
+	public Line getLine(String name) {
+		// TODO Auto-generated method stub
+		if(FindCommand.LineExist(name)) {
+			return FindCommand.getLine(name);
+		}
+		return null;
 	}
 
 }
