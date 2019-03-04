@@ -15,7 +15,7 @@ public class PointsFittingHelper {
 		Point,Line,Triangle,Circle,Quadrangle
 	}
 	public static enum Pointtype{
-	    Lineend,Circlecenter,Triangleend,Quadrangleend
+	    Lineend,Circlecenter,Triangleend,Quadrangleend,Undefined
 	}
    
 	public static Graphicstype PointsFit(ArrayList<Dimension> plist) {
