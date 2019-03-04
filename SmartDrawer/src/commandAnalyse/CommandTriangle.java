@@ -1,6 +1,8 @@
 package commandAnalyse;
 
 import java.awt.Dimension;
+
+import Model.Triangle;
 /**
  * 
  * @author zwk
@@ -75,6 +77,12 @@ public class CommandTriangle extends CommandGeo{
 
 	public void setAngle3(double angle3) {
 		Angle3 = angle3;
+	}
+	public void loadTriangle(Triangle tri) {
+		this.Vertex1.loadPoint(tri.getVertex1());
+		this.Vertex2.loadPoint(tri.getVertex2());
+		this.Vertex3.loadPoint(tri.getVertex3());
+
 	}
 	
        

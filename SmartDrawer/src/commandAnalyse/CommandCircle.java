@@ -1,5 +1,7 @@
 package commandAnalyse;
 
+import Model.Circle;
+
 /**
  * 
  * @author zwk
@@ -20,6 +22,18 @@ public class CommandCircle extends CommandGeo{
        	 	this.setType("圆");
         	this.setName(name);
         }
+        public void loadCirlce(Circle c) {
+        	CommandPoint center=new CommandPoint();
+        	center.loadPoint(c.getCenter());
+        	this.Center=center;
+        	this.Radius=c.getRadius();
+        }
+		public void setCenter(CommandPoint center) {
+			Center = center;
+		}
+		public void setRadius(int radius) {
+			Radius = radius;
+		}
 		public CommandPoint getCenter() {
 			return Center;
 		}

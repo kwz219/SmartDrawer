@@ -17,8 +17,8 @@ public class CommandLine extends CommandGeo{
     	startpoint=spoint;
     	endpoint=epoint;
     	this.setLength(spoint.getLength(epoint));
-    	this.setK((spoint.getY()-epoint.getY())/(spoint.getX()-epoint.getX()));
-    	this.setB(spoint.getY()-spoint.getX()*k);
+    	this.k=((spoint.getY()-epoint.getY())/(spoint.getX()-epoint.getX()));
+    	this.b=(spoint.getY()-spoint.getX()*k);
     	this.setType("直线");
    	 	this.setName(spoint.getName()+epoint.getName());
     }
@@ -46,13 +46,13 @@ public class CommandLine extends CommandGeo{
     //根据两个点不断转换斜率
     public void setStartpoint(CommandPoint startpoint) {
     	this.startpoint=startpoint;
-    	this.setK((this.startpoint.getY()-this.endpoint.getY())/(this.startpoint.getX()-this.endpoint.getX()));
-    	this.setB(this.startpoint.getY()-this.startpoint.getX()*k);
+    	this.k=((this.startpoint.getY()-this.endpoint.getY())/(this.startpoint.getX()-this.endpoint.getX()));
+    	this.b=(this.startpoint.getY()-this.startpoint.getX()*k);
     }  
     public void setEndpoint(CommandPoint endpoint) {
     	this.endpoint=endpoint;
-    	this.setK((this.startpoint.getY()-this.endpoint.getY())/(this.startpoint.getX()-this.endpoint.getX()));
-    	this.setB(this.startpoint.getY()-this.startpoint.getX()*k);
+    	this.k=((this.startpoint.getY()-this.endpoint.getY())/(this.startpoint.getX()-this.endpoint.getX()));
+    	this.b=(this.startpoint.getY()-this.startpoint.getX()*k);
     }
 	public CommandPoint getStartpoint() {
 		return startpoint;
@@ -67,17 +67,9 @@ public class CommandLine extends CommandGeo{
 		return b;
 	}
 
-	public void setB(double b) {
-		this.b = b;
-	}
 	public double getK() {
 		return k;
 	}
-
-	public void setK(double k) {
-		this.k = k;
-	}
-
 	public double getLength() {
 		return length;
 	}
@@ -88,5 +80,13 @@ public class CommandLine extends CommandGeo{
 	public Line changeToLine() {
 		Line l=new Line(this.startpoint.changeToPoint(),this.endpoint.changeToPoint());
 		return l;
+	}
+	public void LoadLine(Line l1) {
+		CommandPoint startpoint=new CommandPoint();
+		CommandPoint endpoint=new CommandPoint();
+		startpoint.loadPoint(l1.getStartpoint());
+		endpoint.loadPoint(l1.getEndpoint());
+		this.setEndpoint(endpoint);
+		this.setStartpoint(startpoint);
 	}
 }

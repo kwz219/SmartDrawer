@@ -46,4 +46,15 @@ public class CommandPoint extends CommandGeo{
 		return length;
     	 
      }
+     public double getDistance(CommandLine l1) {
+    	 double k=l1.getK();
+    	 double x=this.getX();
+    	 double y=this.getY();
+    	 double b=l1.getB();
+    	 return (Math.abs(k*x+b-y))/(Math.pow((k*k+1), 0.5));
+     }
+     public void loadPoint(Point p) {
+    	 this.setX(p.getX());
+    	 this.setY(p.getY());
+     }
 }

@@ -31,12 +31,35 @@ public class CommandExecute {
 	}
 	boolean newTriangle(CommandTriangle tri) {
 		ArrayList<Point> points=cei.getTriangleVertexes_fromDrawing();	
+		System.out.println(points.size());
 		points.get(0).setName(tri.getVertex1().getName());
 		points.get(1).setName(tri.getVertex2().getName());
 		points.get(2).setName(tri.getVertex3().getName());
 		Triangle triangle=new Triangle(points.get(0),points.get(1),points.get(2));
 		cei.createTriangle(triangle);
 		return true;
+	}
+	/**
+	 * 
+	 * @param c
+	 * @param l1
+	 * @return
+	 */
+	ArrayList<CommandPoint> CircleIntersectLineAt2Points(CommandCircle c,CommandLine l1) {
+		c.loadCirlce(cei.getCirlce(c.getName()));
+		l1.LoadLine(cei.getLine(c.getName()));
+		ArrayList<CommandPoint> points=new ArrayList<CommandPoint>();
+		double k=l1.getK();//直线斜率
+		double b=l1.getB();//直线截距
+		double x0=c.getCenter().getX();//圆心x
+		double y0=c.getCenter().getY();//圆心y
+		double r=c.getRadius();//圆半径
+		
+		double a=Math.pow(k, 2)+1;
+		double b0=2*(b*k-y0*k-x0);
+		
+		
+		return null;
 	}
 	/**
 	 * 这里要求这个交点并没有在界面上标注，是第一次出现的点，这里也需要一个创建新的直线的方法
