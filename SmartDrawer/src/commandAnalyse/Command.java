@@ -46,7 +46,7 @@ public class Command {
 			System.out.println(geo.getType());
 				switch (geo.getType()) {
 				case"点":{
-					CommandPoint point=(CommandPoint)geo;
+					CommandPoint point=new CommandPoint(geo.getName());
 					ce.newPoint(point);break;
 				}
 				case"直线":{

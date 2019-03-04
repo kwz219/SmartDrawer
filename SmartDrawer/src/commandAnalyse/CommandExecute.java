@@ -13,7 +13,8 @@ import Model.Triangle;
 public class CommandExecute {
 	private CommandExucuteInterface cei= new CommandExecuteInterfaceImplement();
 	boolean newPoint (CommandPoint point) {
-		Point p=point.changeToPoint();
+		Point p=cei.getPoint_fromDrawing();
+		p.setName(point.getName());
 		cei.creadPoint(p);
 		return true;
 	}
@@ -152,10 +153,12 @@ public class CommandExecute {
 	/**
 	 * 
 	 * @param l1 改变这条直线的斜率
-	 * @param l2
+	 * @param l2 第二条直线不变化
 	 * @return
 	 */
 	boolean lineParallel (CommandLine l1,CommandLine l2) {
+		double k=l2.getK();
+		
 		return false;
 	}
 	
