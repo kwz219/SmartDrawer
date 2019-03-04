@@ -89,4 +89,7 @@ public class CommandLine extends CommandGeo{
 		this.setEndpoint(endpoint);
 		this.setStartpoint(startpoint);
 	}
+	public int CalculateY(int x) {
+		return (int)(x*this.k+b);
+	}
 }

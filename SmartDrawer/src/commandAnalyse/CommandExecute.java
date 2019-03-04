@@ -41,23 +41,55 @@ public class CommandExecute {
 	}
 	/**
 	 * 
-	 * @param c
-	 * @param l1
-	 * @return
+	 * @param c 圆
+	 * @param l1 直线
+	 * @param p1 第一个交点，命令输入应该已经给这个点名字了
+	 * @param p2 第二个交点
+	 * @return 返回这两个交点现在的坐标
 	 */
-	ArrayList<CommandPoint> CircleIntersectLineAt2Points(CommandCircle c,CommandLine l1) {
+	ArrayList<CommandPoint> CircleIntersectLineAt2Points(CommandCircle c,CommandLine l1,CommandPoint p1,CommandPoint p2) {
 		c.loadCirlce(cei.getCirlce(c.getName()));
 		l1.LoadLine(cei.getLine(c.getName()));
+
 		ArrayList<CommandPoint> points=new ArrayList<CommandPoint>();
 		double k=l1.getK();//直线斜率
 		double b=l1.getB();//直线截距
 		double x0=c.getCenter().getX();//圆心x
 		double y0=c.getCenter().getY();//圆心y
 		double r=c.getRadius();//圆半径
-		
-		double a=Math.pow(k, 2)+1;
+		double verticalDistance=c.getCenter().getDistance(l1);//圆心到这个直线的距离
+		double startDistance=c.getCenter().getLength(l1.getStartpoint());
+		double endDistance=c.getCenter().getLength(l1.getEndpoint());
+		double minDistance=startDistance;
+		if(startDistance>endDistance) {
+			minDistance=endDistance;
+		}
+		double a0=Math.pow(k, 2)+1;
 		double b0=2*(b*k-y0*k-x0);
-		
+		double c0=x0*x0+(b-y0)*(b-y0)-r*r;
+		double delta=b0*b0-4*a0*c0;
+		if(delta>0) {
+			double x1=(((Math.pow(delta, 0.5))-b0)/(2*a0));
+			double x2=((-(Math.pow(delta, 0.5))-b0)/(2*a0));
+			if(l1.getStartpoint().getX()<x1&&x1<l1.getEndpoint().getX()&&l1.getStartpoint().getX()<x2&&x2<l1.getEndpoint().getX()) {
+				//这里是图上的圆和直线已经有两个交点了，这里只是设置名字
+				p1.setX((int)(x1));
+				p1.setY(l1.CalculateY(p1.getX()));
+				p2.setX((int)(x2));
+				p2.setY(l1.CalculateY(p2.getX()));
+				cei.creadPoint(p1.changeToPoint());
+				cei.creadPoint(p2.changeToPoint());
+				points.add(p1);
+				points.add(p2);
+				return points;
+			}
+			else {
+				c.setRadius((int)(minDistance+verticalDistance)/2);
+				cei.changeCircle(c.changeToCircle());
+			}
+		}else if(delta==0) {
+			
+		}
 		
 		return null;
 	}
