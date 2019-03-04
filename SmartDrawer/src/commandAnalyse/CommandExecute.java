@@ -15,6 +15,8 @@ public class CommandExecute {
 	boolean newPoint (CommandPoint point) {
 		Point p=cei.getPoint_fromDrawing();
 		p.setName(point.getName());
+		System.out.println(p.getX());
+		System.out.println(p.getY());
 		cei.creadPoint(p);
 		return true;
 	}
@@ -79,9 +81,9 @@ public class CommandExecute {
 			if(l1.getStartpoint().getX()<x1&&x1<l1.getEndpoint().getX()&&l1.getStartpoint().getX()<x2&&x2<l1.getEndpoint().getX()) {
 				//这里是图上的圆和直线已经有两个交点了，这里只是设置名字
 				p1.setX((int)(x1));
-				p1.setY(l1.CalculateY(p1.getX()));
+				p1.setY(-l1.CalculateY(p1.getX()));
 				p2.setX((int)(x2));
-				p2.setY(l1.CalculateY(p2.getX()));
+				p2.setY(-l1.CalculateY(p2.getX()));
 				cei.creadPoint(p1.changeToPoint());
 				cei.creadPoint(p2.changeToPoint());
 				points.add(p1);
@@ -110,12 +112,23 @@ public class CommandExecute {
 
 		l1.LoadLine(cei.getLine(l1.getName()));
 		l2.LoadLine(cei.getLine(l2.getName()));
+		System.out.println(l1.getK());
+		System.out.println(l1.getB());
+		System.out.println(l2.getK());
+		System.out.println(l2.getB());
+
 		double X= ((l2.getB()-l1.getB())/(l1.getK()-l2.getK()));
 		double Y= (l1.getK()*X+l1.getB());
+
 		p.setX(X);
 		p.setY(Y);
 		Point po=p.changeToPoint();
+		System.out.println(po.getX());
+		System.out.println(po.getY());
 		cei.creadPoint(po);
+
+
+
 		return p;
 	}
 	/**
@@ -160,6 +173,38 @@ public class CommandExecute {
 		double k=l2.getK();
 		
 		return false;
+	}
+	/**
+	 * 
+	 * @param l1 改变这条直线的长度，且如果命令输入为AB,那么即改变B点位置而不改变A点位置，且AB的斜率和截距不变
+	 * @param l2
+	 * @return
+	 */
+	boolean lineEqual(CommandLine l1,CommandLine l2) {
+		CommandPoint sp=l1.getStartpoint();
+		CommandPoint ep=l1.getEndpoint();
+		Point p=ep.changeToPoint();
+		l1.LoadLine(cei.getLine(l1.getName()));
+		l2.LoadLine(cei.getLine(l2.getName()));
+		double lentgh=l2.getLength();
+		double k=l1.getK();
+		double r=Math.atan(k);
+		if(ep.getX()>=sp.getX()) {
+			ep.setX((int)(sp.getX()+lentgh*Math.cos(r)));
+			ep.setY((int)(sp.getY()+lentgh*Math.sin(r)));
+		}
+		else {
+			ep.setX((int)(sp.getX()-lentgh*Math.cos(r)));
+			ep.setY((int)(sp.getY()-lentgh*Math.sin(r)));
+		}
+		l1.setEndpoint(ep);
+		Line l=l1.changeToLine();
+		System.out.println(l1.getLength());
+		System.out.println(l2.getLength());
+		System.out.println("equal");
+		cei.changeLine(l);
+		return false;
+		
 	}
 	
 	

@@ -31,7 +31,7 @@ public class CommandLine extends CommandGeo{
     public CommandLine(CommandPoint spoint,CommandPoint epoint) {
     	startpoint=spoint;
     	endpoint=epoint;
-    	this.setLength(spoint.getLength(epoint));
+    	this.length=(spoint.getLength(epoint));
     	this.k=((double)(spoint.getY()-epoint.getY())/(double)(spoint.getX()-epoint.getX()));
     	this.b=((double)spoint.getY()-((double)spoint.getX())*k);
     	this.setType("直线");
@@ -61,13 +61,9 @@ public class CommandLine extends CommandGeo{
     //根据两个点不断转换斜率
     public void setStartpoint(CommandPoint startpoint) {
     	this.startpoint=startpoint;
-    	this.k=((double)(startpoint.getY()-endpoint.getY())/(double)(startpoint.getX()-endpoint.getX()));
-    	this.b=((double)startpoint.getY()-((double)endpoint.getX())*k);
     }  
     public void setEndpoint(CommandPoint endpoint) {
     	this.endpoint=endpoint;
-    	this.k=((double)(startpoint.getY()-endpoint.getY())/(double)(startpoint.getX()-endpoint.getX()));
-    	this.b=((double)startpoint.getY()-((double)endpoint.getX())*k);
 
     }
 	public CommandPoint getStartpoint() {
@@ -80,19 +76,19 @@ public class CommandLine extends CommandGeo{
 	}
 
 	public double getB() {
+    	this.b=((double)startpoint.getY()-((double)startpoint.getX())*k);
 		return b;
 	}
 
 	public double getK() {
+    	this.k=((double)(startpoint.getY()-endpoint.getY())/(double)(startpoint.getX()-endpoint.getX()));
 		return k;
 	}
 	public double getLength() {
+		this.length=startpoint.getLength(endpoint);
 		return length;
 	}
 
-	public void setLength(double length) {
-		this.length = length;
-	}
 	public Line changeToLine() {
 		Line l=new Line(this.startpoint.changeToPoint(),this.endpoint.changeToPoint());
 		return l;

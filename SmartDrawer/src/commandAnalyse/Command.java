@@ -78,6 +78,12 @@ public class Command {
 			ce.lineVertical(l1, l2, p);
 			break;
 		}
+		case"等于":{
+			CommandLine l1=new CommandLine(this.Geolist.get(0).getName());
+			CommandLine l2=new CommandLine(this.Geolist.get(1).getName());
+			ce.lineEqual(l1, l2);
+			break;
+		}
 		}
 	}
 }
