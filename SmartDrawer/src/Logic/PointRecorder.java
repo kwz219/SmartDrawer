@@ -152,6 +152,11 @@ public class PointRecorder {
 			return new Line(spoint,epoint);
 			
 		}
+		
+		//get a point from a series of nofit points
+		public Point getSimilarPoint() {
+			return new Point(Plist.get(Plist.size()/2));
+		}
 	
          
 }

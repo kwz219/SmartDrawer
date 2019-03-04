@@ -375,7 +375,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     	     int index=-1;
     	     for(int i=0;i<mpointList.size();i++) {
     	    	     
-    	    	     if(name==mpointList.get(i).getName()) {
+    	    	     if(name.equals(mpointList.get(i).getName())) {
     	    	    	    return i;
     	    	     }
     	     }
@@ -386,7 +386,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     	     int index=-1;
 	     for(int i=0;i<circleList.size();i++) {
 	    	     
-	    	     if(name==circleList.get(i).getCenter().getName()) {
+	    	     if(name.equals(circleList.get(i).getCenter().getName())) {
 	    	    	    return i;
 	    	     }
 	     }
@@ -400,7 +400,9 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	    	     Point endpoint=lineList.get(i).getEndpoint();
 	    	     String name1=startpoint.getName()+endpoint.getName();
 	    	     String name2=endpoint.getName()+startpoint.getName();
-	    	     if(name==name1||name==name2) {
+	    	     //System.out.println("name "+name+" name1 "+name1+" name2 "+name2);
+	    	     if(name.equals(name1)||name.equals(name2)) {
+	    	    	 //System.out.println("equals");
 	    	    	 return i;
 	    	     }
 	    	     
@@ -420,7 +422,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     	    	    String name231=v2.getName()+v3.getName()+v1.getName();
     	    	    String name312=v3.getName()+v1.getName()+v3.getName();
     	    	    String name321=v3.getName()+v2.getName()+v1.getName();
-    	    	    if(name==name123||name==name132||name==name213||name==name231||name==name312||name==name321) {
+    	    	    if(name.equals(name123)||name.equals(name132)||name.equals(name213)||name.equals(name231)||name.equals(name312)||name.equals(name321)) {
     	    	    	   return i;
     	    	    }
     	      }
@@ -473,6 +475,10 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     
     public Line getLine_byDrawing() {
     	       return pointRecorderBuff.getSimilarLine();
+    }
+    
+    public Point getPoint_byDrawing() {
+    	       return pointRecorderBuff.getSimilarPoint();
     }
     
     public void printstate() {

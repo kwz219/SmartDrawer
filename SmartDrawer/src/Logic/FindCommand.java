@@ -29,6 +29,8 @@ public class FindCommand {
     	   boolean result =false;
     	   if(DrawerPanel.getDrawer().findLineIndex_byname(name)!=-1) {
     		   result= true;
+    	   }else {
+    		   System.out.println("Line "+name+" doesn't exist");
     	   }
     	   return result;
        }
@@ -81,5 +83,9 @@ public class FindCommand {
        
        public static Line getLine_byDrawing() {
     	      return DrawerPanel.getDrawer().getLine_byDrawing();
+       }
+       
+       public static Point getPoint_byDrawing() {
+    	      return DrawerPanel.getDrawer().getPoint_byDrawing();
        }
 }

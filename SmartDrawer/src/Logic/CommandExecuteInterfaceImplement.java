@@ -144,4 +144,10 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 		return FindCommand.getLine_byDrawing();
 	}
 
+	@Override
+	public Point getPoint_fromDrawing() {
+		// TODO Auto-generated method stub
+		return FindCommand.getPoint_byDrawing();
+	}
+
 }
