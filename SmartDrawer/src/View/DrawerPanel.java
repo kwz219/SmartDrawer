@@ -381,8 +381,8 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		Line prel=new Line(ps,pe);
 		int index=lineList.indexOf(prel);
 		if(index!=-1) {
-			lineList.get(index).getStartpoint().setName(ps.getName());
-			lineList.get(index).getEndpoint().setName(pe.getName());
+			lineList.get(index).getStartpoint().setName(l.getStartpoint().getName());
+			lineList.get(index).getEndpoint().setName(l.getEndpoint().getName());
 			PointMap.remove(ps);
 			PointMap.remove(pe);
 			PointMap.put(ps, new PointIndex(index,1,Pointtype.Lineend));
