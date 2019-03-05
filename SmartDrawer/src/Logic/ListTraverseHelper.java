@@ -3,6 +3,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import Logic.PointsFittingHelper.Pointtype;
 import Model.Point;
 import Model.PointIndex;
 /**
@@ -45,5 +46,15 @@ public class ListTraverseHelper {
     	    	    }
     	      }
     	      return null;
+     }
+     
+     //find a point by name,type
+     public static Point Findapoint_bynametype(String name,HashMap<Point,PointIndex> map,Pointtype type) {
+    	     for(Point p:map.keySet()) {
+    	    	    if(name.equals(p.getName())&&p.getType()==type) {
+    	    	    	   return p;
+    	    	    }
+    	     }
+    	     return null;
      }
 }

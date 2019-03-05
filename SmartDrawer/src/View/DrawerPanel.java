@@ -94,7 +94,21 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	public static DrawerPanel getDrawer() {
 		return Mydrawer;
 	}
-	
+	//clear the screen
+	public  void Clear() {
+		Drawerstatus=Drawerstate.Blank;
+		pointList=new ArrayList<Dimension>();
+		nofitpointList=new ArrayList<Dimension>();
+		pointRecorder=new PointRecorder();
+		pointRecorderBuff=new PointRecorder();
+		PointMap=new HashMap<Point,PointIndex>();
+		lineList=new ArrayList<Line>();
+		mpointList=new ArrayList<Point>();
+		triangleList=new ArrayList<Triangle>();
+		circleList=new ArrayList<Circle>();
+		pointLptr=0;
+		currentPi=null;
+	}
 	//rewrite the paint method
 	public void paint(Graphics graphics) {
 		super.paint(graphics);
@@ -347,6 +361,8 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 			cei.changeTriangle(new Triangle(new Point(new Dimension(250,250),"Q"),new Point(new Dimension(250,350),"W"),new Point(new Dimension(350,250),"E")));
 		}else if(command.equals("cc")) {
 			cei.changeCircle(new Circle(new Point(new Dimension(100,100),"O"),50));
+		}else if(command.equals("clear")) {
+			this.Clear();
 		}
 		this.repaint();
 	}
@@ -527,6 +543,15 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     public void changeCirclecenter(Point preend,Point point) {
     	      PointIndex Pi=PointMap.get(preend);
     	      circleList.get(Pi.Listindex).setCenter(point);
+    }
+    
+    public void replaceTriangleVertex(Point p) {
+    	      Point preP=ListTraverseHelper.Findapoint_bynametype(p.getName(),PointMap,Pointtype.Triangleend);
+    	      PointIndex Pi=PointMap.get(preP);
+    	      p.setType(Pointtype.Triangleend);
+    	      triangleList.get(Pi.Listindex).setPoint_byindex(Pi.Innerindex,p);
+    	      PointMap.remove(preP);
+    	      PointMap.put(p, Pi);
     }
     
 }

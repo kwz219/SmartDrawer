@@ -55,5 +55,9 @@ public class AjustCommand {
        public static void moveCirclecenteer(Point prepoint,Point point) {
     	          DrawerPanel.getDrawer().changeCirclecenter(prepoint, point);
        }
+       
+       public static void changeTriangleVertex(Point p) {
+    	          DrawerPanel.getDrawer().replaceTriangleVertex(p);;
+       }
 }
 

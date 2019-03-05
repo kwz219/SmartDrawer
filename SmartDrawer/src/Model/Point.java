@@ -49,6 +49,10 @@ public class Point {
     public Pointtype getType() {
     	        return Type;
     }
+    
+    public void setType(Pointtype type) {
+    	       Type=type;
+    }
 	public String getName() {
 		return Name;
 	}
