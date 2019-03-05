@@ -14,6 +14,7 @@ public interface CommandExucuteInterface {
 	public void changeCircle(Circle o);
 	public void changePoint(Point p);
 	public void changeTriangle(Triangle tri);//3.3新增加的方法
+	public void changeTrangleVertex(Point p);//传入改变后三角形顶点
 	
 	public Point getPoint(String name);
 	public Circle getCirlce(String name);

@@ -174,4 +174,10 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 			
 		}
 	}
+
+	@Override
+	public void changeTrangleVertex(Point p) {
+		// TODO Auto-generated method stub
+		
+	}
 }
