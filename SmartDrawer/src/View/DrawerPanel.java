@@ -114,7 +114,8 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		super.paint(graphics);
         Graphics2D g2d = (Graphics2D)graphics;
         g2d.setBackground(Color.WHITE);
-        g2d.setFont(new Font("Arial",Font.BOLD,32));
+        g2d.setFont(new Font("Arial",Font.BOLD,30));
+        Color FontColor=Color.BLUE;
         g2d.setColor(Brushcolor);
         g2d.setStroke(new BasicStroke(Brushsize));
        
@@ -125,33 +126,59 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
         
         //draw all temporary points
         for(int i=0;i<pointList.size();i++){
+        	
             g2d.fillOval(pointList.get(i).width, pointList.get(i).height, Brushsize, Brushsize);
         }
         
         //draw all lines
         for(int i=0;i<lineList.size();i++) {
-        	   g2d.drawLine(lineList.get(i).getStartpoint().getCoordinate().width,lineList.get(i).getStartpoint().getCoordinate().height,lineList.get(i).getEndpoint().getCoordinate().width,lineList.get(i).getEndpoint().getCoordinate().height);
+        	   Line l=lineList.get(i);
+        	   g2d.drawLine(l.getStartpoint().getCoordinate().width,l.getStartpoint().getCoordinate().height,l.getEndpoint().getCoordinate().width,l.getEndpoint().getCoordinate().height);
+        	   /*if(l.getStartpoint().getName().equals("noname")) {
+        		   
+        	   }else {
+        		   g2d.drawString(l.getStartpoint().getName(), l.getStartpoint().getX(), l.getStartpoint().getY());
+        		   g2d.drawString(l.getEndpoint().getName(), l.getEndpoint().getX(), l.getEndpoint().getY());
+        	   }*/
         }
         
         //draw all single points
         for(int i=0;i<mpointList.size();i++) {
-        	   g2d.fillOval(mpointList.get(i).getCoordinate().width, mpointList.get(i).getCoordinate().height,Brushsize,Brushsize);
+        	   Point p=mpointList.get(i);
+        	   g2d.fillOval(p.getCoordinate().width,p.getCoordinate().height,Brushsize,Brushsize);
+        	   /*if(!p.getName().equals("noname")) {
+        	       g2d.drawString(p.getName(),p.getX(),p.getY());
+        	   }*/
         }
         
         //draw all triangles
         for(int i=0;i<triangleList.size();i++) {
+        	   Triangle tri=triangleList.get(i);
         	   g2d.drawPolygon(triangleList.get(i).getXpoints(),triangleList.get(i).getYpoints(), 3);
+        	   g2d.drawString(tri.getVertex1().getName(),tri.getVertex1().getX(),tri.getVertex1().getY());
+        	   g2d.drawString(tri.getVertex2().getName(),tri.getVertex2().getX(),tri.getVertex2().getY());
+        	   
+        	   //g2d.drawString(tri.getVertex3().getName(),tri.getVertex3().getX(),tri.getVertex3().getY());
+        	  
         }        
         
         //draw all cricles
         for(int i=0;i<circleList.size();i++) {
            g2d.fillOval(circleList.get(i).getCenter().getX()-Brushsize/2,circleList.get(i).getCenter().getY()-Brushsize/2,Brushsize, Brushsize);
         	   g2d.drawOval(circleList.get(i).getUpperleft().width, circleList.get(i).getUpperleft().height,circleList.get(i).getRadius()*2,circleList.get(i).getRadius()*2);
-        	   
+        	   //g2d.drawString(circleList.get(i).getCenter().getName(),circleList.get(i).getCenter().getX(),circleList.get(i).getCenter().getY());
         }
         /*int []x= {100,100,200};
         int []y= {100,200,100};
         g2d.drawPolygon(x, y, 3);*/
+        
+        //draw name of points
+        g2d.setColor(FontColor);
+        for(Point p:PointMap.keySet()) {
+        	   if(!p.getName().equals("noname")) {
+        		   g2d.drawString(p.getName(),p.getX(), p.getY());
+        	   }
+        }
         g2d.dispose();
         
         
