@@ -88,4 +88,8 @@ public class FindCommand {
        public static Point getPoint_byDrawing() {
     	      return DrawerPanel.getDrawer().getPoint_byDrawing();
        }
+       
+       public static Point findpoint_byName(String name) {
+    	      return DrawerPanel.getDrawer().find_aPointbyname(name);
+       }
 }

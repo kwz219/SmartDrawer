@@ -49,8 +49,9 @@ public class Line {
     public void setPointbyindex(int index,Point p) {
     	if(index==1) {
 	    	   startpoint=p;
-	    }
+	    }else {
 	       endpoint=p;
+	    }
     }
 	
 

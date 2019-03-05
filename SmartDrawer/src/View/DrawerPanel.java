@@ -396,6 +396,21 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	
 	
 	public void addTriangle(Triangle triangle) {
+		Point v1=this.fixPoints_byname(triangle.getVertex1().getName());
+		Point v2=this.fixPoints_byname(triangle.getVertex2().getName());
+		Point v3=this.fixPoints_byname(triangle.getVertex3().getName());
+		if(v1!=null) {
+			v1.setType(Pointtype.Triangleend);
+			triangle.setPoint_byindex(1, v1);
+		}
+		if(v2!=null) {
+			v2.setType(Pointtype.Triangleend);
+			triangle.setPoint_byindex(1, v2);
+		}
+		if(v3!=null) {
+			v3.setType(Pointtype.Triangleend);
+			triangle.setPoint_byindex(1, v3);
+		}
 		triangleList.add(triangle);
 		PointMap.put(triangle.getVertex1(),new PointIndex(triangleList.indexOf(triangle),1,Pointtype.Triangleend) );
 		PointMap.put(triangle.getVertex2(),new PointIndex(triangleList.indexOf(triangle),2,Pointtype.Triangleend) );
@@ -405,6 +420,12 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	}
 	
 	public void addCircle(Circle circle) {
+		Point center=this.fixPoints_byname(circle.getCenter().getName());
+		if(center!=null) {
+			center.setType(Pointtype.Circlecenter);
+			circle.setCenter(center);
+		}
+		
 		circleList.add(circle);
 		PointMap.put(circle.getCenter(),new PointIndex(circleList.indexOf(circle),0,Pointtype.Circlecenter));
 		
@@ -425,17 +446,32 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		
 		Line prel=new Line(ps,pe);
 		int index=lineList.indexOf(prel);
+		Point snps=this.fixPoints_byname(l.getStartpoint().getName());
+		Point snpe=this.fixPoints_byname(l.getEndpoint().getName());
 		if(index!=-1) {
 			lineList.get(index).getStartpoint().setName(l.getStartpoint().getName());
 			lineList.get(index).getEndpoint().setName(l.getEndpoint().getName());
+			if(snps!=null) {
+				lineList.get(index).getStartpoint().setCoordinate(snps.getCoordinate());
+			}
+			if(snpe!=null) {
+				lineList.get(index).getEndpoint().setCoordinate(snpe.getCoordinate());
+			}
 			PointMap.remove(ps);
 			PointMap.remove(pe);
 			PointMap.put(ps, new PointIndex(index,1,Pointtype.Lineend));
 			PointMap.put(pe, new PointIndex(index,2,Pointtype.Lineend));
 		}else {
-		
-		lineList.add(l);
-		nofitpointList.removeAll(nofitpointList.subList(pointLptr, nofitpointList.size()));
+		    if(snps!=null) {
+		    	   snps.setType(Pointtype.Lineend);
+		    	   l.setPointbyindex(1, snps);
+		    }
+		    if(snpe!=null) {
+		    	   snpe.setType(Pointtype.Lineend);
+		    	   l.setPointbyindex(2, snpe);
+		    }
+		    lineList.add(l);
+		    nofitpointList.removeAll(nofitpointList.subList(pointLptr, nofitpointList.size()));
 		}
 		this.repaint();
 	}
@@ -581,4 +617,16 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     	      PointMap.put(p, Pi);
     }
     
+    public Point find_aPointbyname(String name) {
+    	      Point p=ListTraverseHelper.Findapoint(name, PointMap);
+    	      return p;
+    }
+    
+    public Point fixPoints_byname(String name) {
+    	 Point p=ListTraverseHelper.Findapoint(name, PointMap);
+    	 if(p!=null) {
+    		 return p;
+    	 }
+    	   return null;
+    }
 }

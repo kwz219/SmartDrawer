@@ -35,7 +35,14 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 
 	@Override
 	public void createLine(Line l) {
-		
+		/*Point sp=this.fix_samenamePoints(l.getStartpoint().getName(),Pointtype.Lineend);
+		Point ep=this.fix_samenamePoints(l.getEndpoint().getName(),Pointtype.Lineend);
+		if(sp!=null) {
+			l.setPointbyindex(1,sp);
+		}
+		if(ep!=null) {
+			l.setPointbyindex(2, ep);
+		}*/
 		DrawCommand.createLine(l);
 	}
 
@@ -179,5 +186,15 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 	public void changeTrangleVertex(Point p) {
 		// TODO Auto-generated method stub
 		AjustCommand.changeTriangleVertex(p);
+	}
+	
+	public Point fix_samenamePoints(String name,Pointtype type) {
+	   Point exp=FindCommand.findpoint_byName(name);
+	   if(exp!=null) {
+		   exp.setType(type);
+		   return exp;
+	   }
+	   return null;
+	   
 	}
 }
