@@ -72,4 +72,14 @@ public class ListTraverseHelper {
     	    	     }
     	     }
      }
+     
+     public static ArrayList<PointIndex> get_ByNameType(HashMap<Point,PointIndex> map,String name,Pointtype pt) {
+    	       ArrayList<PointIndex> pilist=new ArrayList<PointIndex>();
+    	       for(Point p:map.keySet()) {
+    	    	       if(p.getName().equals(name)&&p.getType().equals(pt)) {
+    	    	    	      pilist.add(map.get(p));
+    	    	       }
+    	       }
+    	       return pilist;
+     }
 }

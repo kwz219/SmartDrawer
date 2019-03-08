@@ -406,20 +406,24 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	
 	
 	public void addTriangle(Triangle triangle) {
+		triangle.printPoints();
 		Point v1=this.fixPoints_byname(triangle.getVertex1().getName());
 		Point v2=this.fixPoints_byname(triangle.getVertex2().getName());
 		Point v3=this.fixPoints_byname(triangle.getVertex3().getName());
 		if(v1!=null) {
-			v1.setType(Pointtype.Triangleend);
-			triangle.setPoint_byindex(1, v1);
+			
+			triangle.getVertex1().setCoordinate(v1.getCoordinate());
+			triangle.getVertex1().setType(Pointtype.Triangleend);
 		}
 		if(v2!=null) {
-			v2.setType(Pointtype.Triangleend);
-			triangle.setPoint_byindex(1, v2);
+			
+			triangle.getVertex2().setCoordinate(v2.getCoordinate());
+			triangle.getVertex2().setType(Pointtype.Triangleend);
 		}
 		if(v3!=null) {
-			v3.setType(Pointtype.Triangleend);
-			triangle.setPoint_byindex(1, v3);
+			
+			triangle.getVertex3().setCoordinate(v3.getCoordinate());
+			triangle.getVertex3().setType(Pointtype.Triangleend);
 		}
 		triangleList.add(triangle);
 		PointMap.put(triangle.getVertex1(),new PointIndex(triangleList.indexOf(triangle),1,Pointtype.Triangleend) );
@@ -473,23 +477,33 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		ps.setName(l.getStartpoint().getName());
 		pe.setName(l.getEndpoint().getName());
 		if(index!=-1) {
+			ListTraverseHelper.delete_byCorType(PointMap, Pointtype.Lineend,ps.getCoordinate());
+			ListTraverseHelper.delete_byCorType(PointMap, Pointtype.Lineend,pe.getCoordinate());
+			System.out.println("index!=-1");
 			lineList.get(index).getStartpoint().setName(l.getStartpoint().getName());
 			lineList.get(index).getEndpoint().setName(l.getEndpoint().getName());
 			if(snps!=null) {
 				lineList.get(index).getStartpoint().setCoordinate(snps.getCoordinate());
+				ps.setCoordinate(snps.getCoordinate());
+				
 			}
 			if(snpe!=null) {
 				lineList.get(index).getEndpoint().setCoordinate(snpe.getCoordinate());
+				pe.setCoordinate(snpe.getCoordinate());
 			}
-			ListTraverseHelper.delete_byCorType(PointMap, Pointtype.Lineend,ps.getCoordinate());
-			ListTraverseHelper.delete_byCorType(PointMap, Pointtype.Lineend,pe.getCoordinate());
-			PointMap.put(ps, new PointIndex(index,1,Pointtype.Lineend));
-		    PointMap.put(pe, new PointIndex(index,2,Pointtype.Lineend));
+				PointMap.put(pe, new PointIndex(index,2,Pointtype.Lineend));
+				PointMap.put(ps, new PointIndex(index,1,Pointtype.Lineend));
+				
+			
+			
 			
 		}else {
 		    if(snps!=null) {
-		    	   snps.setType(Pointtype.Lineend);
-		    	   l.setPointbyindex(1, snps);
+		    	   
+		    		   snps.setType(Pointtype.Lineend);
+			    	   l.setPointbyindex(1, snps);
+		    	  
+		    	  
 		    }
 		    if(snpe!=null) {
 		    	   snpe.setType(Pointtype.Lineend);
@@ -628,18 +642,24 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     }
     
     public void changeLineend(Point preend,Point point){
-    	      PointIndex Pi=PointMap.get(preend);
-    	      lineList.get(Pi.Listindex).setPointbyindex(Pi.Innerindex, point);
+    	      ArrayList<PointIndex> pilist=ListTraverseHelper.get_ByNameType(PointMap, preend.getName(), Pointtype.Lineend);
+    	      for(int i=0;i<pilist.size();i++) {
+    	      lineList.get(pilist.get(i).Listindex).setPointbyindex(pilist.get(i).Innerindex, point);
+    	      }
     }
     
     public void changeTriangleend(Point preend,Point point) {
-    	      PointIndex Pi=PointMap.get(preend);
-    	      triangleList.get(Pi.Listindex).setPoint_byindex(Pi.Innerindex, point);
+        	ArrayList<PointIndex> pilist=ListTraverseHelper.get_ByNameType(PointMap, preend.getName(), Pointtype.Triangleend);
+    	      for(int i=0;i<pilist.size();i++) {
+    	      triangleList.get(pilist.get(i).Listindex).setPoint_byindex(pilist.get(i).Innerindex, point);
+    	      }
     }
     
     public void changeCirclecenter(Point preend,Point point) {
-    	      PointIndex Pi=PointMap.get(preend);
-    	      circleList.get(Pi.Listindex).setCenter(point);
+    	      ArrayList<PointIndex> pilist=ListTraverseHelper.get_ByNameType(PointMap, preend.getName(), Pointtype.Circlecenter);
+    	      for(int i=0;i<pilist.size();i++) {
+    	      circleList.get(pilist.get(i).Listindex).setCenter(point);
+    	      }
     }
     
     public void replaceTriangleVertex(Point p) {

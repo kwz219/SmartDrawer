@@ -105,5 +105,11 @@ public class Triangle {
 			Vertex3=p;
 		}
 	}
+	
+	public void printPoints() {
+		System.out.println("p1 "+Vertex1.getName()+" "+Vertex1.getCoordinate());
+		System.out.println("p2 "+Vertex2.getName()+" "+Vertex2.getCoordinate());
+		System.out.println("p3 "+Vertex3.getName()+" "+Vertex3.getCoordinate());
+	}
        
 }

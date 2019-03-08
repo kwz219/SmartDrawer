@@ -48,14 +48,18 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 
 	@Override
 	public void changeLine(Line l) {
-		
+		Line ol=FindCommand.getLine(l.getStartpoint().getName()+l.getEndpoint().getName());
 		String lname=l.getStartpoint().getName()+l.getEndpoint().getName();
 		if(FindCommand.LineExist(lname)) {
 			System.out.println("line "+lname+" exists");
 			AjustCommand.Del_line(lname);
 			DrawCommand.createLine(l);
-			//changeALlpoints(l.getStartpoint().getName(),l.getStartpoint());
-			//changeALlpoints(l.getEndpoint().getName(), l.getEndpoint());
+			if(!ol.getStartpoint().getCoordinate().equals(l.getStartpoint().getCoordinate())) {
+			changeALlpoints(l.getStartpoint().getName(),l.getStartpoint());
+			}
+			if(!ol.getEndpoint().getCoordinate().equals(l.getStartpoint().getCoordinate())) {
+			changeALlpoints(l.getEndpoint().getName(), l.getEndpoint());
+			}
 		}else {
 			//System.out.println("Line "+lname+" doesn't exist");
 		}
