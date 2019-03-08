@@ -49,6 +49,10 @@ public class CommandField extends JTextField implements KeyListener{
 					DrawerPanel.getDrawer().getCommand(Command);
 				}else if(Command.equals("clear")) {
 					DrawerPanel.getDrawer().getCommand(Command);
+				}else if(Command.equals("print")) {
+					DrawerPanel.getDrawer().getCommand(Command);
+				}else if(Command.equals("printl")) {
+					DrawerPanel.getDrawer().getCommand(Command);
 				}else {
 				CommandAnalyst.AnalyseCommand(Command);
 				}

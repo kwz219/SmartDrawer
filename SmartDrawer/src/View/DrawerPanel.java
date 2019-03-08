@@ -3,6 +3,7 @@ package View;
 import java.awt.BasicStroke;
 
 
+
 import java.awt.Canvas;
 
 import java.awt.Color;
@@ -203,7 +204,10 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		}
 		else if(PointsFittingHelper.PointsFit(tmplist)==Graphicstype.Point) {
 			//System.out.println("a point ");
-			mpointList.add(new Point(tmplist.get(0)));
+			Point p=new Point(tmplist.get(tmplist.size()/2));
+			p.setType(Pointtype.Singlepoint);
+			mpointList.add(p);
+			PointMap.put(p, new PointIndex(mpointList.size()-1,0,Pointtype.Singlepoint));
 			iffit=1;
 		}else if(PointsFittingHelper.PointsFit(tmplist)==Graphicstype.Triangle) {
 			iffit=1;
@@ -325,7 +329,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 					printstate();
 					//System.out.println(pi.Listindex);
 					currentPi=pi;
-				    System.out.println("A "+pi.Type.toString()+" is selected");
+				    System.out.println("A"+pi.Type.toString()+" is selected");
 				}
 			}else {
 				Drawerstatus=Drawerstate.Blank;
@@ -390,6 +394,12 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 			cei.changeCircle(new Circle(new Point(new Dimension(100,100),"O"),50));
 		}else if(command.equals("clear")) {
 			this.Clear();
+		}else if(command.equals("print")) {
+		    ListTraverseHelper.printall(PointMap);
+		}else if(command.equals("printl")) {
+			for(int i=0;i<lineList.size();i++) {
+				System.out.println("Line"+i+" "+lineList.get(i).getStartpoint().getName()+lineList.get(i).getEndpoint().getName());
+			}
 		}
 		this.repaint();
 	}
@@ -434,8 +444,20 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	}
 
 	public void addPoint(Point A) {
-		mpointList.add(A);
-		nofitpointList.removeAll(nofitpointList.subList(pointLptr, nofitpointList.size()));
+		Point ps=this.fixPoints_byname(A.getName());
+		//System.out.print(A.getName());
+		int index=mpointList.indexOf(A);
+		if(index==-1) {
+		     mpointList.add(A);
+		     A.setType(Pointtype.Singlepoint);
+		     ListTraverseHelper.delete_byCorType(PointMap,Pointtype.Singlepoint,A.getCoordinate());
+		     PointMap.put(A, new PointIndex(mpointList.size()-1,0,Pointtype.Singlepoint));
+		     nofitpointList.removeAll(nofitpointList.subList(pointLptr, nofitpointList.size()));
+		}else {
+			mpointList.get(index).setName(A.getName());
+			
+			PointMap.put(A, new PointIndex(index,0,Pointtype.Singlepoint));
+		}
 		this.repaint();
 	}
 	
@@ -448,6 +470,8 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		int index=lineList.indexOf(prel);
 		Point snps=this.fixPoints_byname(l.getStartpoint().getName());
 		Point snpe=this.fixPoints_byname(l.getEndpoint().getName());
+		ps.setName(l.getStartpoint().getName());
+		pe.setName(l.getEndpoint().getName());
 		if(index!=-1) {
 			lineList.get(index).getStartpoint().setName(l.getStartpoint().getName());
 			lineList.get(index).getEndpoint().setName(l.getEndpoint().getName());
@@ -457,10 +481,11 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 			if(snpe!=null) {
 				lineList.get(index).getEndpoint().setCoordinate(snpe.getCoordinate());
 			}
-			PointMap.remove(ps);
-			PointMap.remove(pe);
+			ListTraverseHelper.delete_byCorType(PointMap, Pointtype.Lineend,ps.getCoordinate());
+			ListTraverseHelper.delete_byCorType(PointMap, Pointtype.Lineend,pe.getCoordinate());
 			PointMap.put(ps, new PointIndex(index,1,Pointtype.Lineend));
-			PointMap.put(pe, new PointIndex(index,2,Pointtype.Lineend));
+		    PointMap.put(pe, new PointIndex(index,2,Pointtype.Lineend));
+			
 		}else {
 		    if(snps!=null) {
 		    	   snps.setType(Pointtype.Lineend);
@@ -471,8 +496,12 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		    	   l.setPointbyindex(2, snpe);
 		    }
 		    lineList.add(l);
+		    
 		    nofitpointList.removeAll(nofitpointList.subList(pointLptr, nofitpointList.size()));
+		    PointMap.put(ps, new PointIndex(lineList.size()-1,1,Pointtype.Lineend));
+		    PointMap.put(pe, new PointIndex(lineList.size()-1,2,Pointtype.Lineend));
 		}
+		   
 		this.repaint();
 	}
     public int findPointIndex_byname(String name) {
@@ -534,22 +563,27 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     }
     
     public void delpoint_byindex(int index) {
-    	   PointMap.remove(mpointList.get(index));
+    	   ListTraverseHelper.delete_byCorType(PointMap,Pointtype.Singlepoint,mpointList.get(index).getCoordinate());
     	   mpointList.remove(index);
     }
     
     public void delline_byindex(int index) {
-    	  PointMap.remove(lineList.get(index));
+    	  ListTraverseHelper.delete_byCorType(PointMap,Pointtype.Lineend,lineList.get(index).getStartpoint().getCoordinate());
+    	  ListTraverseHelper.delete_byCorType(PointMap,Pointtype.Lineend,lineList.get(index).getEndpoint().getCoordinate());
     	  lineList.remove(index);
     }
     
     public void deltriangle_byindex(int index) {
-    	  PointMap.remove(triangleList.get(index));
+    	  
+    	  ListTraverseHelper.delete_byCorType(PointMap, Pointtype.Triangleend, triangleList.get(index).getVertex1().getCoordinate());
+    	  ListTraverseHelper.delete_byCorType(PointMap, Pointtype.Triangleend, triangleList.get(index).getVertex2().getCoordinate());
+    	  ListTraverseHelper.delete_byCorType(PointMap, Pointtype.Triangleend, triangleList.get(index).getVertex3().getCoordinate());
     	  triangleList.remove(index);
     }
     
     public void delcircle_byindex(int index) {
-    	  PointMap.remove(circleList.get(index));
+    	  
+    	  ListTraverseHelper.delete_byCorType(PointMap, Pointtype.Circlecenter, circleList.get(index).getCenter().getCoordinate());
     	  circleList.remove(index);
     }
     

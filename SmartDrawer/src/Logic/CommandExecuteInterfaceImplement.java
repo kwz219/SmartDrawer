@@ -51,10 +51,11 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 		
 		String lname=l.getStartpoint().getName()+l.getEndpoint().getName();
 		if(FindCommand.LineExist(lname)) {
+			System.out.println("line "+lname+" exists");
 			AjustCommand.Del_line(lname);
 			DrawCommand.createLine(l);
-			changeALlpoints(l.getStartpoint().getName(),l.getStartpoint());
-			changeALlpoints(l.getEndpoint().getName(), l.getEndpoint());
+			//changeALlpoints(l.getStartpoint().getName(),l.getStartpoint());
+			//changeALlpoints(l.getEndpoint().getName(), l.getEndpoint());
 		}else {
 			//System.out.println("Line "+lname+" doesn't exist");
 		}

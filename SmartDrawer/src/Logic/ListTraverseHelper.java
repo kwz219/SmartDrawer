@@ -57,4 +57,19 @@ public class ListTraverseHelper {
     	     }
     	     return null;
      }
+     
+     public static void printall(HashMap<Point,PointIndex> map) {
+    	     for(Point p:map.keySet()) {
+    	    	    System.out.println("Point "+p.getName()+" "+p.getCoordinate()+" Index "+map.get(p).Type+" "+map.get(p).Listindex+" "+map.get(p).Innerindex);
+    	     }
+     }
+     
+     public static void delete_byCorType(HashMap<Point,PointIndex> map,Pointtype type,Dimension dm){
+    	     for(Point p:map.keySet()) {
+    	    	     if(p.getCoordinate().equals(dm)&&map.get(p).Type==type) {
+    	    	    	    map.remove(p);
+    	    	    	    break;
+    	    	     }
+    	     }
+     }
 }
