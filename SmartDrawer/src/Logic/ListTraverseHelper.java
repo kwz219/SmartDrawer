@@ -60,7 +60,7 @@ public class ListTraverseHelper {
      
      public static void printall(HashMap<Point,PointIndex> map) {
     	     for(Point p:map.keySet()) {
-    	    	    System.out.println("Point "+p.getName()+" "+p.getCoordinate()+" Index "+map.get(p).Type+" "+map.get(p).Listindex+" "+map.get(p).Innerindex);
+    	    	    System.out.println("Point "+p.getName()+" "+p.getCoordinate()+" Index "+map.get(p).Type+" "+map.get(p).BelongedGraph+map.get(p).Innerindex);
     	     }
      }
      
@@ -81,5 +81,18 @@ public class ListTraverseHelper {
     	    	       }
     	       }
     	       return pilist;
+     }
+     
+     public static void UpdatePointMap(String name,HashMap<Point,PointIndex> map,Point newp) {
+    	        for(Point p:map.keySet()) {
+    	        	   if(p.getName().equals(name)) {
+    	        		   Point np=p;
+    	        		   np.setCoordinate(newp.getCoordinate());
+    	        		   PointIndex pi=map.get(p);
+    	        		   map.remove(p);
+    	        		   map.put(np, pi);
+    	        		   
+    	        	   }
+    	        }
      }
 }

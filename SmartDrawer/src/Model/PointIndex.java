@@ -8,12 +8,12 @@ import Logic.PointsFittingHelper.Pointtype;
  */
 public class PointIndex {
        public Pointtype Type;
-       public int Listindex;
+       public String BelongedGraph;
        public int Innerindex;
        
-       public PointIndex(int listindex,int innerindex,Pointtype type) {
+       public PointIndex(int innerindex,Pointtype type,String Belongedname) {
     	        Type=type;
-    	        Listindex=listindex;
+    	        BelongedGraph=Belongedname;
     	        Innerindex=innerindex;
        }
 }

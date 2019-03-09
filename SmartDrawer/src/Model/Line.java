@@ -72,5 +72,18 @@ public class Line {
 		}
 		return false;
 	}
+	
+	public Point getP_byname(String name){
+		if(startpoint.getName().equals(name)) {
+			return startpoint;
+		}else if(endpoint.getName().equals(name)) {
+			return endpoint;
+		}
+		return null;
+	}
+	
+	public String getLinename() {
+		return startpoint.getName()+endpoint.getName();
+	}
 
 }

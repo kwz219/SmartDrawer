@@ -112,4 +112,7 @@ public class Triangle {
 		System.out.println("p3 "+Vertex3.getName()+" "+Vertex3.getCoordinate());
 	}
        
+	public String getTriname() {
+		return Vertex1.getName()+Vertex2.getName()+Vertex3.getName();
+	}
 }

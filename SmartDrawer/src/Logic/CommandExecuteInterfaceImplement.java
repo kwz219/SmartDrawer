@@ -7,6 +7,7 @@ import Model.Circle;
 import Model.Line;
 import Model.Point;
 import Model.Triangle;
+import View.DrawerPanel;
 import commandAnalyse.CommandExucuteInterface;
 /**
  * Last modification time 2019/03/03
@@ -48,21 +49,45 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 
 	@Override
 	public void changeLine(Line l) {
-		Line ol=FindCommand.getLine(l.getStartpoint().getName()+l.getEndpoint().getName());
-		String lname=l.getStartpoint().getName()+l.getEndpoint().getName();
-		if(FindCommand.LineExist(lname)) {
+		Line ol=FindCommand.getLine(l.getLinename());
+		String lname=l.getLinename();
+		String changep = null;
+		if(!ol.getStartpoint().getCoordinate().equals(l.getStartpoint().getCoordinate())&&ol.getEndpoint().getCoordinate().equals(l.getEndpoint().getCoordinate())) {
+			System.out.println("startpoint changed");
+			this.changeAllpoints_byname(l.getStartpoint().getName(),l.getStartpoint());
+			DrawerPanel.getDrawer().updatePointmap(l.getStartpoint().getName(),l.getStartpoint());
+		}else if(ol.getStartpoint().getCoordinate().equals(l.getStartpoint().getCoordinate())&&!ol.getEndpoint().getCoordinate().equals(l.getEndpoint().getCoordinate())) {
+			System.out.println("endpoint changed");
+			this.changeAllpoints_byname(l.getEndpoint().getName(),l.getEndpoint());
+			DrawerPanel.getDrawer().updatePointmap(l.getEndpoint().getName(),l.getEndpoint());
+		}else if(!ol.getStartpoint().getCoordinate().equals(l.getStartpoint().getCoordinate())&&!ol.getEndpoint().getCoordinate().equals(l.getEndpoint().getCoordinate())) {
+			System.out.println("all changed");
+			this.changeAllpoints_byname(l.getStartpoint().getName(),l.getStartpoint());
+			DrawerPanel.getDrawer().updatePointmap(l.getStartpoint().getName(),l.getStartpoint());
+			this.changeAllpoints_byname(l.getEndpoint().getName(),l.getEndpoint());
+			DrawerPanel.getDrawer().updatePointmap(l.getEndpoint().getName(),l.getEndpoint());
+		}else {
+			
+		}
+		/*if(FindCommand.LineExist(lname)) {
 			System.out.println("line "+lname+" exists");
 			AjustCommand.Del_line(lname);
 			DrawCommand.createLine(l);
-			if(!ol.getStartpoint().getCoordinate().equals(l.getStartpoint().getCoordinate())) {
-			changeALlpoints(l.getStartpoint().getName(),l.getStartpoint());
-			}
-			if(!ol.getEndpoint().getCoordinate().equals(l.getStartpoint().getCoordinate())) {
-			changeALlpoints(l.getEndpoint().getName(), l.getEndpoint());
-			}
-		}else {
-			//System.out.println("Line "+lname+" doesn't exist");
+			
 		}
+		if(!ol.getStartpoint().getCoordinate().equals(l.getStartpoint().getCoordinate())) {
+			System.out.println("startpoint changed");
+			changep=l.getStartpoint().getName();
+			//this.changeeffect_line(changep,l.getP_byname(changep));
+			//this.changeALlpoints(changep, l.getP_byname(changep));
+			
+		}
+		if(!ol.getEndpoint().getCoordinate().equals(l.getEndpoint().getCoordinate())) {
+			System.out.println("endpoint changed");
+			changep=l.getEndpoint().getName();
+			//this.changeALlpoints(changep, l.getP_byname(changep));
+		}*/
+		
 		
 	}
 
@@ -140,9 +165,9 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 		if(FindCommand.TriangleExist(tname)) {
 			AjustCommand.Del_triangle(tname);
 			DrawCommand.createTriangle(tri);
-			this.changeALlpoints(tri.getVertex1().getName(),tri.getVertex1());
-			this.changeALlpoints(tri.getVertex2().getName(),tri.getVertex2());
-			this.changeALlpoints(tri.getVertex3().getName(),tri.getVertex3());
+			//this.changeALlpoints(tri.getVertex1().getName(),tri.getVertex1());
+			//this.changeALlpoints(tri.getVertex2().getName(),tri.getVertex2());
+			//this.changeALlpoints(tri.getVertex3().getName(),tri.getVertex3());
 		}else {
 			System.out.println("Triangle "+tname+" doesn't exist");
 		}
@@ -171,10 +196,12 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 
 	public void changeALlpoints(String name,Point point) {
 		ArrayList<Point> plist=AjustCommand.getAllpoints(name);
+		
 		if(plist.size()>1) {
 			for(int i=0;i<plist.size();i++) {
 				Point p=plist.get(i);
 				if(p.getType()==Pointtype.Lineend) {
+				    System.out.println(p.getName()+" also exists");
 					AjustCommand.moveLineend(p, point);
 				}else if(p.getType()==Pointtype.Triangleend) {
 					AjustCommand.moveTriangleend(p, point);
@@ -184,6 +211,21 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 			}
 		}else {
 			
+		}
+	}
+	
+	public void changeeffect_line(String name,Point point) {
+		ArrayList<Line> linelist=DrawerPanel.getDrawer().getLines_containspname(name);
+		for(int i=0;i<linelist.size();i++) {
+			   Line l=linelist.get(i);
+			   if(!l.getStartpoint().getCoordinate().equals(point.getCoordinate())) {
+				   l.getStartpoint().setCoordinate(point.getCoordinate());
+			   }else if(!l.getEndpoint().getCoordinate().equals(point.getCoordinate())) {
+				   l.getEndpoint().setCoordinate(point.getCoordinate());
+			   }
+			   AjustCommand.Del_line(l.getStartpoint().getName()+l.getEndpoint().getName());
+			   System.out.println("del "+l.getStartpoint().getName()+l.getEndpoint().getName());
+			   DrawCommand.createLine(l);
 		}
 	}
 
@@ -202,4 +244,10 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 	   return null;
 	   
 	}
+	
+	public void changeAllpoints_byname(String name,Point p) {
+		DrawerPanel.getDrawer().changeAllpointsofline_byname(name, p);
+		DrawerPanel.getDrawer().changeAllpointsoftriangle_byname(name, p);
+	}
+	
 }
