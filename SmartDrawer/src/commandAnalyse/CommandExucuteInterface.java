@@ -20,6 +20,7 @@ public interface CommandExucuteInterface {
 	public Circle getCirlce(String name);
 	public Triangle getTriangle(String name);
 	public Line getLine(String name);//3.3新增加的方法
+	public Point changeAllNamedPoint (Point p);//3.10增加的新方法，利用这个方法可以改变所有这个点相关的点
 	
 	public ArrayList<Point> getTriangleVertexes_fromDrawing();// zwk added，get 3 points after drawing a triangle
 	public Circle getCircle_fromDrawing();//zwk added,find a circle after drawing a circle
