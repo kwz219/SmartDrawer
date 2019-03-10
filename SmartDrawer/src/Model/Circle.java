@@ -26,6 +26,11 @@ public class Circle {
 		public int getRadius() {
 			return Radius;
 		}
+		public void setRadius(int radius) {
+			Radius=radius;
+			upperleft=new Dimension(Center.getX()-radius,Center.getY()-radius);
+			
+		}
 		public Dimension getUpperleft() {
 			return upperleft;
 		}

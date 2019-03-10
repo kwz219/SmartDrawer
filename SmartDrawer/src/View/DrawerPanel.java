@@ -653,34 +653,12 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     	      }
     	      return linel;
     }
-    public void changeLineend(Point preend,Point point){
-    	      ArrayList<PointIndex> pilist=ListTraverseHelper.get_ByNameType(PointMap, preend.getName(), Pointtype.Lineend);
-    	      for(int i=0;i<pilist.size();i++) {
-    	      //lineList.get(pilist.get(i).Listindex).setPointbyindex(pilist.get(i).Innerindex, point);
-    	      }
+    public boolean PointExists(String name) {
+    	      return ListTraverseHelper.Pointexist(name, PointMap);
     }
     
-    public void changeTriangleend(Point preend,Point point) {
-        	ArrayList<PointIndex> pilist=ListTraverseHelper.get_ByNameType(PointMap, preend.getName(), Pointtype.Triangleend);
-    	      for(int i=0;i<pilist.size();i++) {
-    	      //triangleList.get(pilist.get(i).Listindex).setPoint_byindex(pilist.get(i).Innerindex, point);
-    	      }
-    }
-    
-    public void changeCirclecenter(Point preend,Point point) {
-    	      ArrayList<PointIndex> pilist=ListTraverseHelper.get_ByNameType(PointMap, preend.getName(), Pointtype.Circlecenter);
-    	      for(int i=0;i<pilist.size();i++) {
-    	      //circleList.get(pilist.get(i).Listindex).setCenter(point);
-    	      }
-    }
-    
-    public void replaceTriangleVertex(Point p) {
-    	      Point preP=ListTraverseHelper.Findapoint_bynametype(p.getName(),PointMap,Pointtype.Triangleend);
-    	      PointIndex Pi=PointMap.get(preP);
-    	      p.setType(Pointtype.Triangleend);
-    	      //triangleList.get(Pi.Listindex).setPoint_byindex(Pi.Innerindex,p);
-    	      PointMap.remove(preP);
-    	      PointMap.put(p, Pi);
+    public void changeCircleRadius(int index,int radius) {
+    	      circleList.get(index).setRadius(radius);
     }
     
     public Point find_aPointbyname(String name) {
@@ -723,6 +701,15 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	    	     }
 	     }
     }
+    public void changeAllpointsofcircle_byname(String name,Point p) {
+    	    for(int i=0;i<circleList.size();i++) {
+    	    	   Circle cir=circleList.get(i);
+    	    	   Point center=cir.getCenter();
+    	    	   if(center.getName().equals(name)) {
+    	    		   circleList.get(i).moveCenter(p.getCoordinate());
+    	    	   }
+    	    }
+    }
     
     public void  updatePointmap(String name,Point newp) {
     	     Iterator it=PointMap.keySet().iterator();
@@ -743,7 +730,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     	     for(int i=0;i<plist.size();i++) {
     	    	     PointMap.put(plist.get(i),pilist.get(i));
     	     }
-    	    
+    	    this.repaint();
     	     
     }
 }

@@ -44,20 +44,8 @@ public class AjustCommand {
     	         return plist;
        }
        
-       public static void moveLineend(Point prepoint,Point point) {
-    	          DrawerPanel.getDrawer().changeLineend(prepoint, point);
-       }
-       
-       public static void moveTriangleend(Point prepoint,Point point) {
-    	          DrawerPanel.getDrawer().changeTriangleend(prepoint, point);
-       }
-       
-       public static void moveCirclecenteer(Point prepoint,Point point) {
-    	          DrawerPanel.getDrawer().changeCirclecenter(prepoint, point);
-       }
-       
-       public static void changeTriangleVertex(Point p) {
-    	          DrawerPanel.getDrawer().replaceTriangleVertex(p);;
+       public static void changeCircleRadius(int index,int radius) {
+    	         DrawerPanel.getDrawer().changeCircleRadius(index, radius);
        }
 }
 

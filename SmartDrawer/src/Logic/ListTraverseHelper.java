@@ -48,6 +48,15 @@ public class ListTraverseHelper {
     	      return null;
      }
      
+     public static boolean Pointexist(String name,HashMap<Point,PointIndex> map) {
+    	      for(Point p:map.keySet()) {
+    	    	     if(p.getName().equals(name)) {
+    	    	    	    return true;
+    	    	     }
+    	      }
+    	      return false;
+     }
+     
      //find a point by name,type
      public static Point Findapoint_bynametype(String name,HashMap<Point,PointIndex> map,Pointtype type) {
     	     for(Point p:map.keySet()) {

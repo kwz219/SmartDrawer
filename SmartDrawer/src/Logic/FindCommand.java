@@ -15,7 +15,7 @@ import View.DrawerPanel;
  */
 public class FindCommand {
 	
-	   //check if the point exists
+	   //check if a single point exists
        public static boolean PointExist(String name) {
     	   boolean result =false;
     	   if(DrawerPanel.getDrawer().findPointIndex_byname(name)!=-1) {
@@ -89,7 +89,10 @@ public class FindCommand {
     	      return DrawerPanel.getDrawer().getPoint_byDrawing();
        }
        
-       public static Point findpoint_byName(String name) {
-    	      return DrawerPanel.getDrawer().find_aPointbyname(name);
-       }
+       //check if the point(all types) named exists
+      public static boolean Pointexists(String name) {
+    	      return DrawerPanel.getDrawer().PointExists(name);
+      }
+       
+       
 }

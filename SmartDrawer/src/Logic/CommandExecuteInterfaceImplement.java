@@ -95,13 +95,24 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 	public void changeCircle(Circle o) {
 		
 		String cname=o.getCenter().getName();
-		if(FindCommand.CircleExist(cname)) {
-			AjustCommand.Del_circle(cname);
-			DrawCommand.createCircle(o);
-			changeALlpoints(o.getCenter().getName(),o.getCenter());
-		}else {
-			System.out.println("Circle "+cname+" doesn't exist");
+		int index=DrawerPanel.getDrawer().findCircleIndex_byname(cname);
+		if(index!=-1) {
+			Circle oldo=DrawerPanel.getDrawer().getcircle_byindex(index);
+			if(!o.getCenter().getCoordinate().equals(oldo.getCenter().getCoordinate())) {
+				System.out.println("center changed");
+				this.changeAllNamedPoint(o.getCenter());
+				
+				
+			}
+			if(o.getRadius()!=oldo.getRadius()) {
+				System.out.println("Radius changed");
+				AjustCommand.changeCircleRadius(index, o.getRadius());
+				
+			}
+			
+			DrawerPanel.getDrawer().updatePointmap(cname, o.getCenter());
 		}
+		
 		
 	}
 
@@ -162,14 +173,22 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 	public void changeTriangle(Triangle tri) {
 		// TODO Auto-generated method stub
 		String tname=tri.getVertex1().getName()+tri.getVertex2().getName()+tri.getVertex3().getName();
-		if(FindCommand.TriangleExist(tname)) {
-			AjustCommand.Del_triangle(tname);
-			DrawCommand.createTriangle(tri);
-			//this.changeALlpoints(tri.getVertex1().getName(),tri.getVertex1());
-			//this.changeALlpoints(tri.getVertex2().getName(),tri.getVertex2());
-			//this.changeALlpoints(tri.getVertex3().getName(),tri.getVertex3());
-		}else {
-			System.out.println("Triangle "+tname+" doesn't exist");
+		int index=DrawerPanel.getDrawer().findTriangleIndex_byname(tname);
+		if(index!=-1) {
+			Triangle oldtri=DrawerPanel.getDrawer().gettriangle_byindex(index);
+			if(!oldtri.getVertex1().getCoordinate().equals(tri.getVertex1().getCoordinate())) {
+				this.changeAllNamedPoint(tri.getVertex1());
+				DrawerPanel.getDrawer().updatePointmap(tname, tri.getVertex1());
+			}
+			if(!oldtri.getVertex2().getCoordinate().equals(tri.getVertex2().getCoordinate())) {
+				this.changeAllNamedPoint(tri.getVertex2());
+				DrawerPanel.getDrawer().updatePointmap(tname, tri.getVertex2());
+			}
+			if(!oldtri.getVertex3().getCoordinate().equals(tri.getVertex3().getCoordinate())) {
+				this.changeAllNamedPoint(tri.getVertex3());
+				DrawerPanel.getDrawer().updatePointmap(tname, tri.getVertex3());
+			}
+			
 		}
 	}
 
@@ -194,25 +213,7 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 		return FindCommand.getPoint_byDrawing();
 	}
 
-	public void changeALlpoints(String name,Point point) {
-		ArrayList<Point> plist=AjustCommand.getAllpoints(name);
-		
-		if(plist.size()>1) {
-			for(int i=0;i<plist.size();i++) {
-				Point p=plist.get(i);
-				if(p.getType()==Pointtype.Lineend) {
-				    System.out.println(p.getName()+" also exists");
-					AjustCommand.moveLineend(p, point);
-				}else if(p.getType()==Pointtype.Triangleend) {
-					AjustCommand.moveTriangleend(p, point);
-				}else if(p.getType()==Pointtype.Circlecenter) {
-					AjustCommand.moveCirclecenteer(p, point);
-				}
-			}
-		}else {
-			
-		}
-	}
+	
 	
 	public void changeeffect_line(String name,Point point) {
 		ArrayList<Line> linelist=DrawerPanel.getDrawer().getLines_containspname(name);
@@ -232,22 +233,26 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 	@Override
 	public void changeTrangleVertex(Point p) {
 		// TODO Auto-generated method stub
-		AjustCommand.changeTriangleVertex(p);
+		//
 	}
 	
-	public Point fix_samenamePoints(String name,Pointtype type) {
-	   Point exp=FindCommand.findpoint_byName(name);
-	   if(exp!=null) {
-		   exp.setType(type);
-		   return exp;
-	   }
-	   return null;
-	   
-	}
+	
 	
 	public void changeAllpoints_byname(String name,Point p) {
 		DrawerPanel.getDrawer().changeAllpointsofline_byname(name, p);
 		DrawerPanel.getDrawer().changeAllpointsoftriangle_byname(name, p);
+		DrawerPanel.getDrawer().changeAllpointsofcircle_byname(name, p);
 	}
 	
+	
+
+	@Override
+	public Point changeAllNamedPoint(Point p) {
+		// TODO Auto-generated method stub
+		if(FindCommand.Pointexists(p.getName())) {
+			this.changeAllpoints_byname(p.getName(), p);
+			return p;
+		}
+		return null;
+	}
 }
