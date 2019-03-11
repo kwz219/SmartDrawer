@@ -19,7 +19,7 @@ public class CommandAnalyse {
 			case"geo": 
 				switch (word) {
 				case"点":{
-					CommandGeo geo=new CommandGeo ();
+					CommandPoint geo=new CommandPoint ();
 					com.addGeo(geo);
 					i=i+1;
 					geo.setType("点");
@@ -28,11 +28,10 @@ public class CommandAnalyse {
 					break;}
 				case"直":{
 					if(command.substring(i+1,i+2).equals("线")) {
-						CommandGeo geo=new CommandGeo ();
+						CommandLine geo=new CommandLine (command.substring(i, i+2));
 						com.addGeo(geo);
 						i=i+2;
 						geo.setType("直线");
-						geo.setName(command.substring(i, i+2));
 						i=i+1;
 						nextexpect="type";
 					}
@@ -49,21 +48,19 @@ public class CommandAnalyse {
 					}	
 					break;}
 				case"圆":{
-					CommandGeo geo=new CommandGeo ();
+					CommandCircle geo=new CommandCircle(command.substring(i, i+1));
 					com.addGeo(geo);
 					i=i+1;
 					geo.setType("圆");
-					geo.setName(command.substring(i, i+1));
 					nextexpect="type";
 					break;}
 				case"三":{
 					if(command.length()>i+3) {
 						if(command.charAt(i+3) >= 'A' && command.charAt(i+3) <= 'Z') {
-							CommandGeo geo=new CommandGeo ();
+							CommandTriangle geo=new CommandTriangle (command.substring(i, i+3));
 							com.addGeo(geo);
 							i=i+3;
 							geo.setType("三角形");
-							geo.setName(command.substring(i, i+3));
 							i=i+2;
 							nextexpect="type";
 						}
