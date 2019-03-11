@@ -15,8 +15,6 @@ public class CommandExecute {
 	boolean newPoint (CommandPoint point) {
 		Point p=cei.getPoint_fromDrawing();
 		p.setName(point.getName());
-		System.out.println(p.getX());
-		System.out.println(p.getY());
 		cei.creadPoint(p);
 		return true;
 	}
@@ -80,6 +78,7 @@ public class CommandExecute {
 			double x2=((-(Math.pow(delta, 0.5))-b0)/(2*a0));
 			if(l1.getStartpoint().getX()<x1&&x1<l1.getEndpoint().getX()&&l1.getStartpoint().getX()<x2&&x2<l1.getEndpoint().getX()) {
 				//这里是图上的圆和直线已经有两个交点了，这里只是设置名字
+				System.out.println("只是增加了新的点哦");
 				p1.setX((int)(x1));
 				p1.setY(l1.CalculateY(p1.getX()));
 				p2.setX((int)(x2));
@@ -92,8 +91,25 @@ public class CommandExecute {
 			}
 			else {
 				System.out.println("delta>0 and changed");
+				r=(minDistance+verticalDistance)/2;
 				c.setRadius((int)(minDistance+verticalDistance)/2);
 				cei.changeCircle(c.changeToCircle());
+				a0=Math.pow(k, 2)+1;
+				b0=2*(b*k-y0*k-x0);
+				c0=x0*x0+(b-y0)*(b-y0)-r*r;
+				delta=b0*b0-4*a0*c0;
+				x1=(((Math.pow(delta, 0.5))-b0)/(2*a0));
+				x2=((-(Math.pow(delta, 0.5))-b0)/(2*a0));
+				p1.setX((int)(x1));
+				p1.setY(l1.CalculateY(p1.getX()));
+				p2.setX((int)(x2));
+				p2.setY(l1.CalculateY(p2.getX()));
+				p1.PrintSelf();
+				p1.PrintSelf();
+				cei.creadPoint(p1.changeToPoint());
+				cei.creadPoint(p2.changeToPoint());
+				points.add(p1);
+				points.add(p2);
 			}
 		}else if(delta==0) {
 			
@@ -101,7 +117,27 @@ public class CommandExecute {
 		else if(delta<0) {
 			System.out.println("delta<0");
 			c.setRadius((int)(minDistance+verticalDistance)/2);
+			r=(minDistance+verticalDistance)/2;
 			cei.changeCircle(c.changeToCircle());
+			a0=Math.pow(k, 2)+1;
+			b0=2*(b*k-y0*k-x0);
+			c0=x0*x0+(b-y0)*(b-y0)-r*r;
+			delta=b0*b0-4*a0*c0;
+			double x1=(((Math.pow(delta, 0.5))-b0)/(2*a0));
+			double x2=((-(Math.pow(delta, 0.5))-b0)/(2*a0));
+			System.out.println("x1坐标是"+x1);
+			System.out.println("x2坐标是"+x2);
+
+			p1.setX((int)(x1));
+			p1.setY(l1.CalculateY(p1.getX()));
+			p2.setX((int)(x2));
+			p2.setY(l1.CalculateY(p2.getX()));
+			p1.PrintSelf();
+			p2.PrintSelf();
+			cei.creadPoint(p1.changeToPoint());
+			cei.creadPoint(p2.changeToPoint());
+			points.add(p1);
+			points.add(p2);
 		}
 		
 		return null;
@@ -220,12 +256,14 @@ public class CommandExecute {
 		System.out.println("开始相切");
 		c.loadCirlce(cei.getCirlce(c.getName()));
 		l.LoadLine(cei.getLine(l.getName()));
-		CommandPoint changePoint=new CommandPoint();
+		CommandPoint changePoint;
 		CommandLine standardline;
 		if(l.getStartpoint().getChangeWeight()>=l.getEndpoint().getChangeWeight()) {
+			changePoint=l.getEndpoint();
 			standardline=new CommandLine(l.getStartpoint(),c.getCenter());
 		}
 		else{
+			changePoint=l.getStartpoint();
 			standardline=new CommandLine(l.getEndpoint(),c.getCenter());
 		}
 		double length=standardline.getLength();
@@ -244,10 +282,19 @@ public class CommandExecute {
 			finalr=standr-addedR;
 		}
 		double tangentPointLength=Math.pow(length*length-radius*radius, 0.5);
-		p.setX(standardline.getStartpoint().getX()+tangentPointLength*Math.cos(finalr));
-		p.setY(standardline.getStartpoint().getY()+tangentPointLength*Math.cos(finalr));
-		changePoint.setX(standardline.getStartpoint().getX()+linelength*Math.cos(finalr));
-		changePoint.setY(standardline.getStartpoint().getY()+linelength*Math.sin(finalr));
+		if(standardline.getStartpoint().getX()>c.getCenter().getX()) {
+			p.setX(standardline.getStartpoint().getX()-tangentPointLength*Math.cos(finalr));
+			p.setY(standardline.getStartpoint().getY()-tangentPointLength*Math.sin(finalr));
+			changePoint.setX(standardline.getStartpoint().getX()-linelength*Math.cos(finalr));
+			changePoint.setY(standardline.getStartpoint().getY()-linelength*Math.sin(finalr));
+		}
+		else {
+			p.setX(standardline.getStartpoint().getX()+tangentPointLength*Math.cos(finalr));
+			p.setY(standardline.getStartpoint().getY()+tangentPointLength*Math.sin(finalr));
+			changePoint.setX(standardline.getStartpoint().getX()+linelength*Math.cos(finalr));
+			changePoint.setY(standardline.getStartpoint().getY()+linelength*Math.sin(finalr));
+		}
+
 		if(l.getStartpoint().getChangeWeight()>=l.getEndpoint().getChangeWeight()) {
 			l.setEndpoint(changePoint);
 		}
@@ -257,10 +304,11 @@ public class CommandExecute {
 		c.getCenter().PrintSelf();
 		System.out.println(c.getRadius());
 		p.PrintSelf();
+		System.out.println("这是直线"+l.getName());
 		l.getStartpoint().PrintSelf();
 		l.getEndpoint().PrintSelf();
 		cei.creadPoint(p.changeToPoint());
-		cei.changeLine(l.changeToLine());
+		cei.changeAllNamedPoint(changePoint.changeToPoint());
 	return true;	
 	}
 	
