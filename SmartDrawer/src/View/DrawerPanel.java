@@ -432,6 +432,8 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 			for(int i=0;i<lineList.size();i++) {
 				System.out.println("Line"+i+" "+lineList.get(i).getStartpoint().getName()+lineList.get(i).getStartpoint().getCoordinate()+lineList.get(i).getEndpoint().getName()+lineList.get(i).getEndpoint().getCoordinate());
 			}
+		}else if(command.contains("Brushsize")) {
+			this.Brushsize=Integer.valueOf(command.substring(9));
 		}
 		this.repaint();
 	}
