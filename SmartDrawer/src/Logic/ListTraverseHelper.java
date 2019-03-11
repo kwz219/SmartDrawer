@@ -2,6 +2,7 @@ package Logic;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import Logic.PointsFittingHelper.Pointtype;
 import Model.Point;
@@ -15,7 +16,7 @@ public class ListTraverseHelper {
 	
 	
 	//judge which point is closely clicked
-     public static PointIndex FindnearestPoint(Dimension clickpoint,HashMap<Point,PointIndex> map) {
+     public static PointIndex FindnearestPointIndex(Dimension clickpoint,HashMap<Point,PointIndex> map) {
     	    for(Point p:map.keySet()) {
     	    	    if(p.Roughlyequal(clickpoint)) {
     	    	    	return map.get(p);
@@ -25,6 +26,16 @@ public class ListTraverseHelper {
 		return null;
     	 
      }
+     public static Point FindnearestPoint(Dimension clickpoint,HashMap<Point,PointIndex> map) {
+ 	    for(Point p:map.keySet()) {
+ 	    	    if(p.Roughlyequal(clickpoint)) {
+ 	    	    	return p;
+ 	    	    }
+ 	    }
+ 	    
+		return null;
+ 	 
+  }
      
      //find all points by the same name
      public static ArrayList<Point> Findallpoints(String name,HashMap<Point,PointIndex> map){
@@ -102,6 +113,41 @@ public class ListTraverseHelper {
     	        		   map.put(np, pi);
     	        		   
     	        	   }
+    	        }
+     }
+     
+     public static void UpdateSpointindex(int delindex,HashMap<Point,PointIndex> map) {
+    	        for(Point p:map.keySet()) {
+    	        	    
+    	        }
+     }
+     
+     public static ArrayList<PointIndex> getALLPI(Dimension d,HashMap<Point,PointIndex> map){
+    	        ArrayList<PointIndex> pilist=new ArrayList<PointIndex>();
+    	        for(Point p:map.keySet()) {
+    	        	   if(p.Roughlyequal(d)) {
+    	        		   pilist.add(map.get(p));
+    	        	   }
+    	        }
+    	        return pilist;
+     }
+     
+     public static void UpdateCoordinate(Dimension oldd,Dimension newd,HashMap<Point,PointIndex> map) {
+    	        Iterator it=map.keySet().iterator();
+    	        ArrayList<Point> plist=new ArrayList<Point>();
+    	        ArrayList<PointIndex> pilist=new ArrayList<PointIndex>();
+    	        while(it.hasNext()) {
+    	        	    Point p=(Point)it.next();
+    	        	    if(p.Roughlyequal(oldd)) {
+    	        	    	   plist.add(p);
+    	        	    	   pilist.add(map.get(p));
+    	        	    }
+    	        	    it.remove();
+    	        }
+    	        for(int i=0;i<plist.size();i++) {
+    	        	    Point point=plist.get(i);
+    	        	    point.setCoordinate(newd);
+    	        	    map.put(point, pilist.get(i));
     	        }
      }
 }
