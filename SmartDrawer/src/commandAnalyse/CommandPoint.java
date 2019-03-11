@@ -61,9 +61,7 @@ public class CommandPoint extends CommandGeo{
      public void loadPoint(Point p) {
     	 this.setName(p.getName());
     	 this.setX(p.getX());
-    	 this.setY(-p.getY());
-    	 System.out.println("点"+this.getName()+"坐标是"+this.getX()+","+this.getY());
-    	 
+    	 this.setY(-p.getY());    	 
      }
      public void PrintSelf() {
     	 System.out.println("点"+this.getName()+"坐标是"+this.getX()+","+this.getY());
