@@ -240,9 +240,10 @@ public class CommandExecute {
 		}
 		System.out.println(l1.getK());
 		System.out.println(l2.getK());
-		cei.changeAllNamedPoint(changepoint.changeToPoint());
+		cei.changeLine(l1.changeToLine());
+//		cei.changeAllNamedPoint(changepoint.changeToPoint());
 		System.out.println("do have parrallel");
-		return false;
+		return true;
 	}
 	/**
 	 * 
@@ -272,7 +273,7 @@ public class CommandExecute {
 		changepoint.setY(unchangepoint.getY()+length*Math.sin(r));
 		cei.changeAllNamedPoint(changepoint.changeToPoint());
 		System.out.println("do have equal");
-		return false;
+		return true;
 		
 	}
 	boolean tangent(CommandCircle c,CommandLine l,CommandPoint p) {
