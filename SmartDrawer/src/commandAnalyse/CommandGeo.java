@@ -24,8 +24,6 @@ public class CommandGeo {
 		this.changeWeight = changeWeight;
 	}
 	public void addChangeWeight(double changeWeight) {
-		System.out.println(this.name+"点权重本来是"+this.changeWeight);
-		System.out.println(this.name+"点权重增加了"+changeWeight);
 		this.changeWeight+=changeWeight;
 		System.out.println(this.name+"点权重是"+this.changeWeight);
 	}

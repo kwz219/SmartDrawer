@@ -211,15 +211,15 @@ public class CommandExecute {
 		System.out.println("come to parallel");
 		double k=l2.getK();
 		CommandPoint changepoint;
-		CommandPoint unchangePoint;
+		CommandPoint unchangepoint;
 		double length=l1.getLength();
 		if(l1.getStartpoint().getChangeWeight()>l1.getEndpoint().getChangeWeight()) {
 			changepoint=l1.getEndpoint();
-			unchangePoint=l1.getStartpoint();
+			unchangepoint=l1.getStartpoint();
 		}
 		else {
 			changepoint=l1.getStartpoint();
-			unchangePoint=l1.getEndpoint();
+			unchangepoint=l1.getEndpoint();
 		}
 		double r;
 		if(k>0) {
@@ -228,8 +228,23 @@ public class CommandExecute {
 		else {
 			r=Math.PI+Math.atan(k);
 		}
-		changepoint.setX(unchangePoint.getX()+length*Math.cos(r));
-		changepoint.setY(unchangePoint.getY()+length*Math.sin(r));
+		if(changepoint.getX()<unchangepoint.getX()) {
+			changepoint.setX(unchangepoint.getX()+length*Math.cos(r));
+			changepoint.setY(unchangepoint.getY()+length*Math.sin(r));
+			if(changepoint.getX()>unchangepoint.getX()) {
+				changepoint.setX(unchangepoint.getX()-length*Math.cos(r));
+				changepoint.setY(unchangepoint.getY()-length*Math.sin(r));
+			}
+		}
+		else {
+			changepoint.setX(unchangepoint.getX()+length*Math.cos(r));
+			changepoint.setY(unchangepoint.getY()+length*Math.sin(r));
+			if(changepoint.getX()<unchangepoint.getX()) {
+				changepoint.setX(unchangepoint.getX()-length*Math.cos(r));
+				changepoint.setY(unchangepoint.getY()-length*Math.sin(r));
+			}
+		}
+
 		if(l1.getStartpoint().getChangeWeight()>l1.getEndpoint().getChangeWeight()) {
 			l1.setEndpoint(changepoint);
 			l1.getEndpoint().PrintSelf();
@@ -269,9 +284,30 @@ public class CommandExecute {
 			changepoint=l1.getStartpoint();
 			unchangepoint=l1.getEndpoint();
 		}
-		changepoint.setX(unchangepoint.getX()+length*Math.cos(r));
-		changepoint.setY(unchangepoint.getY()+length*Math.sin(r));
-		cei.changeAllNamedPoint(changepoint.changeToPoint());
+		System.out.println("now changing"+changepoint.getName());
+		if(changepoint.getX()<unchangepoint.getX()) {
+			changepoint.setX(unchangepoint.getX()+length*Math.cos(r));
+			changepoint.setY(unchangepoint.getY()+length*Math.sin(r));
+			if(changepoint.getX()>unchangepoint.getX()) {
+				changepoint.setX(unchangepoint.getX()-length*Math.cos(r));
+				changepoint.setY(unchangepoint.getY()-length*Math.sin(r));
+			}
+		}
+		else {
+			changepoint.setX(unchangepoint.getX()+length*Math.cos(r));
+			changepoint.setY(unchangepoint.getY()+length*Math.sin(r));
+			if(changepoint.getX()<unchangepoint.getX()) {
+				changepoint.setX(unchangepoint.getX()-length*Math.cos(r));
+				changepoint.setY(unchangepoint.getY()-length*Math.sin(r));
+			}
+		}
+		if(l1.getStartpoint().getChangeWeight()>l1.getEndpoint().getChangeWeight()) {
+			l1.setEndpoint(changepoint);
+		}
+		else {
+			l1.setStartpoint(changepoint);
+		}
+		cei.changeLine(l1.changeToLine());
 		System.out.println("do have equal");
 		return true;
 		
@@ -338,6 +374,22 @@ public class CommandExecute {
 		cei.changeAllNamedPoint(changePoint.changeToPoint());
 	return true;	
 	}
-	
+	/**
+	 * 
+	 * @param l
+	 * @param 这个直线在这次变化中没有变的点
+	 * @param 原来这个直线的长
+	 */
+	public void updatePointsOfLine(CommandLine l,CommandPoint unchangepoint,double length) {
+		l.LoadLine(cei.getLine(l.getName()));
+		double linelength=l.getLength();
+		for(int i=0;i<l.getPointlist().size();i++) {
+			CommandPoint p=l.getPointlist().get(i);
+			p.loadPoint(cei.getPoint(p.getName()));
+			double pointlength=p.getLength(unchangepoint);
+			double percent=pointlength/linelength;
+		}
+		
+	}
 	
 }

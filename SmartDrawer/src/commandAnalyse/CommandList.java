@@ -84,7 +84,6 @@ public class CommandList {
 		for(int i=0;i<Pointlist.size();i++) {
 			if(Pointlist.get(i).getName().equals(pointname)) {
 				Pointlist.get(i).addChangeWeight(0.5);
-				System.out.println(Pointlist.get(i).getName()+"点现在的权重是"+"");
 			}
 		}
 	}
@@ -96,5 +95,17 @@ public class CommandList {
 			}
 		}
 		return hasit;
+	}
+	public double ChangeWeight(String Pointname) {
+		double weight=999;
+		for(int i=0;i<Pointlist.size();i++) {
+			if(Pointlist.get(i).getName().equals(Pointname)) {
+				weight=Pointlist.get(i).getChangeWeight();
+			}
+		}
+		return weight;
+	}
+	public void updateGeo(CommandGeo geo) {
+		
 	}
 }

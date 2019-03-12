@@ -15,7 +15,7 @@ public class CommandLine extends CommandGeo{
 	   private double k;
 	   private double b;
 	   private double length;
-
+	   private ArrayList<CommandPoint> pointlist=new ArrayList<CommandPoint>();
 	   public String getSpname() {
 		return spname;
 	}
@@ -98,11 +98,23 @@ public class CommandLine extends CommandGeo{
 		CommandPoint endpoint=new CommandPoint();
 		startpoint.loadPoint(l1.getStartpoint());
 		endpoint.loadPoint(l1.getEndpoint());
+		CommandList cl=CommandList.getInstance();
+		startpoint.setChangeWeight(cl.ChangeWeight(startpoint.getName()));
+		endpoint.setChangeWeight(cl.ChangeWeight(endpoint.getName()));
 		this.setEndpoint(endpoint);
 		this.setStartpoint(startpoint);
 
 	}
 	public double CalculateY(double d) {
 		return (d*this.k+b);
+	}
+	public void addPoint(CommandPoint p) {
+		pointlist.add(p);
+	}
+	public ArrayList<CommandPoint> getPointlist() {
+		return pointlist;
+	}
+	public void setPointlist(ArrayList<CommandPoint> pointlist) {
+		this.pointlist = pointlist;
 	}
 }

@@ -136,6 +136,8 @@ public class Command {
 				CommandLine l1=new CommandLine(this.Geolist.get(0).getName());
 				CommandLine l2=new CommandLine(this.Geolist.get(1).getName());
 				CommandPoint p=new CommandPoint(this.Geolist.get(2).getName());
+				l1.addPoint(p);
+				l2.addPoint(p);;
 				ce.lineIntersect(l1, l2, p);
 			}
 			else if(this.Geolist.size()==4) {
@@ -143,6 +145,8 @@ public class Command {
 				CommandLine l1=new CommandLine(this.Geolist.get(1).getName());
 				CommandPoint p1=new CommandPoint(this.Geolist.get(2).getName());
 				CommandPoint p2=new CommandPoint(this.Geolist.get(3).getName());
+				l1.addPoint(p1);
+				l1.addPoint(p2);
 				ce.CircleIntersectLineAt2Points(c, l1, p1, p2);
 			}	
 
@@ -153,6 +157,8 @@ public class Command {
 			CommandLine l1=new CommandLine(this.Geolist.get(0).getName());
 			CommandLine l2=new CommandLine(this.Geolist.get(1).getName());
 			CommandPoint p=new CommandPoint(this.Geolist.get(2).getName());
+			l1.addPoint(p);
+			l2.addPoint(p);
 			ce.lineVertical(l1, l2, p);
 			break;
 		}
