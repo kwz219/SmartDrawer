@@ -33,7 +33,7 @@ public class Command {
 		boolean hasit;
 		for(int i=0;i<this.getGeolist().size();i++) {
 			switch (this.getGeolist().get(i).getType()) {
-			case"point":{
+			case"点":{
 				CommandPoint p=(CommandPoint)this.getGeolist().get(i) ;
 				hasit=this.hasThisPoint(p);
 				if(hasit==false) {
@@ -41,7 +41,7 @@ public class Command {
 				}
 				break;
 			}
-			case"line":{
+			case"直线":{
 				CommandLine l=(CommandLine)this.getGeolist().get(i) ;
 				CommandPoint startpoint=l.getStartpoint();
 				CommandPoint endpoint=l.getEndpoint();
@@ -55,7 +55,7 @@ public class Command {
 				}
 				break;
 			}
-			case"triangle":{
+			case"三角形":{
 				CommandTriangle t=(CommandTriangle)this.getGeolist().get(i);
 				CommandPoint p1=t.getVertex1();
 				hasit=this.hasThisPoint(p1);
@@ -75,7 +75,7 @@ public class Command {
 
 				break;
 			}
-			case"circle":{
+			case"圆":{
 				CommandCircle c=(CommandCircle)this.getGeolist().get(i) ;
 				CommandPoint p=c.getCenter();
 				hasit=this.hasThisPoint(p);
@@ -86,6 +86,7 @@ public class Command {
 			}
 			}
 		}
+
 	}
 	public void print() {
 		for(int i=0;i<Geolist.size();i++) {
@@ -95,8 +96,10 @@ public class Command {
 		System.out.println(this.type);
 	}
 	public void addweight(double weight) {
+		CommandList cl=CommandList.getInstance();
+		System.out.println("need add weight"+Pointlist.size());
 		for(int i=0;i<this.Pointlist.size();i++) {
-			Pointlist.get(0).addChangeWeight(weight);
+			cl.addWeight(Pointlist.get(i).getName(), weight);
 		}
 	}
 	public void execute() {
@@ -171,6 +174,7 @@ public class Command {
 		}
 		case"切于":{
 			this.addweight(1);
+			System.out.println(Geolist);
 			CommandCircle c=new CommandCircle(this.Geolist.get(0).getName());
 			CommandLine l=new CommandLine(this.Geolist.get(1).getName());
 			CommandPoint p=new CommandPoint(this.Geolist.get(2).getName());

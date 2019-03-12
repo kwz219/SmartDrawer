@@ -192,9 +192,9 @@ public class CommandExecute {
 		l1.setStartpoint(sp);
 		l1.setEndpoint(ep);
 		System.out.println("end reading");
-		cei.changeLine(l1.changeToLine());
-//		cei.changeAllNamedPoint(sp.changeToPoint());
-//		cei.changeAllNamedPoint(ep.changeToPoint());
+//		cei.changeLine(l1.changeToLine());
+		cei.changeAllNamedPoint(sp.changeToPoint());
+		cei.changeAllNamedPoint(ep.changeToPoint());
 		System.out.println("change finish");
 
 		return true;
@@ -206,8 +206,42 @@ public class CommandExecute {
 	 * @return
 	 */
 	boolean lineParallel (CommandLine l1,CommandLine l2) {
+		l1.LoadLine(cei.getLine(l1.getName()));
+		l2.LoadLine(cei.getLine(l2.getName()));
+		System.out.println("come to parallel");
 		double k=l2.getK();
-		
+		CommandPoint changepoint;
+		CommandPoint unchangePoint;
+		double length=l1.getLength();
+		if(l1.getStartpoint().getChangeWeight()>l1.getEndpoint().getChangeWeight()) {
+			changepoint=l1.getEndpoint();
+			unchangePoint=l1.getStartpoint();
+		}
+		else {
+			changepoint=l1.getStartpoint();
+			unchangePoint=l1.getEndpoint();
+		}
+		double r;
+		if(k>0) {
+			r=Math.atan(k);
+		}
+		else {
+			r=Math.PI+Math.atan(k);
+		}
+		changepoint.setX(unchangePoint.getX()+length*Math.cos(r));
+		changepoint.setY(unchangePoint.getY()+length*Math.sin(r));
+		if(l1.getStartpoint().getChangeWeight()>l1.getEndpoint().getChangeWeight()) {
+			l1.setEndpoint(changepoint);
+			l1.getEndpoint().PrintSelf();
+		}
+		else {
+			l1.setStartpoint(changepoint);		
+			l1.getStartpoint().PrintSelf();
+		}
+		System.out.println(l1.getK());
+		System.out.println(l2.getK());
+		cei.changeAllNamedPoint(changepoint.changeToPoint());
+		System.out.println("do have parrallel");
 		return false;
 	}
 	/**
@@ -224,31 +258,20 @@ public class CommandExecute {
 		double length=l2.getLength();
 		double k=l1.getK();
 		double r=Math.atan(k);
-		System.out.println(k);
-		System.out.println(Math.cos(r));
-		System.out.println(Math.sin(r));
-		if(sp.getX()<=ep.getX()) {
-			System.out.println("点A在左边");
-			System.out.println(sp.getX());
-				ep.setX(sp.getX()+length*Math.cos(r));
-				ep.setY(sp.getY()+length*Math.sin(r));
-				sp.PrintSelf();
-				ep.PrintSelf();
-				l1.setEndpoint(ep);
+		CommandPoint changepoint;
+		CommandPoint unchangepoint;
+		if(l1.getStartpoint().getChangeWeight()>l1.getEndpoint().getChangeWeight()) {
+			changepoint=l1.getEndpoint();
+			unchangepoint=l1.getStartpoint();
 		}
 		else {
-			System.out.println("点B在左边");
-			sp.setX(ep.getX()+length*Math.cos(r));
-			sp.setY(ep.getY()+length*Math.sin(r));
-			sp.PrintSelf();
-			ep.PrintSelf();
-			l1.setStartpoint(sp);
+			changepoint=l1.getStartpoint();
+			unchangepoint=l1.getEndpoint();
 		}
-		Line l=l1.changeToLine();
-		System.out.println(l1.getLength());
-		System.out.println(l2.getLength());
-		System.out.println("equal");
-		cei.changeLine(l);
+		changepoint.setX(unchangepoint.getX()+length*Math.cos(r));
+		changepoint.setY(unchangepoint.getY()+length*Math.sin(r));
+		cei.changeAllNamedPoint(changepoint.changeToPoint());
+		System.out.println("do have equal");
 		return false;
 		
 	}
@@ -261,46 +284,49 @@ public class CommandExecute {
 		if(l.getStartpoint().getChangeWeight()>=l.getEndpoint().getChangeWeight()) {
 			changePoint=l.getEndpoint();
 			standardline=new CommandLine(l.getStartpoint(),c.getCenter());
+			System.out.println("now is "+changePoint.getName()+"changing");
+			
 		}
 		else{
 			changePoint=l.getStartpoint();
 			standardline=new CommandLine(l.getEndpoint(),c.getCenter());
+			System.out.println("now is "+changePoint.getName()+"changing");
 		}
 		double length=standardline.getLength();
 		double radius=c.getRadius();
 		double k=standardline.getK();
 		double standr=Math.atan(k);
+		if(k<0) {
+			standr=Math.PI+standr;
+		}
 		double addedR=Math.asin(radius/length);
 		double liner=Math.atan(l.getK());
+		if(l.getK()<0) {
+			liner=Math.PI+liner;
+		}
 		double finalr=0;
 		double linelength=l.getLength();
+		double tangentPointLength=Math.pow(length*length-radius*radius, 0.5);
 		if(liner>standr) {
 			finalr=standr+addedR;
 
-		}
-		else{
-			finalr=standr-addedR;
-		}
-		double tangentPointLength=Math.pow(length*length-radius*radius, 0.5);
-		if(standardline.getStartpoint().getX()>c.getCenter().getX()) {
-			p.setX(standardline.getStartpoint().getX()-tangentPointLength*Math.cos(finalr));
-			p.setY(standardline.getStartpoint().getY()-tangentPointLength*Math.sin(finalr));
-			changePoint.setX(standardline.getStartpoint().getX()-linelength*Math.cos(finalr));
-			changePoint.setY(standardline.getStartpoint().getY()-linelength*Math.sin(finalr));
-		}
-		else {
+			}
+			else{
+				finalr=standr-addedR;
+			}
+		p.setX(standardline.getStartpoint().getX()-tangentPointLength*Math.cos(finalr));
+		p.setY(standardline.getStartpoint().getY()-tangentPointLength*Math.sin(finalr));
+		changePoint.setX(standardline.getStartpoint().getX()-linelength*Math.cos(finalr));
+		changePoint.setY(standardline.getStartpoint().getY()-linelength*Math.sin(finalr));
+		//这里懒得搞清楚情况了 直接试一下 如果点在反方向上就直接换掉
+		System.out.println("误差是"+(p.getLength(c.getCenter())-c.getRadius()));
+		if(Math.abs(p.getLength(c.getCenter())-c.getRadius())>1) {
 			p.setX(standardline.getStartpoint().getX()+tangentPointLength*Math.cos(finalr));
 			p.setY(standardline.getStartpoint().getY()+tangentPointLength*Math.sin(finalr));
 			changePoint.setX(standardline.getStartpoint().getX()+linelength*Math.cos(finalr));
 			changePoint.setY(standardline.getStartpoint().getY()+linelength*Math.sin(finalr));
 		}
 
-		if(l.getStartpoint().getChangeWeight()>=l.getEndpoint().getChangeWeight()) {
-			l.setEndpoint(changePoint);
-		}
-		else{
-			l.setStartpoint(changePoint);
-		}
 		c.getCenter().PrintSelf();
 		System.out.println(c.getRadius());
 		p.PrintSelf();

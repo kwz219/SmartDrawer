@@ -2,6 +2,11 @@ package commandAnalyse;
 import java.util.ArrayList;
 
 public class CommandList {
+	 private final static CommandList INSTANCE = new CommandList();
+	 private CommandList(){}
+	 public static CommandList getInstance(){
+	      return INSTANCE;
+	 }
 	private ArrayList<Command> list=new ArrayList<Command>();
 	private ArrayList<CommandPoint> Pointlist=new ArrayList<CommandPoint>();
 	public ArrayList<Command> getList() {
@@ -16,7 +21,7 @@ public class CommandList {
 		list.add(com);
 		for(int i=0;i<com.getGeolist().size();i++) {
 			switch (com.getGeolist().get(i).getType()) {
-			case"point":{
+			case"点":{
 				CommandPoint p=(CommandPoint)com.getGeolist().get(i) ;
 				hasit=this.hasThisPoint(p);
 				if(hasit==false) {
@@ -24,7 +29,7 @@ public class CommandList {
 				}
 				break;
 			}
-			case"line":{
+			case"直线":{
 				CommandLine l=(CommandLine)com.getGeolist().get(i) ;
 				CommandPoint startpoint=l.getStartpoint();
 				CommandPoint endpoint=l.getEndpoint();
@@ -38,7 +43,7 @@ public class CommandList {
 				}
 				break;
 			}
-			case"triangle":{
+			case"三角形":{
 				CommandTriangle t=(CommandTriangle)com.getGeolist().get(i);
 				CommandPoint p1=t.getVertex1();
 				hasit=this.hasThisPoint(p1);
@@ -58,7 +63,7 @@ public class CommandList {
 
 				break;
 			}
-			case"circle":{
+			case"圆":{
 				CommandCircle c=(CommandCircle)com.getGeolist().get(i) ;
 				CommandPoint p=c.getCenter();
 				hasit=this.hasThisPoint(p);
@@ -75,14 +80,13 @@ public class CommandList {
 			list.get(i).print();
 		}
 	}
-	public CommandPoint returnBiggestWeight() {
-		CommandPoint cp=Pointlist.get(0);
-		for(int i=1;i<Pointlist.size();i++) {
-			if(cp.getChangeWeight()<Pointlist.get(i).getChangeWeight()) {
-				cp=Pointlist.get(i);
+	public void addWeight(String pointname,double weight) {
+		for(int i=0;i<Pointlist.size();i++) {
+			if(Pointlist.get(i).getName().equals(pointname)) {
+				Pointlist.get(i).addChangeWeight(0.5);
+				System.out.println(Pointlist.get(i).getName()+"点现在的权重是"+"");
 			}
 		}
-		return cp;//返回最大的权重的点
 	}
 	public boolean hasThisPoint(CommandPoint p) {
 		boolean hasit=false;
