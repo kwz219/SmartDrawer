@@ -56,6 +56,7 @@ public class CommandField extends JTextField implements KeyListener{
 				}else if(Command.contains("Brushsize")) {
 					DrawerPanel.getDrawer().getCommand(Command);
 				}else {
+					//System.out.println(Command);
 				CommandAnalyst.AnalyseCommand(Command);
 				}
 

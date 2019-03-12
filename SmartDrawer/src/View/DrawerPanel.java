@@ -801,4 +801,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     	       }
     	       return lilist;
     }
+    public Line findLineends_byname(String sname,String ename) {
+    	      return ListTraverseHelper.FindLine_byname(sname, ename, PointMap);
+    }
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import Logic.PointsFittingHelper.Pointtype;
+import Model.Line;
 import Model.Point;
 import Model.PointIndex;
 /**
@@ -116,11 +117,7 @@ public class ListTraverseHelper {
     	        }
      }
      
-     public static void UpdateSpointindex(int delindex,HashMap<Point,PointIndex> map) {
-    	        for(Point p:map.keySet()) {
-    	        	    
-    	        }
-     }
+    
      
      public static ArrayList<PointIndex> getALLPI(Dimension d,HashMap<Point,PointIndex> map){
     	        ArrayList<PointIndex> pilist=new ArrayList<PointIndex>();
@@ -150,4 +147,18 @@ public class ListTraverseHelper {
     	        	    map.put(point, pilist.get(i));
     	        }
      }
+     
+     public static Line FindLine_byname(String sname,String ename,HashMap<Point,PointIndex> map) {
+    	       Line line=new Line(new Point(new Dimension(0,0),sname),new Point(new Dimension(0,0),ename));
+    	       for(Point p:map.keySet()) {
+    	    	       if(p.getName().equals(sname)) {
+    	    	    	      line.getStartpoint().setCoordinate(p.getCoordinate());
+    	    	       }
+    	    	       if(p.getName().equals(ename)) {
+    	    	    	      line.getEndpoint().setCoordinate(p.getCoordinate());
+    	    	       }
+    	       }
+    	       return line;
+     }
+     
 }

@@ -44,11 +44,13 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 		if(ep!=null) {
 			l.setPointbyindex(2, ep);
 		}*/
+		System.out.println("lname"+l.getLinename());
 		DrawCommand.createLine(l);
 	}
 
 	@Override
 	public void changeLine(Line l) {
+		/*
 		Line ol=FindCommand.getLine(l.getLinename());
 		String lname=l.getLinename();
 		String changep = null;
@@ -68,7 +70,11 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 			DrawerPanel.getDrawer().updatePointmap(l.getEndpoint().getName(),l.getEndpoint());
 		}else {
 			
-		}
+		}*/
+		this.changeAllpoints_byname(l.getStartpoint().getName(),l.getStartpoint());
+		DrawerPanel.getDrawer().updatePointmap(l.getStartpoint().getName(),l.getStartpoint());
+		this.changeAllpoints_byname(l.getEndpoint().getName(),l.getEndpoint());
+		DrawerPanel.getDrawer().updatePointmap(l.getEndpoint().getName(),l.getEndpoint());
 		/*if(FindCommand.LineExist(lname)) {
 			System.out.println("line "+lname+" exists");
 			AjustCommand.Del_line(lname);
@@ -195,10 +201,10 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 	@Override
 	public Line getLine(String name) {
 		// TODO Auto-generated method stub
-		if(FindCommand.LineExist(name)) {
+		/*if(FindCommand.LineExist(name)) {
 			return FindCommand.getLine(name);
-		}
-		return null;
+		}*/
+		return DrawerPanel.getDrawer().findLineends_byname(name.substring(0,1),name.substring(1));
 	}
 
 	@Override
@@ -246,11 +252,12 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 	
 	
 
-	@Override
+	
 	public Point changeAllNamedPoint(Point p) {
 		// TODO Auto-generated method stub
 		if(FindCommand.Pointexists(p.getName())) {
 			this.changeAllpoints_byname(p.getName(), p);
+			DrawerPanel.getDrawer().updatePointmap(p.getName(),p);
 			return p;
 		}
 		return null;
