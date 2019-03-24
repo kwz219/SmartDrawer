@@ -83,8 +83,8 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		screenSize.setSize(screenSize.getWidth(),screenSize.getHeight()-15);
 		addMouseMotionListener(this);
 		addMouseListener(this);
-		Brushcolor=Color.BLACK;
-		Backgroundcolor=Color.WHITE;
+		Brushcolor=new Color(255,255,255,200);
+		Backgroundcolor=new Color(29,39,35);
 		setSize(screenSize.width,screenSize.height);
 		this.setVisible(true);
 		this.setBackground(Backgroundcolor);
@@ -121,7 +121,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
         Graphics2D g2d = (Graphics2D)graphics;
         g2d.setBackground(Color.WHITE);
         g2d.setFont(new Font("Arial",Font.BOLD,30));
-        Color FontColor=Color.BLUE;
+        Color FontColor=new Color(60,100,250,220);
         g2d.setColor(Brushcolor);
         g2d.setStroke(new BasicStroke(Brushsize));
        
