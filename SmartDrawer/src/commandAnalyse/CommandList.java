@@ -1,6 +1,8 @@
 package commandAnalyse;
 import java.util.ArrayList;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
+
 public class CommandList {
 	 private final static CommandList INSTANCE = new CommandList();
 	 private CommandList(){}
@@ -27,6 +29,13 @@ public class CommandList {
 				if(hasit==false) {
 					Pointlist.add(p);
 				}
+				if(com.gettype().equals("交于")) {
+					for(CommandPoint commandPoint:Pointlist) {
+						if(commandPoint.getName().equals(p.getName())) {
+							commandPoint.addRelateList(com);
+						}
+					}
+				}
 				break;
 			}
 			case"直线":{
@@ -36,10 +45,26 @@ public class CommandList {
 				hasit=this.hasThisPoint(startpoint);
 				if(hasit==false) {
 					Pointlist.add(startpoint);
+					startpoint.addRelateList(com);
 				}
 				hasit=this.hasThisPoint(endpoint);
+				if(com.gettype().equals("交于")) {
+					for(CommandPoint commandPoint:Pointlist) {
+						if(commandPoint.getName().equals(startpoint.getName())) {
+							commandPoint.addRelateList(com);
+						}
+					}
+				}
 				if(hasit==false) {
 					Pointlist.add(endpoint);
+					endpoint.addRelateList(com);
+				}
+				if(com.gettype().equals("交于")) {
+					for(CommandPoint commandPoint:Pointlist) {
+						if(commandPoint.getName().equals(endpoint.getName())) {
+							commandPoint.addRelateList(com);
+						}
+					}
 				}
 				break;
 			}
@@ -69,6 +94,14 @@ public class CommandList {
 				hasit=this.hasThisPoint(p);
 				if(hasit==false) {
 					Pointlist.add(p);
+					p.addRelateList(com);
+				}
+				if(com.gettype().equals("交于")) {
+					for(CommandPoint commandPoint:Pointlist) {
+						if(commandPoint.getName().equals(p.getName())) {
+							commandPoint.addRelateList(com);
+						}
+					}
 				}
 				break;
 			}
@@ -105,7 +138,13 @@ public class CommandList {
 		}
 		return weight;
 	}
-	public void updateGeo(CommandGeo geo) {
-		
+	public void reRun(String pointName) {
+		System.out.println(Pointlist.size());
+		for(CommandPoint commandPoint:Pointlist) {
+			if(commandPoint.getName().equals(pointName)) {
+				commandPoint.rerun();
+			}
+		}
 	}
+
 }

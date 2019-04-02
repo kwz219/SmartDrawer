@@ -2,6 +2,8 @@ package commandAnalyse;
 
 import java.util.ArrayList;
 
+import com.sun.org.apache.bcel.internal.generic.L2D;
+
 import Logic.CommandExecuteInterfaceImplement;
 import Logic.DrawCommand;
 import Model.Circle;
@@ -76,21 +78,31 @@ public class CommandExecute {
 		if(delta>0) {
 			double x1=(((Math.pow(delta, 0.5))-b0)/(2*a0));
 			double x2=((-(Math.pow(delta, 0.5))-b0)/(2*a0));
-			if(l1.getStartpoint().getX()<x1&&x1<l1.getEndpoint().getX()&&l1.getStartpoint().getX()<x2&&x2<l1.getEndpoint().getX()) {
+			if(Math.abs(x1-x2)<=Math.abs(l1.getStartpoint().getX()-l1.getEndpoint().getX())) {
 				//这里是图上的圆和直线已经有两个交点了，这里只是设置名字
 				System.out.println("只是增加了新的点哦");
 				p1.setX((int)(x1));
 				p1.setY(l1.CalculateY(p1.getX()));
 				p2.setX((int)(x2));
 				p2.setY(l1.CalculateY(p2.getX()));
-				cei.creadPoint(p1.changeToPoint());
-				cei.creadPoint(p2.changeToPoint());
+				if(cei.getPoint(p1.getName())!=null) {
+					cei.changePoint(p1.changeToPoint());
+				}
+				else {
+					cei.creadPoint(p1.changeToPoint());
+				}
+				if(cei.getPoint(p2.getName())!=null) {
+					cei.changePoint(p2.changeToPoint());
+				}
+				else {
+					cei.creadPoint(p2.changeToPoint());
+				}
 				points.add(p1);
 				points.add(p2);
 				return points;
 			}
 			else {
-				System.out.println("delta>0 and changed");
+				System.out.println("改变了圆的半径");
 				r=(minDistance+verticalDistance)/2;
 				c.setRadius((int)(minDistance+verticalDistance)/2);
 				cei.changeCircle(c.changeToCircle());
