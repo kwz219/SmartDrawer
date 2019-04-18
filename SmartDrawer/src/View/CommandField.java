@@ -55,6 +55,8 @@ public class CommandField extends JTextField implements KeyListener{
 					DrawerPanel.getDrawer().getCommand(Command);
 				}else if(Command.contains("Brushsize")) {
 					DrawerPanel.getDrawer().getCommand(Command);
+				}else if(Command.equals("img")) {
+					DrawerPanel.getDrawer().getCommand(Command);
 				}else {
 					//System.out.println(Command);
 				CommandAnalyst.AnalyseCommand(Command);

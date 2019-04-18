@@ -2,5 +2,10 @@
 <classpath>
 	<classpathentry kind="src" path="SmartDrawer/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="aip-java-sdk-4.10.2.jar"/>
+	<classpathentry kind="lib" path="json-20160810.jar"/>
+	<classpathentry kind="lib" path="log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="slf4j-api-1.5.5.jar"/>
+	<classpathentry kind="lib" path="slf4j-log4j12.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

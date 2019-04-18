@@ -4,6 +4,8 @@ import java.awt.BasicStroke;
 
 
 
+
+
 import java.awt.Canvas;
 
 import java.awt.Color;
@@ -19,6 +21,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,6 +41,7 @@ import Model.Triangle;
 import commandAnalyse.CommandAnalyst;
 import commandAnalyse.CommandExucuteInterface;
 import Logic.CommandExecuteInterfaceImplement;
+import Logic.HandWrittingRecognizer;
 import Logic.ListTraverseHelper;
 import Logic.PointRecorder;
 import Logic.PointsFittingHelper;
@@ -47,7 +51,7 @@ import Logic.PointsFittingHelper.Pointtype;
 public class DrawerPanel extends JPanel implements MouseMotionListener,MouseListener{
 	    
 	    private enum Drawerstate{
-	    		Blank,Drawing,EndDrawing,Ajusting
+	    		Blank,Drawing,EndDrawing,Ajusting,Commanding,EndCommanding
 	    }
 	    private Drawerstate Drawerstatus;
 	    //singleton of DrawerPanel
@@ -65,6 +69,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	    private int pointLptr;
 	    private PointRecorder pointRecorder=new PointRecorder();//when a drawing begins,use this to record several points of a drawing
 	    private PointRecorder pointRecorderBuff=new PointRecorder();
+	    private PointRecorder commandRecorder=new PointRecorder();
 	    private HashMap<Point,PointIndex> PointMap=new HashMap<Point,PointIndex>();
 	    private ArrayList<ListIndex> Lilist=new ArrayList<ListIndex>();
 	    private ArrayList<PointIndex> currentPIs;
@@ -77,6 +82,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	    
 	    int x=0;
 	    private CommandExucuteInterface cei= new CommandExecuteInterfaceImplement();
+	    private HandWrittingRecognizer Recognizer=HandWrittingRecognizer.getRecognizer();
 	//singleton schema ,so private,init member value
 	private DrawerPanel(){
 		Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();//get the size of the screen
@@ -89,7 +95,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		this.setVisible(true);
 		this.setBackground(Backgroundcolor);
 		pointLptr=0;
-		Brushsize=10;
+		Brushsize=6;
 		Isdrawing=0;
 		img =new BufferedImage(screenSize.width,screenSize.height,BufferedImage.TYPE_INT_ARGB);
 		img2 =new BufferedImage(screenSize.width,screenSize.height,BufferedImage.TYPE_BYTE_GRAY);
@@ -114,6 +120,8 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		circleList=new ArrayList<Circle>();
 		pointLptr=0;
 		currentPIs=null;
+		commandRecorder=new PointRecorder();
+		
 	}
 	//rewrite the paint method
 	public void paint(Graphics graphics) {
@@ -125,6 +133,11 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
         g2d.setColor(Brushcolor);
         g2d.setStroke(new BasicStroke(Brushsize));
        
+        //draw command if exists on the screen
+        for(int i=0;i<commandRecorder.Plist.size();i++) {
+        	  g2d.fillOval(commandRecorder.Plist.get(i).width, commandRecorder.Plist.get(i).height, Brushsize, Brushsize);
+        }
+        
         //draw all nofitpoints
         for(int i=0;i<nofitpointList.size();i++) {
         	g2d.fillOval(nofitpointList.get(i).width, nofitpointList.get(i).height, Brushsize, Brushsize);
@@ -204,7 +217,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		
 		if(tmplist.size()>0) {
 		if(PointsFittingHelper.PointsFit(tmplist)==Graphicstype.Line) {
-            //System.out.println("a line ");
+            System.out.println("a line ");
             Point lineend1=new Point(tmplist.get(0),Pointtype.Lineend);
             Point lineend2=new Point(tmplist.get(tmplist.size()-1),Pointtype.Lineend);
             Line newLine=new Line(lineend1,lineend2);
@@ -219,7 +232,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		   iffit=1;
 		}
 		else if(PointsFittingHelper.PointsFit(tmplist)==Graphicstype.Point) {
-			//System.out.println("a point ");
+			System.out.println("a point ");
 			Point p=new Point(tmplist.get(tmplist.size()/2));
 			p.setType(Pointtype.Singlepoint);
 			mpointList.add(p);
@@ -247,26 +260,38 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	}
 	
 	//get a image of the Jpanel,not yet used
-	public void getIMG() throws IOException {
+	public byte[] getIMG() throws IOException {
 		Graphics2D img2d=img2.createGraphics();
 		this.paint(img2d);
 		
 		img2d.dispose();
-	   
-		File f=new File("/Users/zwk/Documents/pics/1.jpg");
+	    Long time=System.currentTimeMillis();
+	    String timename=String.valueOf(time);
+		File f=new File("/Users/zwk/Documents/pics/A/"+timename+".jpg");
 		if( !f.exists() )
 		{
 			f.createNewFile();
 			System.out.println(123);
 		}
-		int x=pointRecorder.getLeftmost_point().width-2;
-		int y=pointRecorder.getLowest_point().height-2;
-		int w=pointRecorder.getRightmost_point().width-x+Brushsize;
-		int h=pointRecorder.getHighest_point().height-y+Brushsize;
-		System.out.println("x:"+x+" y:"+y+" w:"+w+" h"+h+" leftp:"+pointRecorder.getLeftmost_point()+" rightp"+pointRecorder.getRightmost_point()+" lowp"+pointRecorder.getLowest_point()+" highp"+pointRecorder.getHighest_point());
+		int x=commandRecorder.getLeftmost_point().width-Brushsize*10;
+		int y=commandRecorder.getLowest_point().height-Brushsize*10;
+		int w=commandRecorder.getRightmost_point().width-x+Brushsize*20;
+		int h=commandRecorder.getHighest_point().height-y+Brushsize*20;
+		System.out.println("x:"+x+" y:"+y+" w:"+w+" h"+h+" leftp:"+commandRecorder.getLeftmost_point()+" rightp"+commandRecorder.getRightmost_point()+" lowp"+commandRecorder.getLowest_point()+" highp"+commandRecorder.getHighest_point());
 	    BufferedImage partimg=img2.getSubimage(x, y, w, h);
-		ImageIO.write(partimg, "jpg",f);
+	    int width=partimg.getWidth();
+	    int height=partimg.getHeight();
+	    BufferedImage biimg=new BufferedImage(width,height,BufferedImage.TYPE_BYTE_BINARY);
+	    for(int i= 0 ; i < width ; i++){
+		    for(int j = 0 ; j < height; j++){
+			int rgb = partimg.getRGB(i, j);
+			biimg.setRGB(i, j, rgb);
+		    }
+		}
+	    ByteArrayOutputStream out = new ByteArrayOutputStream();
+		ImageIO.write(biimg, "jpg",out);
 		
+		return out.toByteArray();
 
 
 	}
@@ -303,6 +328,8 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 			pointList.add(new Dimension(e.getX(),e.getY()));
 			
 		    pointRecorder.Add(e.getX(), e.getY());
+		}else if(Drawerstatus==Drawerstate.Commanding) {
+			commandRecorder.Add(e.getX(), e.getY());
 		}
 		Isdrawing=0;
 		
@@ -359,7 +386,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 				    System.out.println("Point is selected");
 				}
 			}else {
-				Drawerstatus=Drawerstate.Blank;
+				Drawerstatus=Drawerstate.Commanding;
 				printstate();
 			}
 			
@@ -385,6 +412,26 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 				Drawerstatus=Drawerstate.Blank;
 				printstate();
 			}
+		}else if(Drawerstatus==Drawerstate.Commanding) {
+			Drawerstatus=Drawerstate.EndCommanding;
+			printstate();
+		}else if(Drawerstatus==Drawerstate.EndCommanding) {
+			if(commandRecorder.getPlist().size()!=0) {
+			try {
+				byte[] image=this.getIMG();
+				String recresult=Recognizer.getRecognizeResult(image);
+				System.out.println(recresult);
+				CommandField.getField().setText(recresult);
+				
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			}
+			commandRecorder=new PointRecorder();
+			this.repaint();
+			Drawerstatus=Drawerstate.Blank;
+			printstate();
 		}
 		
 	}
@@ -434,6 +481,13 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 			}
 		}else if(command.contains("Brushsize")) {
 			this.Brushsize=Integer.valueOf(command.substring(9));
+		}else if(command.equals("img")) {
+			try {
+				this.getIMG();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		this.repaint();
 	}
