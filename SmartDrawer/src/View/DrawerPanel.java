@@ -6,6 +6,7 @@ import java.awt.BasicStroke;
 
 
 
+
 import java.awt.Canvas;
 
 import java.awt.Color;
@@ -267,12 +268,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		img2d.dispose();
 	    Long time=System.currentTimeMillis();
 	    String timename=String.valueOf(time);
-		File f=new File("/Users/zwk/Documents/pics/A/"+timename+".jpg");
-		if( !f.exists() )
-		{
-			f.createNewFile();
-			System.out.println(123);
-		}
+		
 		int x=commandRecorder.getLeftmost_point().width-Brushsize*10;
 		int y=commandRecorder.getLowest_point().height-Brushsize*10;
 		int w=commandRecorder.getRightmost_point().width-x+Brushsize*20;
@@ -857,5 +853,8 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     }
     public Line findLineends_byname(String sname,String ename) {
     	      return ListTraverseHelper.FindLine_byname(sname, ename, PointMap);
+    }
+    public void ToBlank() {
+    	    Drawerstatus=Drawerstate.Blank;
     }
 }
