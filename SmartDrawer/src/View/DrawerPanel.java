@@ -14,6 +14,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -133,6 +134,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
         Color FontColor=new Color(60,100,250,220);
         g2d.setColor(Brushcolor);
         g2d.setStroke(new BasicStroke(Brushsize));
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING , RenderingHints.VALUE_ANTIALIAS_ON);
        
         //draw command if exists on the screen
         for(int i=0;i<commandRecorder.Plist.size();i++) {
