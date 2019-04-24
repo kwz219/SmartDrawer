@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import Logic.TimerHelper;
@@ -91,11 +92,11 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		screenSize.setSize(screenSize.getWidth(),screenSize.getHeight()-15);
 		addMouseMotionListener(this);
 		addMouseListener(this);
-		Brushcolor=new Color(255,255,255,200);
+		Brushcolor=new Color(255,255,255,220);
 		Backgroundcolor=new Color(29,39,35);
 		setSize(screenSize.width,screenSize.height);
 		this.setVisible(true);
-		this.setBackground(Backgroundcolor);
+		//this.setBackground(Backgroundcolor);
 		pointLptr=0;
 		Brushsize=6;
 		Isdrawing=0;
@@ -129,9 +130,14 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	public void paint(Graphics graphics) {
 		super.paint(graphics);
         Graphics2D g2d = (Graphics2D)graphics;
-        g2d.setBackground(Color.WHITE);
+        String root=System.getProperty("user.dir");
+       
+        ImageIcon ii=new ImageIcon(root+"/Resource/ChalkBoard.jpg");
+        
+        g2d.drawImage(ii.getImage(), 0, 0, getWidth(), getHeight(), ii.getImageObserver());
+        g2d.setBackground(Color.white);
         g2d.setFont(new Font("Arial",Font.BOLD,30));
-        Color FontColor=new Color(60,100,250,220);
+        Color FontColor=new Color(190,120,180,230);
         g2d.setColor(Brushcolor);
         g2d.setStroke(new BasicStroke(Brushsize));
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING , RenderingHints.VALUE_ANTIALIAS_ON);
@@ -373,6 +379,8 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 				if(pilist.size()==0) {
 					
 					System.out.println("not a point");
+					Drawerstatus=Drawerstate.Commanding;
+					printstate();
 				}else {
 					BeforeDimension=new Dimension(e.getX(),e.getY());
 					Drawerstatus=Drawerstate.Ajusting;
