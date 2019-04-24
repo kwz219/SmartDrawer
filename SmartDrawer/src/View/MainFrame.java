@@ -21,7 +21,7 @@ public class MainFrame extends JFrame{
 	    	  setVisible(true);
 	    	  this.add(CommandField.getField(),BorderLayout.BEFORE_FIRST_LINE);
 	    	  this.add(DrawerPanel.getDrawer(),BorderLayout.CENTER);//add DrawerPanel
-	    	  
+	    	  this.setTitle("SmartDrawer");
 	      }
           public static void main(String[] args) {
         	        new MainFrame();
