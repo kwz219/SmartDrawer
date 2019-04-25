@@ -44,6 +44,7 @@ import Model.Triangle;
 import commandAnalyse.CommandAnalyst;
 import commandAnalyse.CommandExucuteInterface;
 import Logic.CommandExecuteInterfaceImplement;
+import Logic.FontLoader;
 import Logic.HandWrittingRecognizer;
 import Logic.ListTraverseHelper;
 import Logic.PointRecorder;
@@ -96,7 +97,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		Backgroundcolor=new Color(29,39,35);
 		setSize(screenSize.width,screenSize.height);
 		this.setVisible(true);
-		//this.setBackground(Backgroundcolor);
+		this.setBackground(Backgroundcolor);
 		pointLptr=0;
 		Brushsize=6;
 		Isdrawing=0;
@@ -132,11 +133,11 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
         Graphics2D g2d = (Graphics2D)graphics;
         String root=System.getProperty("user.dir");
        
-        ImageIcon ii=new ImageIcon(root+"/Resource/ChalkBoard.jpg");
+        //ImageIcon ii=new ImageIcon(root+"/Resource/ChalkBoard.jpg");
         
-        g2d.drawImage(ii.getImage(), 0, 0, getWidth(), getHeight(), ii.getImageObserver());
+        //g2d.drawImage(ii.getImage(), 0, 0, getWidth(), getHeight(), ii.getImageObserver());
         g2d.setBackground(Color.white);
-        g2d.setFont(new Font("Arial",Font.BOLD,30));
+        g2d.setFont(FontLoader.getFont("chalk"));
         Color FontColor=new Color(190,120,180,230);
         g2d.setColor(Brushcolor);
         g2d.setStroke(new BasicStroke(Brushsize));

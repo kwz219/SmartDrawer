@@ -22,7 +22,7 @@ public class MainFrame extends JFrame{
 	    	  this.add(CommandField.getField(),BorderLayout.BEFORE_FIRST_LINE);
 	    	  this.add(DrawerPanel.getDrawer(),BorderLayout.CENTER);//add DrawerPanel
 	    	  
-	    	  this.setTitle("SmartDrawer ©2019");
+	    	  this.setTitle("SmartDrawer     ©2019");
 	      }
           public static void main(String[] args) {
         	        new MainFrame();
