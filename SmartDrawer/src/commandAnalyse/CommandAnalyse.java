@@ -105,6 +105,7 @@ public class CommandAnalyse {
 				nextexpect="geo";
 				if(com.gettype().equals("新建")) {
 					switch(word) {
+					case"删除":com.settype("删除");
 					case"交":com.settype("交于");
 					break;
 					case"平":

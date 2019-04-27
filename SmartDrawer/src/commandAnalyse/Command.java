@@ -3,12 +3,13 @@ package commandAnalyse;
 import java.util.ArrayList;
 
 import com.sun.corba.se.impl.protocol.giopmsgheaders.LocateReplyMessage_1_0;
+import com.sun.org.apache.xalan.internal.xsltc.cmdline.getopt.GetOpt;
 
 public class Command {
 	private CommandExecute ce=new CommandExecute();
 	private String type;
 	private int number;
-	//type包括新建，交于，垂直，平行，位于，平分，等于，高，中线，平分线，特定角度，直角三角形，等腰直角三角形，等边三角形，等腰三角形，菱形，正方形，平行四边形，矩形，切于
+	//type包括删除，新建，交于，垂直，平行，位于，平分，等于，高，中线，平分线，特定角度，直角三角形，等腰直角三角形，等边三角形，等腰三角形，菱形，正方形，平行四边形，矩形，切于
 	//除了新建+0.5值，除了新建命令，别的命令都是+1权重，在这里每个命令都会自检
 	private ArrayList<CommandGeo> Geolist=new ArrayList<CommandGeo>();
 	private ArrayList<CommandPoint> Pointlist=new ArrayList<CommandPoint>();
@@ -105,9 +106,14 @@ public class Command {
 			cl.addWeight(Pointlist.get(i).getName(), weight);
 		}
 	}
+
 	public void execute() {
 		System.out.println(this.type);
 		switch (this.type) {
+		case "删除":{
+			commandList.reverseCommand(this.getGeolist().get(0));
+			ce.deleteCommand(this.getGeolist().get(0));
+		}
 		case "新建": {
 			this.addweight(0.5);
 			CommandGeo geo=this.getGeolist().get(0);

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.sun.org.apache.bcel.internal.generic.L2D;
 
+import Logic.AjustCommand;
 import Logic.CommandExecuteInterfaceImplement;
 import Logic.DrawCommand;
 import Model.Circle;
@@ -14,6 +15,25 @@ import Model.Triangle;
 //这个类用来执行两个图形之间的交互命令
 public class CommandExecute {
 	private CommandExucuteInterface cei= new CommandExecuteInterfaceImplement();
+	boolean deleteCommand(CommandGeo geo) {
+		AjustCommand aj=new AjustCommand();
+		switch (geo.getType()) {
+		case"点":{
+			aj.Del_point(geo.getName());
+		}
+		case"直线":{
+			aj.Del_line(geo.getName());
+		}
+		case"圆":{
+			aj.Del_circle(geo.getName());
+		}
+		case"三角形":{
+			aj.Del_triangle(geo.getName());
+		}
+		}
+		return false;
+		
+	}
 	boolean newPoint (CommandPoint point) {
 		Point p=cei.getPoint_fromDrawing();
 		p.setName(point.getName());

@@ -146,5 +146,19 @@ public class CommandList {
 			}
 		}
 	}
-
+	public void reverseCommand(CommandGeo geo) {
+		String name=geo.getName();
+		for(int t=0;t<Pointlist.size();t++) {
+			String pname=Pointlist.get(t).getName();
+			for (int i=0;i<geo.getName().length();i++) {
+				String pointname=name.substring(i, i+1);
+				if(pname.equals(pointname)) {
+					Pointlist.get(t).addChangeWeight(-0.5);
+					if(Pointlist.get(t).getChangeWeight()==0) {
+						Pointlist.remove(t);
+					}
+				}
+			}
+		}	
+	}
 }
