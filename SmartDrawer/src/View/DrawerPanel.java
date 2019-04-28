@@ -1,3 +1,4 @@
+
 package View;
 
 import java.awt.BasicStroke;
@@ -44,7 +45,7 @@ import Model.Triangle;
 import commandAnalyse.CommandAnalyst;
 import commandAnalyse.CommandExucuteInterface;
 import Logic.CommandExecuteInterfaceImplement;
-import Logic.FontLoader;
+
 import Logic.HandWrittingRecognizer;
 import Logic.ListTraverseHelper;
 import Logic.PointRecorder;
@@ -94,7 +95,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		addMouseMotionListener(this);
 		addMouseListener(this);
 		Brushcolor=new Color(255,255,255,220);
-		Backgroundcolor=new Color(29,39,35);
+		Backgroundcolor=new Color(23,49,45);
 		setSize(screenSize.width,screenSize.height);
 		this.setVisible(true);
 		this.setBackground(Backgroundcolor);
@@ -137,7 +138,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
         
         //g2d.drawImage(ii.getImage(), 0, 0, getWidth(), getHeight(), ii.getImageObserver());
         g2d.setBackground(Color.white);
-        g2d.setFont(FontLoader.getFont("chalk"));
+        g2d.setFont(new Font("Arial",Font.BOLD,24));
         Color FontColor=new Color(190,120,180,230);
         g2d.setColor(Brushcolor);
         g2d.setStroke(new BasicStroke(Brushsize));
@@ -691,12 +692,14 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     public void delpoint_byindex(int index) {
     	   ListTraverseHelper.delete_byCorType(PointMap,Pointtype.Singlepoint,mpointList.get(index).getCoordinate());
     	   mpointList.remove(index);
+    	   this.repaint();
     }
     
     public void delline_byindex(int index) {
     	  ListTraverseHelper.delete_byCorType(PointMap,Pointtype.Lineend,lineList.get(index).getStartpoint().getCoordinate());
     	  ListTraverseHelper.delete_byCorType(PointMap,Pointtype.Lineend,lineList.get(index).getEndpoint().getCoordinate());
     	  lineList.remove(index);
+    	  this.repaint();
     }
     
     public void deltriangle_byindex(int index) {
@@ -705,12 +708,14 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     	  ListTraverseHelper.delete_byCorType(PointMap, Pointtype.Triangleend, triangleList.get(index).getVertex2().getCoordinate());
     	  ListTraverseHelper.delete_byCorType(PointMap, Pointtype.Triangleend, triangleList.get(index).getVertex3().getCoordinate());
     	  triangleList.remove(index);
+    	  this.repaint();
     }
     
     public void delcircle_byindex(int index) {
     	  
     	  ListTraverseHelper.delete_byCorType(PointMap, Pointtype.Circlecenter, circleList.get(index).getCenter().getCoordinate());
     	  circleList.remove(index);
+    	  this.repaint();
     }
     
     public Point getpoint_byindex(int index) {
