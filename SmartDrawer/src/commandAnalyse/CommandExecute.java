@@ -20,15 +20,22 @@ public class CommandExecute {
 		switch (geo.getType()) {
 		case"点":{
 			aj.Del_point(geo.getName());
+			break;
 		}
 		case"直线":{
+			System.out.println("do delete line"+ geo.getName());
 			aj.Del_line(geo.getName());
+			break;
 		}
 		case"圆":{
 			aj.Del_circle(geo.getName());
+			break;
+
 		}
 		case"三角形":{
 			aj.Del_triangle(geo.getName());
+			break;
+
 		}
 		}
 		return false;

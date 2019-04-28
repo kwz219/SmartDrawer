@@ -22,6 +22,7 @@ public class CommandList {
 		boolean hasit;
 		list.add(com);
 		for(int i=0;i<com.getGeolist().size();i++) {
+			if(com.gettype().equals("删除")==false) {
 			switch (com.getGeolist().get(i).getType()) {
 			case"点":{
 				CommandPoint p=(CommandPoint)com.getGeolist().get(i) ;
@@ -106,6 +107,7 @@ public class CommandList {
 				break;
 			}
 			}
+			}
 		}
 	}
 	public void printAll() {
@@ -147,18 +149,24 @@ public class CommandList {
 		}
 	}
 	public void reverseCommand(CommandGeo geo) {
+
 		String name=geo.getName();
+		System.out.println("要删除的名字是"+name);
 		for(int t=0;t<Pointlist.size();t++) {
 			String pname=Pointlist.get(t).getName();
-			for (int i=0;i<geo.getName().length();i++) {
+			System.out.println(pname);
+			for (int i=0;i<name.length();i++) {
 				String pointname=name.substring(i, i+1);
 				if(pname.equals(pointname)) {
 					Pointlist.get(t).addChangeWeight(-0.5);
 					if(Pointlist.get(t).getChangeWeight()==0) {
 						Pointlist.remove(t);
+						t=t-1;
 					}
 				}
 			}
 		}	
+		System.out.println("现在还有的点数是"+this.Pointlist.size());
+
 	}
 }

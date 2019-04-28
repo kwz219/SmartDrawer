@@ -113,6 +113,7 @@ public class Command {
 		case "删除":{
 			commandList.reverseCommand(this.getGeolist().get(0));
 			ce.deleteCommand(this.getGeolist().get(0));
+			break;
 		}
 		case "新建": {
 			this.addweight(0.5);
