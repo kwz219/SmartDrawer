@@ -11,10 +11,12 @@ import java.awt.BasicStroke;
 import java.awt.Canvas;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
@@ -461,7 +463,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		
+		this.setCursor(this.getCursor("chalk"));
 		
 	}
 
@@ -495,6 +497,13 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}
+		}else if(command.equals("undo")) {
+			if(Drawerstatus==Drawerstate.Drawing) {
+				pointList=new ArrayList<Dimension>();
+				pointRecorder=new PointRecorder();
+			}else if(Drawerstatus==Drawerstate.Commanding) {
+				commandRecorder=new PointRecorder();
 			}
 		}
 		this.repaint();
@@ -872,5 +881,19 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     }
     public void ToBlank() {
     	    Drawerstatus=Drawerstate.Blank;
+    }
+    
+    public Cursor getCursor(String type) {
+    	       Toolkit tk = Toolkit.getDefaultToolkit(); 
+    	       String root=System.getProperty("user.dir");
+    	       if(type.equals("chalk")) {
+    	    	   String url=root+"/Resource/ChalkCursor.png";
+    	    	  
+    	    	   Image image = new ImageIcon(url).getImage(); 
+    	    	   Cursor cursor = tk.createCustomCursor(image,new java.awt.Point(1,1), "chalk");
+    	    
+    	    	   return cursor;
+    	       }
+    	       return null;
     }
 }
