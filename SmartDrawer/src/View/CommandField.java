@@ -47,7 +47,7 @@ public class CommandField extends JTextField implements KeyListener{
 					DrawerPanel.getDrawer().getCommand(Command);
 				}else if(Command.equals("cc")) {
 					DrawerPanel.getDrawer().getCommand(Command);
-				}else if(Command.equals("clear")) {
+				}else if(Command.equals("清空")) {
 					DrawerPanel.getDrawer().getCommand(Command);
 				}else if(Command.equals("print")) {
 					DrawerPanel.getDrawer().getCommand(Command);
@@ -57,7 +57,7 @@ public class CommandField extends JTextField implements KeyListener{
 					DrawerPanel.getDrawer().getCommand(Command);
 				}else if(Command.equals("img")) {
 					DrawerPanel.getDrawer().getCommand(Command);
-				}else if(Command.equals("undo")) {
+				}else if(Command.equals("撤销")) {
 					DrawerPanel.getDrawer().getCommand(Command);
 				}else {
 					//System.out.println(Command);

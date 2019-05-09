@@ -77,7 +77,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	    private PointRecorder pointRecorder=new PointRecorder();//when a drawing begins,use this to record several points of a drawing
 	    private PointRecorder pointRecorderBuff=new PointRecorder();
 	    private PointRecorder commandRecorder=new PointRecorder();
-	    private HashMap<Point,PointIndex> PointMap=new HashMap<Point,PointIndex>();
+	    public HashMap<Point,PointIndex> PointMap=new HashMap<Point,PointIndex>();
 	    private ArrayList<ListIndex> Lilist=new ArrayList<ListIndex>();
 	    private ArrayList<PointIndex> currentPIs;
 	    private Dimension AjustingDimension;
@@ -480,7 +480,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 			cei.changeTriangle(new Triangle(new Point(new Dimension(250,250),"Q"),new Point(new Dimension(250,350),"W"),new Point(new Dimension(350,250),"E")));
 		}else if(command.equals("cc")) {
 			cei.changeCircle(new Circle(new Point(new Dimension(100,100),"O"),50));
-		}else if(command.equals("clear")) {
+		}else if(command.equals("清空")) {
 			this.Clear();
 		}else if(command.equals("print")) {
 		    ListTraverseHelper.printall(PointMap);
@@ -498,7 +498,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}else if(command.equals("undo")) {
+		}else if(command.equals("撤销")) {
 			if(Drawerstatus==Drawerstate.Drawing) {
 				pointList=new ArrayList<Dimension>();
 				pointRecorder=new PointRecorder();
