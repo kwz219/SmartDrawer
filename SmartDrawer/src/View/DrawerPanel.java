@@ -218,6 +218,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
         		   g2d.drawString(p.getName(),p.getX()-Brushsize/2, p.getY()-Brushsize/2);
         	   }
         }
+        StateLabel.getLabel().changetext(getState().toString());
         g2d.dispose();
         
         
@@ -286,7 +287,9 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		int w=commandRecorder.getRightmost_point().width-x+Brushsize*20;
 		int h=commandRecorder.getHighest_point().height-y+Brushsize*20;
 		System.out.println("x:"+x+" y:"+y+" w:"+w+" h"+h+" leftp:"+commandRecorder.getLeftmost_point()+" rightp"+commandRecorder.getRightmost_point()+" lowp"+commandRecorder.getLowest_point()+" highp"+commandRecorder.getHighest_point());
-	    BufferedImage partimg=img2.getSubimage(x, y, w, h);
+	    if(y<0)y=0;
+	    if(x<0)x=0;
+		BufferedImage partimg=img2.getSubimage(x, y, w, h);
 	    int width=partimg.getWidth();
 	    int height=partimg.getHeight();
 	    BufferedImage biimg=new BufferedImage(width,height,BufferedImage.TYPE_BYTE_BINARY);
@@ -384,10 +387,12 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 					
 					System.out.println("not a point");
 					Drawerstatus=Drawerstate.Commanding;
+					this.repaint();
 					printstate();
 				}else {
 					BeforeDimension=new Dimension(e.getX(),e.getY());
 					Drawerstatus=Drawerstate.Ajusting;
+					this.repaint();
 					printstate();
 					//System.out.println(pi.Listindex);
 					
@@ -424,6 +429,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 			}
 		}else if(Drawerstatus==Drawerstate.Commanding) {
 			Drawerstatus=Drawerstate.EndCommanding;
+			this.repaint();
 			printstate();
 		}else if(Drawerstatus==Drawerstate.EndCommanding) {
 			if(commandRecorder.getPlist().size()!=0) {
@@ -882,7 +888,9 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     public void ToBlank() {
     	    Drawerstatus=Drawerstate.Blank;
     }
-    
+    public Drawerstate getState() {
+    	       return Drawerstatus;
+    }
     public Cursor getCursor(String type) {
     	       Toolkit tk = Toolkit.getDefaultToolkit(); 
     	       String root=System.getProperty("user.dir");

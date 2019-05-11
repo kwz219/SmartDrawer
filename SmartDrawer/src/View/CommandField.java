@@ -16,7 +16,7 @@ public class CommandField extends JTextField implements KeyListener{
 	private static CommandField Commandfield=new CommandField();
 	private CommandField() {
 		Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();
-		this.setSize(screenSize.width,15);
+		this.setSize(screenSize.width-120,15);
 		this.setEditable(true);
 		this.setBackground(Color.LIGHT_GRAY);
 		this.setForeground(Color.BLACK);
