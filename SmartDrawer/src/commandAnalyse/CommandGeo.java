@@ -35,7 +35,9 @@ public class CommandGeo {
 	public void rerun() {
 		System.out.println("the size is"+ relatedList.size());
 		for(Command command:relatedList) {
-			command.execute();
+			if(command.gettype().equals("交于")) {
+				command.execute();
+			}
 		}
 	}
 	public void addRelateList(Command command) {
