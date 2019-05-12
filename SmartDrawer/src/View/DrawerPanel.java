@@ -402,6 +402,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 				}
 			}else {
 				Drawerstatus=Drawerstate.Commanding;
+				this.repaint();
 				printstate();
 			}
 			
