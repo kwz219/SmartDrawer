@@ -57,6 +57,10 @@ public class CommandField extends JTextField implements KeyListener{
 					DrawerPanel.getDrawer().getCommand(Command);
 				}else if(Command.equals("img")) {
 					DrawerPanel.getDrawer().getCommand(Command);
+				}else if(Command.equals("killnofit")) {
+					DrawerPanel.getDrawer().getCommand(Command);
+				}else if(Command.equals("blank")) {
+					DrawerPanel.getDrawer().getCommand(Command);
 				}else if(Command.equals("撤销")) {
 					DrawerPanel.getDrawer().getCommand(Command);
 				}else {

@@ -498,6 +498,8 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 			}
 		}else if(command.contains("Brushsize")) {
 			this.Brushsize=Integer.valueOf(command.substring(9));
+		}else if(command.contains("blank")) {
+			this.Drawerstatus=Drawerstate.Blank;
 		}else if(command.equals("img")) {
 			try {
 				this.getIMG();
@@ -512,6 +514,8 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 			}else if(Drawerstatus==Drawerstate.Commanding) {
 				commandRecorder=new PointRecorder();
 			}
+		}else if(command.equals("killnofit")) {
+			nofitpointList=new ArrayList<Dimension>();
 		}
 		this.repaint();
 	}
