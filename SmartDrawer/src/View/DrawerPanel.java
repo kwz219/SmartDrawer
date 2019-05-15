@@ -67,6 +67,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
         private Color Brushcolor;
         private Color Backgroundcolor;
         private int Brushsize;
+        private int Commandsize;
         private int Isdrawing;//judge if a drawing is over
 	    private BufferedImage img;
 	    private BufferedImage img2;
@@ -103,6 +104,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		this.setBackground(Backgroundcolor);
 		pointLptr=0;
 		Brushsize=6;
+		Commandsize=4;
 		Isdrawing=0;
 		img =new BufferedImage(screenSize.width,screenSize.height,BufferedImage.TYPE_INT_ARGB);
 		img2 =new BufferedImage(screenSize.width,screenSize.height,BufferedImage.TYPE_BYTE_GRAY);
@@ -148,18 +150,22 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
        
         //draw command if exists on the screen
         for(int i=0;i<commandRecorder.Plist.size();i++) {
-        	  g2d.fillOval(commandRecorder.Plist.get(i).width, commandRecorder.Plist.get(i).height, Brushsize, Brushsize);
+        	  //g2d.fillOval(commandRecorder.Plist.get(i).width, commandRecorder.Plist.get(i).height, Brushsize, Brushsize);
+        	  g2d.fillRect(commandRecorder.Plist.get(i).width, commandRecorder.Plist.get(i).height, Commandsize, Commandsize);
         }
+        
         
         //draw all nofitpoints
         for(int i=0;i<nofitpointList.size();i++) {
-        	g2d.fillOval(nofitpointList.get(i).width, nofitpointList.get(i).height, Brushsize, Brushsize);
+        	//g2d.fillOval(nofitpointList.get(i).width, nofitpointList.get(i).height, Brushsize, Brushsize);
+        	g2d.fillRect(nofitpointList.get(i).width, nofitpointList.get(i).height, Brushsize, Brushsize);
         }
         
         //draw all temporary points
         for(int i=0;i<pointList.size();i++){
         	
-            g2d.fillOval(pointList.get(i).width, pointList.get(i).height, Brushsize, Brushsize);
+            //g2d.fillOval(pointList.get(i).width, pointList.get(i).height, Brushsize, Brushsize);
+        	g2d.fillRect(pointList.get(i).width, pointList.get(i).height, Brushsize, Brushsize);
         }
         
         //draw all lines
