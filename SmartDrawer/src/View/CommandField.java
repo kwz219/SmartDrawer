@@ -67,6 +67,7 @@ public class CommandField extends JTextField implements KeyListener{
 					//System.out.println(Command);
 				CommandAnalyst.AnalyseCommand(Command);
 				DrawerPanel.getDrawer().ToBlank();
+				DrawerPanel.getDrawer().addCommand(Command);
 				}
 
 			}

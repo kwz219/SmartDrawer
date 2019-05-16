@@ -1,12 +1,14 @@
 package Logic;
 
 import java.awt.Dimension;
+
 import java.util.ArrayList;
 
 import Logic.PointsFittingHelper.Pointtype;
 import Model.Circle;
 import Model.Line;
 import Model.Point;
+import Model.Stroke;
 /**
  * Last Modification 2019/03/03
  * @author zwk
@@ -20,7 +22,7 @@ public class PointRecorder {
          private Dimension Rightmost_point=new Dimension(-1,0);
          private Dimension Highest_point=new Dimension(0,-1);
          private Dimension Lowest_point=new Dimension(0,10000);
-         
+         private ArrayList<Stroke> strokelist=new ArrayList<Stroke>();
          //add a point into the recorder
          public void Add(int x,int y) {
         	    Count++;
@@ -156,6 +158,18 @@ public class PointRecorder {
 		//get a point from a series of nofit points
 		public Point getSimilarPoint() {
 			return new Point(Plist.get(Plist.size()/2));
+		}
+
+		public ArrayList<Stroke> getStrokelist() {
+			return strokelist;
+		}
+
+		public void setStrokelist(ArrayList<Stroke> strokelist) {
+			this.strokelist = strokelist;
+		}
+		
+		public void addStroke(Stroke s) {
+			this.strokelist.add(s);
 		}
 	
          

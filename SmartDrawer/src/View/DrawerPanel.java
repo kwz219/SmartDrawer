@@ -3,11 +3,6 @@ package View;
 
 import java.awt.BasicStroke;
 
-
-
-
-
-
 import java.awt.Canvas;
 
 import java.awt.Color;
@@ -43,6 +38,7 @@ import Model.Line;
 import Model.ListIndex;
 import Model.Point;
 import Model.PointIndex;
+import Model.Stroke;
 import Model.Triangle;
 import commandAnalyse.CommandAnalyst;
 import commandAnalyse.CommandExucuteInterface;
@@ -73,7 +69,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	    private BufferedImage img2;
 	    private Long Releasetime;
 	    private ArrayList<Dimension> pointList=new ArrayList<Dimension>();//when a drawing begins,use this to record all points
-	    private ArrayList<Dimension> nofitpointList=new ArrayList<Dimension>();//record all points which is not amended
+	    private ArrayList<Stroke> nofitpointList=new ArrayList<Stroke>();//record all points which is not amended
 	    private int pointLptr;
 	    private PointRecorder pointRecorder=new PointRecorder();//when a drawing begins,use this to record several points of a drawing
 	    private PointRecorder pointRecorderBuff=new PointRecorder();
@@ -87,28 +83,31 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	    private ArrayList<Point> mpointList=new ArrayList<Point>();//maintain a list of  datastrcuture Model.Points
 	    private ArrayList<Triangle> triangleList=new ArrayList<Triangle>();//maintain a list of Triangles
 	    private ArrayList<Circle> circleList=new ArrayList<Circle>();//maintain a list of Circles
+	    private ArrayList<String> orderList=new ArrayList<String>();
 	    
 	    int x=0;
 	    private CommandExucuteInterface cei= new CommandExecuteInterfaceImplement();
 	    private HandWrittingRecognizer Recognizer=HandWrittingRecognizer.getRecognizer();
+	    private Stroke currentStroke=new Stroke();
 	//singleton schema ,so private,init member value
 	private DrawerPanel(){
 		Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();//get the size of the screen
 		screenSize.setSize(screenSize.getWidth(),screenSize.getHeight()-15);
 		addMouseMotionListener(this);
 		addMouseListener(this);
-		Brushcolor=new Color(255,255,255,220);
+		Brushcolor=new Color(255,255,255,255);
 		Backgroundcolor=new Color(23,49,45);
 		setSize(screenSize.width,screenSize.height);
 		this.setVisible(true);
 		this.setBackground(Backgroundcolor);
 		pointLptr=0;
-		Brushsize=6;
-		Commandsize=4;
+		Brushsize=5;
+		Commandsize=5;
 		Isdrawing=0;
 		img =new BufferedImage(screenSize.width,screenSize.height,BufferedImage.TYPE_INT_ARGB);
 		img2 =new BufferedImage(screenSize.width,screenSize.height,BufferedImage.TYPE_BYTE_GRAY);
 		Drawerstatus=Drawerstate.Blank;
+		currentStroke=new Stroke();
     }
 	
 	//get singleton
@@ -119,7 +118,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	public  void Clear() {
 		Drawerstatus=Drawerstate.Blank;
 		pointList=new ArrayList<Dimension>();
-		nofitpointList=new ArrayList<Dimension>();
+		nofitpointList=new ArrayList<Stroke>();
 		pointRecorder=new PointRecorder();
 		pointRecorderBuff=new PointRecorder();
 		PointMap=new HashMap<Point,PointIndex>();
@@ -130,7 +129,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		pointLptr=0;
 		currentPIs=null;
 		commandRecorder=new PointRecorder();
-		
+		orderList=new ArrayList<String>();
 	}
 	//rewrite the paint method
 	public void paint(Graphics graphics) {
@@ -142,83 +141,91 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
         
         //g2d.drawImage(ii.getImage(), 0, 0, getWidth(), getHeight(), ii.getImageObserver());
         g2d.setBackground(Color.white);
-        g2d.setFont(new Font("Arial",Font.BOLD,24));
-        Color FontColor=new Color(190,120,180,230);
+       
+        Color FontColor=new Color(230,120,180,240);
         g2d.setColor(Brushcolor);
+        
+        g2d.setFont(new Font("PingFang SC",Font.BOLD,24));
+       
         g2d.setStroke(new BasicStroke(Brushsize));
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING , RenderingHints.VALUE_ANTIALIAS_ON);
        
+        //draw current stroke
+        if(currentStroke.getPlist().size()>=2) {
+        for(int i=0;i<currentStroke.getPlist().size()-1;i++) {
+        	   g2d.drawLine(currentStroke.getPlist().get(i).width, currentStroke.getPlist().get(i).height, currentStroke.getPlist().get(i+1).width, currentStroke.getPlist().get(i+1).height);
+        }
+        }
+        //draw pr strokes
+        ArrayList<Stroke> slist=pointRecorder.getStrokelist();
+        for(int i=0;i<slist.size();i++) {
+        	   for(int j=0;j<slist.get(i).getPlist().size()-1;j++) {
+        		   g2d.drawLine(slist.get(i).getPlist().get(j).width,slist.get(i).getPlist().get(j).height, slist.get(i).getPlist().get(j+1).width, slist.get(i).getPlist().get(j+1).height);
+        	   }
+        }
+        
+        //draw commands
+        for(int i=0;i<orderList.size();i++) {
+        	    g2d.drawString(orderList.get(i), 10, (i+1)*33);
+        }
+       
+      
         //draw command if exists on the screen
-        for(int i=0;i<commandRecorder.Plist.size();i++) {
-        	  //g2d.fillOval(commandRecorder.Plist.get(i).width, commandRecorder.Plist.get(i).height, Brushsize, Brushsize);
-        	  g2d.fillRect(commandRecorder.Plist.get(i).width, commandRecorder.Plist.get(i).height, Commandsize, Commandsize);
+        for(int i=0;i<commandRecorder.getStrokelist().size();i++) {
+        	   Stroke stroke=commandRecorder.getStrokelist().get(i);
+        	  for(int j=0;j<stroke.getPlist().size()-1;j++) {
+        		  g2d.drawLine(stroke.getPlist().get(j).width, stroke.getPlist().get(j).height, stroke.getPlist().get(j+1).width, stroke.getPlist().get(j+1).height);
+        	  }
         }
         
         
         //draw all nofitpoints
         for(int i=0;i<nofitpointList.size();i++) {
         	//g2d.fillOval(nofitpointList.get(i).width, nofitpointList.get(i).height, Brushsize, Brushsize);
-        	g2d.fillRect(nofitpointList.get(i).width, nofitpointList.get(i).height, Brushsize, Brushsize);
+            Stroke sk=nofitpointList.get(i);
+            for(int j=0;j<sk.getPlist().size()-1;j++) {
+            	   g2d.drawLine(sk.getPlist().get(j).width,sk.getPlist().get(j).height, sk.getPlist().get(j+1).width, sk.getPlist().get(j+1).height);
+            }
         }
         
         //draw all temporary points
-        for(int i=0;i<pointList.size();i++){
+        /*for(int i=0;i<pointList.size();i++){
         	
             //g2d.fillOval(pointList.get(i).width, pointList.get(i).height, Brushsize, Brushsize);
         	g2d.fillRect(pointList.get(i).width, pointList.get(i).height, Brushsize, Brushsize);
-        }
+        }*/
         
         //draw all lines
         for(int i=0;i<lineList.size();i++) {
         	   Line l=lineList.get(i);
         	   g2d.drawLine(l.getStartpoint().getCoordinate().width,l.getStartpoint().getCoordinate().height,l.getEndpoint().getCoordinate().width,l.getEndpoint().getCoordinate().height);
-        	   /*if(l.getStartpoint().getName().equals("noname")) {
-        		   
-        	   }else {
-        		   g2d.setColor(FontColor);
-        		   g2d.drawString(l.getStartpoint().getName(), l.getStartpoint().getX(), l.getStartpoint().getY());
-        		   g2d.drawString(l.getEndpoint().getName(), l.getEndpoint().getX(), l.getEndpoint().getY());
-        		   g2d.setColor(Brushcolor);
-        	   }*/
+        	  
         }
         
         //draw all single points
         for(int i=0;i<mpointList.size();i++) {
         	   Point p=mpointList.get(i);
         	   g2d.fillOval(p.getCoordinate().width,p.getCoordinate().height,Brushsize,Brushsize);
-        	   /*if(!p.getName().equals("noname")) {
-        		   g2d.setColor(FontColor);
-        	       g2d.drawString(p.getName(),p.getX(),p.getY());
-        	       g2d.setColor(Brushcolor);
-        	   }*/
+        	  
         }
         
         //draw all triangles
         for(int i=0;i<triangleList.size();i++) {
         	   Triangle tri=triangleList.get(i);
         	   g2d.drawPolygon(triangleList.get(i).getXpoints(),triangleList.get(i).getYpoints(), 3);
-        	   /*g2d.setColor(FontColor);
-        	   g2d.drawString(tri.getVertex1().getName(),tri.getVertex1().getX(),tri.getVertex1().getY());
-        	   g2d.drawString(tri.getVertex2().getName(),tri.getVertex2().getX(),tri.getVertex2().getY());
-        	   
-        	   g2d.drawString(tri.getVertex3().getName(),tri.getVertex3().getX(),tri.getVertex3().getY());
-        	   g2d.setColor(Brushcolor);*/
+        	  
         }        
         
         //draw all cricles
         for(int i=0;i<circleList.size();i++) {
            g2d.fillOval(circleList.get(i).getCenter().getX()-Brushsize/2,circleList.get(i).getCenter().getY()-Brushsize/2,Brushsize, Brushsize);
         	   g2d.drawOval(circleList.get(i).getUpperleft().width, circleList.get(i).getUpperleft().height,circleList.get(i).getRadius()*2,circleList.get(i).getRadius()*2);
-        	   /*g2d.setColor(FontColor);
-        	   g2d.drawString(circleList.get(i).getCenter().getName(),circleList.get(i).getCenter().getX(),circleList.get(i).getCenter().getY());
-        	   g2d.setColor(Brushcolor);*/
+        	  
         }
-        /*int []x= {100,100,200};
-        int []y= {100,200,100};
-        g2d.drawPolygon(x, y, 3);*/
-        
+       
         //draw name of points
         g2d.setColor(FontColor);
+        g2d.setFont(new Font("Arial",Font.BOLD,24));
         for(Point p:PointMap.keySet()) {
         	   if(!p.getName().equals("noname")) {
         		   g2d.drawString(p.getName(),p.getX()-Brushsize/2, p.getY()-Brushsize/2);
@@ -267,7 +274,9 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		}
 		if(iffit==0) {
 			pointLptr=nofitpointList.size();
-			nofitpointList.addAll(pointList);
+			for(int i=0;i<pointRecorder.getStrokelist().size();i++) {
+				nofitpointList.add(pointRecorder.getStrokelist().get(i));
+			}
 		}
 		
 		}
@@ -276,7 +285,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		pointRecorder=new PointRecorder();
 		pointList.clear();
 		
-		//System.out.println("endDrawing");
+		
 	}
 	
 	//get a image of the Jpanel,not yet used
@@ -343,9 +352,10 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 			
 		}else if(Drawerstatus==Drawerstate.Drawing) {
 			pointList.add(new Dimension(e.getX(),e.getY()));
-			
+			currentStroke.addPoint(e.getX(), e.getY());
 		    pointRecorder.Add(e.getX(), e.getY());
 		}else if(Drawerstatus==Drawerstate.Commanding) {
+			currentStroke.addPoint(e.getX(), e.getY());
 			commandRecorder.Add(e.getX(), e.getY());
 		}
 		Isdrawing=0;
@@ -461,9 +471,12 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		System.out.println("MousePressed");
 		if(Drawerstatus==Drawerstate.Blank) {
 			Drawerstatus=Drawerstate.Drawing;
 			printstate();
+		}else if(Drawerstatus==Drawerstate.Drawing||Drawerstatus==Drawerstate.Commanding) {
+			
 		}
 		
 		//System.out.println(e.getY());
@@ -471,7 +484,15 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		
+		if(Drawerstatus==Drawerstate.Drawing) {
+			pointRecorder.addStroke(currentStroke);
+			currentStroke=new Stroke();
+			System.out.println("MouseReleased"+" "+pointRecorder.getStrokelist().size());
+			
+		}else if(Drawerstatus==Drawerstate.Commanding) {
+			commandRecorder.addStroke(currentStroke);
+			currentStroke=new Stroke();
+		}
 	}
 
 	@Override
@@ -521,7 +542,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 				commandRecorder=new PointRecorder();
 			}
 		}else if(command.equals("killnofit")) {
-			nofitpointList=new ArrayList<Dimension>();
+			nofitpointList=new ArrayList<Stroke>();
 		}
 		this.repaint();
 	}
@@ -915,4 +936,10 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     	       }
     	       return null;
     }
+    
+    public void addCommand(String command) {
+    	     orderList.add(command);
+    }
+    
+    
 }
