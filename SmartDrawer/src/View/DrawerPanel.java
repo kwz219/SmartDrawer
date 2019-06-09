@@ -102,7 +102,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		this.setBackground(Backgroundcolor);
 		pointLptr=0;
 		Brushsize=5;
-		Commandsize=5;
+		Commandsize=3;
 		Isdrawing=0;
 		img =new BufferedImage(screenSize.width,screenSize.height,BufferedImage.TYPE_INT_ARGB);
 		img2 =new BufferedImage(screenSize.width,screenSize.height,BufferedImage.TYPE_BYTE_GRAY);
@@ -226,9 +226,11 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
         //draw name of points
         g2d.setColor(FontColor);
         g2d.setFont(new Font("Arial",Font.BOLD,24));
+        ArrayList<String> namelist=new ArrayList<String>();
         for(Point p:PointMap.keySet()) {
-        	   if(!p.getName().equals("noname")) {
+        	   if(!p.getName().equals("noname")&&(!namelist.contains(p.getName()))) {
         		   g2d.drawString(p.getName(),p.getX()-Brushsize/2, p.getY()-Brushsize/2);
+        		   namelist.add(p.getName());
         	   }
         }
         StateLabel.getLabel().changetext(getState().toString());
@@ -543,6 +545,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 			}
 		}else if(command.equals("killnofit")) {
 			nofitpointList=new ArrayList<Stroke>();
+			currentStroke=new Stroke();
 		}
 		this.repaint();
 	}
