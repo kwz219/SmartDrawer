@@ -23,6 +23,7 @@ public class MainFrame extends JFrame{
 	    	  setVisible(true);
 	    	  Box hBox1=Box.createHorizontalBox();
 	    	  hBox1.add(CommandField.getField());
+	    	  hBox1.add(RecordButton.getRecordButton());
 	    	  hBox1.add(StateLabel.getLabel());
 	    	  this.add(hBox1,BorderLayout.BEFORE_FIRST_LINE);
 	    	  
