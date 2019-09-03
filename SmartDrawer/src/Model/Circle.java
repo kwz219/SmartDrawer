@@ -42,7 +42,7 @@ public class Circle {
         	    upperleft.setSize(upperleft.width+d.width-Center.getX(),upperleft.height+d.height-Center.getY());
         	    Center.setCoordinate(d);
         	   
-        	    
+        	   
         }
         
         public void setCenter(Point p) {

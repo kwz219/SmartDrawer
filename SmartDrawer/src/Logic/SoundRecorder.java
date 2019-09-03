@@ -19,19 +19,37 @@ import javax.sound.sampled.TargetDataLine;
 
 
 public class SoundRecorder {
+	    private static SoundRecorder SR=new SoundRecorder();
+	    private static AudioFormat.Encoding ENCODING = AudioFormat.Encoding.PCM_SIGNED;
 	    //录制的音频的存放位置
-	    String filePath = "/Users/zwk/Documents/record/voicecache.wav";
-
+	    String filePath="/Users/zwk/Documents/record/voicecache2.wav";
+	    byte[] voicedata;
 	    AudioFormat audioFormat;
 	    TargetDataLine targetDataLine;
 	    boolean flag = true;
-
+    public static void main(String[] args) {
+    	    SR.startRecognize();
+    }
+	private SoundRecorder() {
+		String filePath = "/Users/zwk/Documents/record/voicecache2.wav";
+		
+	}
+	public static SoundRecorder getRS() {
+		return SR;
+	}
+	public byte[] getdata() {
+		return voicedata;
+	}
+	public String getPath() {
+		return this.filePath;
+	}
     //停止录音的方法
 	private void stopRecognize() {
 	        flag = false;
 	        targetDataLine.stop();
 	        targetDataLine.close();
-	    }private AudioFormat getAudioFormat() {
+	    }
+	private AudioFormat getAudioFormat() {
 	        float sampleRate = 16000;
 	        // 8000,11025,16000,22050,44100
 	        int sampleSizeInBits = 16;
@@ -46,7 +64,7 @@ public class SoundRecorder {
 	    }// end getAudioFormat
 
 
-	    public void startRecognize() {
+	    public String startRecognize() {
 	        try {
 	            // 获得指定的音频格式
 	            audioFormat = getAudioFormat();
@@ -59,14 +77,15 @@ public class SoundRecorder {
 	            // Stop button is clicked. This method
 	            // will return after starting the thread.
 	            flag = true;
-	            new CaptureThread().start();
+	            return this.run();
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        } // end catch
+			return null;
 	    }// end captureAudio method
 
-	    class CaptureThread extends Thread {
-	        public void run() {
+	   
+	        public String run() {
 	            AudioFileFormat.Type fileType = null;
 	            File audioFile = new File(filePath);
 
@@ -91,12 +110,12 @@ public class SoundRecorder {
 	                    //当数组末位大于weight时开始存储字节（有声音传入），一旦开始不再需要判断末位
 	                    if (Math.abs(fragment[fragment.length-1]) > weight || baos.size() > 0) {
 	                        baos.write(fragment);
-	                        //System.out.println("首位："+fragment[0]+",末尾："+fragment[fragment.length-1]+",lenght"+fragment.length);
+	                        System.out.println("首位："+fragment[0]+",末尾："+fragment[fragment.length-1]+",lenght"+fragment.length);
 	                        //判断语音是否停止
 	                        if(Math.abs(fragment[fragment.length-1])<=weight){
 	                            downSum++;
 	                        }else{
-	                            System.out.println("重置奇数");
+	                            System.out.println("重置计数");
 	                            downSum=0;
 	                        }
 	                        //计数超过20说明此段时间没有声音传入(值也可更改)
@@ -111,15 +130,19 @@ public class SoundRecorder {
 	                //取得录音输入流
 	                audioFormat = getAudioFormat();
 	                byte audioData[] = baos.toByteArray();//得到的音频数据
-	                
-	                
-	                bais = new ByteArrayInputStream(audioData);
+	                voicedata=audioData;
+	                if(voicedata.length>1) {
+	                	  System.out.println("语音数据已录入");
+	                }
+	                /*bais = new ByteArrayInputStream(audioData);
 	                ais = new AudioInputStream(bais, audioFormat, audioData.length / audioFormat.getFrameSize());
 	                //定义最终保存的文件名
 	                System.out.println("开始生成语音文件");
 	                AudioSystem.write(ais, AudioFileFormat.Type.WAVE, audioFile);
 	                downSum = 0;
 	                stopRecognize();
+	                VoiceRecognizer.getVoiceRecognizer().getResultBybytes(audioData));*/
+	                return VoiceRecognizer.getVoiceRecognizer().getResultBybytes(audioData);
 
 	            } catch (Exception e) {
 	                e.printStackTrace();
@@ -128,13 +151,14 @@ public class SoundRecorder {
 
 	                try {
 	                    ais.close();
-	                    bais.close();
+	                    //bais.close();
 	                    baos.reset();
 	                } catch (IOException e) {
 	                    e.printStackTrace();
 	                }
 	            }
+				return null;
 
 	        }// end run
 	    }// end inner class CaptureThread
-}
+
