@@ -99,7 +99,7 @@ public class PointRecorder {
 		}
 
 		//get three vertexes of a triangle from a similar graph
-		public ArrayList<Point> getTriangleVertexes() {
+		public  ArrayList<Point> getTriangleVertexes() {
 			ArrayList<Point> list=new ArrayList<Point>();
 			if(Math.abs(Leftmost_point.height-Rightmost_point.height)<10) {
 				if(Math.abs(Highest_point.height-Leftmost_point.height)>25) {
@@ -171,6 +171,8 @@ public class PointRecorder {
 		public void addStroke(Stroke s) {
 			this.strokelist.add(s);
 		}
+
+		
 	
          
 }

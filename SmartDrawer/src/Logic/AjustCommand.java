@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Model.Point;
 import View.DrawerPanel.DrawerPanel;
+import View.DrawerPanel.GraphsAjuster;
 import View.DrawerPanel.GraphsFinder;
 import View.DrawerPanel.GraphsSweeper;
 /**
@@ -42,12 +43,12 @@ public class AjustCommand {
        }
        
        public static ArrayList<Point> getAllpoints(String name) {
-    	         ArrayList<Point> plist=DrawerPanel.getDrawer().getAllpoint_byname(name);
+    	         ArrayList<Point> plist=GraphsFinder.getAllpoint_byname(name);
     	         return plist;
        }
        
        public static void changeCircleRadius(int index,int radius) {
-    	         DrawerPanel.getDrawer().changeCircleRadius(index, radius);
+    	         GraphsAjuster.changeCircleRadius(index, radius);
        }
 }
 

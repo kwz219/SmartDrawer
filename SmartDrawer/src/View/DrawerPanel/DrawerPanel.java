@@ -74,7 +74,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	    public ArrayList<Stroke> nofitpointList=new ArrayList<Stroke>();//record all points which is not amended
 	    public int pointLptr;
 	    private PointRecorder pointRecorder=new PointRecorder();//when a drawing begins,use this to record several points of a drawing
-	    private PointRecorder pointRecorderBuff=new PointRecorder();
+	    public PointRecorder pointRecorderBuff=new PointRecorder();
 	    private PointRecorder commandRecorder=new PointRecorder();
 	    public HashMap<Point,PointIndex> PointMap=new HashMap<Point,PointIndex>();
 	    private ArrayList<ListIndex> Lilist=new ArrayList<ListIndex>();
@@ -85,7 +85,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	    public ArrayList<Point> mpointList=new ArrayList<Point>();//maintain a list of  datastrcuture Model.Points
 	    public ArrayList<Triangle> triangleList=new ArrayList<Triangle>();//maintain a list of Triangles
 	    public ArrayList<Circle> circleList=new ArrayList<Circle>();//maintain a list of Circles
-	    public ArrayList<String> orderList=new ArrayList<String>();
+	    public ArrayList<String> orderList=new ArrayList<String>();//存储至今为止输入过的命令
 	    
 	    int x=0;
 	    private CommandExucuteInterface cei= new CommandExecuteInterfaceImplement();
@@ -468,25 +468,25 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		this.setCursor(this.getCursor("chalk"));
-		
+		this.setCursor(CursorSetter.getCursor("chalk"));
 	}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
-		
-		
-	}
+	public void mouseExited(MouseEvent e) {}
+	
+	//获得输入栏中的指令，同时包含一些底层可以进行快捷测试的指令
 	public void getCommand(String command) {
 		if(command.equals("cl")) {
 		cei.changeLine(new Line(new Point(new Dimension(100,100),"A"),new Point(new Dimension(200,200),"B")));
 		}else if(command.equals("ct")) {
+			//changetriangle测试
 			cei.changeTriangle(new Triangle(new Point(new Dimension(250,250),"Q"),new Point(new Dimension(250,350),"W"),new Point(new Dimension(350,250),"E")));
 		}else if(command.equals("cc")) {
 			cei.changeCircle(new Circle(new Point(new Dimension(100,100),"O"),50));
 		}else if(command.equals("清空")) {
 			this.Clear();
 		}else if(command.equals("print")) {
+			//打印目前所有端点
 		    ListTraverseHelper.printall(PointMap);
 		    this.repaint();
 		}else if(command.equals("printl")) {
@@ -517,112 +517,23 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		}
 		this.repaint();
 	}
-    
-    
-    public ArrayList<Point> getTriPoints_byDrawing(){
-    	       return pointRecorderBuff.getTriangleVertexes();
-    }
-    
-    public Circle getCircle_byDrawing() {
-    	       return pointRecorderBuff.getSimilarCircle();
-    }
-    
-    public Line getLine_byDrawing() {
-    	       return pointRecorderBuff.getSimilarLine();
-    }
-    
-    public Point getPoint_byDrawing() {
-    	       return pointRecorderBuff.getSimilarPoint();
-    }
-    
+   
     public void printstate() {
     	       System.out.println("Drawerstate: "+Drawerstatus);
     }
+
     
-    public ArrayList<Point> getAllpoint_byname(String name){
-    	       return ListTraverseHelper.Findallpoints(name, PointMap);
-    }
-    
-    public ArrayList<Line> getLines_containspname(String pname){
-    	      ArrayList<Line> linel=new ArrayList<Line>();
-    	      for(int i=0;i<lineList.size();i++) {
-    	    	      if(lineList.get(i).getStartpoint().getName().equals(pname)||lineList.get(i).getEndpoint().getName().equals(pname)) {
-    	    	    	     linel.add(lineList.get(i));
-    	    	    	     System.out.println("line "+lineList.get(i).getStartpoint().getName()+lineList.get(i).getEndpoint().getName()+" added");
-    	    	      }
-    	      }
-    	      return linel;
-    }
     public boolean PointExists(String name) {
     	      return ListTraverseHelper.Pointexist(name, PointMap);
     }
     
-    public void changeCircleRadius(int index,int radius) {
-    	      circleList.get(index).setRadius(radius);
-    }
     
     public Point find_aPointbyname(String name) {
     	      Point p=ListTraverseHelper.Findapoint(name, PointMap);
     	      return p;
     }
     
-    public void changeAllpointsofline_byname(String name,Point p) {
-    	     for(int i=0;i<lineList.size();i++) {
-    	    	     Line l=lineList.get(i);
-    	    	     Point ps=l.getStartpoint();
-    	    	     Point pe=l.getEndpoint();
-    	    	     if(ps.getName().equals(name)) {
-    	    	    	    lineList.get(i).getStartpoint().setCoordinate(p.getCoordinate());
-    	    	     }else if(pe.getName().equals(name)) {
-    	    	    	    lineList.get(i).getEndpoint().setCoordinate(p.getCoordinate());
-    	    	     }
-    	     }
-    }
-    public void changeAllpointsoftriangle_byname(String name,Point p) {
-	     for(int i=0;i<triangleList.size();i++) {
-	    	     Triangle tri=triangleList.get(i);
-	    	     Point v1=tri.getVertex1();
-	    	     Point v2=tri.getVertex2();
-	    	     Point v3=tri.getVertex3();
-	    	     if(v1.getName().equals(name)) {
-	    	    	    triangleList.get(i).getVertex1().setCoordinate(p.getCoordinate());
-	    	     }else if(v2.getName().equals(name)) {
-	    	    	 triangleList.get(i).getVertex2().setCoordinate(p.getCoordinate());
-	    	     }else if(v3.getName().equals(name)) {
-	    	    	 triangleList.get(i).getVertex3().setCoordinate(p.getCoordinate());
-	    	     }
-	     }
-    }
-    public void changeAllpointsofcircle_byname(String name,Point p) {
-    	    for(int i=0;i<circleList.size();i++) {
-    	    	   Circle cir=circleList.get(i);
-    	    	   Point center=cir.getCenter();
-    	    	   if(center.getName().equals(name)) {
-    	    		   circleList.get(i).moveCenter(p.getCoordinate());
-    	    	   }
-    	    }
-    }
-    
-    
-    public ArrayList<ListIndex> getallIndexofapoint(Dimension d){
-    	       ArrayList<ListIndex> lilist=new ArrayList<ListIndex>();
-    	       for(int i=0;i<lineList.size();i++) {
-    	    	       if(lineList.get(i).getStartpoint().getCoordinate().equals(d)||lineList.get(i).getEndpoint().getCoordinate().equals(d)) {
-    	    	    	      lilist.add(new ListIndex(Pointtype.Lineend,i));
-    	    	       }
-    	       }
-    	       for(int i=0;i<triangleList.size();i++) {
-    	    	      if(triangleList.get(i).getVertex1().getCoordinate().equals(d)||triangleList.get(i).getVertex2().getCoordinate().equals(d)||triangleList.get(i).getVertex3().getCoordinate().equals(d)) {
-    	    	    	      lilist.add(new ListIndex(Pointtype.Triangleend,i));
-    	    	      }
-    	       }
-    	       for(int i=0;i<circleList.size();i++) {
-    	    	      if(circleList.get(i).getCenter().getCoordinate().equals(d)) {
-    	    	    	    lilist.add(new ListIndex(Pointtype.Circlecenter,i));
-    	    	      }
-    	       }
-    	       return lilist;
-    }
+
     public Line findLineends_byname(String sname,String ename) {
     	      return ListTraverseHelper.FindLine_byname(sname, ename, PointMap);
     }
@@ -631,19 +542,6 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     }
     public Drawerstate getState() {
     	       return Drawerstatus;
-    }
-    public Cursor getCursor(String type) {
-    	       Toolkit tk = Toolkit.getDefaultToolkit(); 
-    	       String root=System.getProperty("user.dir");
-    	       if(type.equals("chalk")) {
-    	    	   String url=root+"/Resource/ChalkCursor.png";
-    	    	  
-    	    	   Image image = new ImageIcon(url).getImage(); 
-    	    	   Cursor cursor = tk.createCustomCursor(image,new java.awt.Point(1,1), "chalk");
-    	    
-    	    	   return cursor;
-    	       }
-    	       return null;
     }
     
     public void addCommand(String command) {

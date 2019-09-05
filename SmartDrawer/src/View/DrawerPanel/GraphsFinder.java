@@ -1,9 +1,13 @@
 package View.DrawerPanel;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 
+import Logic.ListTraverseHelper;
+import Logic.PointsFittingHelper.Pointtype;
 import Model.Circle;
 import Model.Line;
+import Model.ListIndex;
 import Model.Point;
 import Model.Triangle;
 /**
@@ -76,15 +80,51 @@ public class GraphsFinder {
 	      return DrawerPanel.getDrawer().mpointList.get(index);
 }
 
-public static Line getline_byindex(int index) {
+    public static Line getline_byindex(int index) {
 	      return DrawerPanel.getDrawer().lineList.get(index);
 }
 
-public static Triangle gettriangle_byindex(int index) {
+    public static Triangle gettriangle_byindex(int index) {
 	     return DrawerPanel.getDrawer().triangleList.get(index);
 }
 
-public static Circle getcircle_byindex(int index) {
+    public static Circle getcircle_byindex(int index) {
 	     return DrawerPanel.getDrawer().circleList.get(index);
+}
+    //获得所有包含该点的直线
+    public static ArrayList<Line> getLines_containspname(String pname){
+	      ArrayList<Line> linel=new ArrayList<Line>();
+	      for(int i=0;i<DrawerPanel.getDrawer().lineList.size();i++) {
+	    	      if(DrawerPanel.getDrawer().lineList.get(i).getStartpoint().getName().equals(pname)||DrawerPanel.getDrawer().lineList.get(i).getEndpoint().getName().equals(pname)) {
+	    	    	     linel.add(DrawerPanel.getDrawer().lineList.get(i));
+	    	    	     System.out.println("line "+DrawerPanel.getDrawer().lineList.get(i).getStartpoint().getName()+DrawerPanel.getDrawer().lineList.get(i).getEndpoint().getName()+" added");
+	    	      }
+	      }
+	      return linel;
+}
+    //获得所有同个坐标的点在各个列表中的位置
+    //笨方法，可以使用PointMap进行改进
+    public static ArrayList<ListIndex> getallIndexofapoint(Dimension d){
+	       ArrayList<ListIndex> lilist=new ArrayList<ListIndex>();
+	       for(int i=0;i<DrawerPanel.getDrawer().lineList.size();i++) {
+	    	       if(DrawerPanel.getDrawer().lineList.get(i).getStartpoint().getCoordinate().equals(d)||DrawerPanel.getDrawer().lineList.get(i).getEndpoint().getCoordinate().equals(d)) {
+	    	    	      lilist.add(new ListIndex(Pointtype.Lineend,i));
+	    	       }
+	       }
+	       for(int i=0;i<DrawerPanel.getDrawer().triangleList.size();i++) {
+	    	      if(DrawerPanel.getDrawer().triangleList.get(i).getVertex1().getCoordinate().equals(d)||DrawerPanel.getDrawer().triangleList.get(i).getVertex2().getCoordinate().equals(d)||DrawerPanel.getDrawer().triangleList.get(i).getVertex3().getCoordinate().equals(d)) {
+	    	    	      lilist.add(new ListIndex(Pointtype.Triangleend,i));
+	    	      }
+	       }
+	       for(int i=0;i<DrawerPanel.getDrawer().circleList.size();i++) {
+	    	      if(DrawerPanel.getDrawer().circleList.get(i).getCenter().getCoordinate().equals(d)) {
+	    	    	    lilist.add(new ListIndex(Pointtype.Circlecenter,i));
+	    	      }
+	       }
+	       return lilist;
+}   
+    //获得所有同名点，同名点必定是同一个位置的点，但点可能属于多个图形
+    public static ArrayList<Point> getAllpoint_byname(String name){
+	       return ListTraverseHelper.Findallpoints(name, PointMapDealer.getPointMap());
 }
 }

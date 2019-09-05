@@ -6,7 +6,11 @@ import java.util.HashMap;
 import org.json.JSONObject;
 
 import com.baidu.aip.ocr.AipOcr;
-
+/**
+ * 
+ * @author zwk
+ * 手写识别，调用百度AI开放平台的接口
+ */
 public class HandWrittingRecognizer {
       private static HandWrittingRecognizer recognizer=new HandWrittingRecognizer();
       public static final String APP_ID = "16031272";
@@ -23,7 +27,7 @@ public class HandWrittingRecognizer {
   	  public static  HandWrittingRecognizer getRecognizer() {
   		  return recognizer;
   	  }
-  	  
+  	  //用图片的存储地址进行识别
   	  public String getRecognizeResult(String imgpath) {
   		String result="";
   		JSONObject res = client.handwriting(imgpath,options);
@@ -33,7 +37,7 @@ public class HandWrittingRecognizer {
   		}
   		return result;
   	  }
-  	  
+  	  //用图片的字节流进行识别
   	  public String getRecognizeResult(byte[] image) {
   		String result="";
   		JSONObject res = client.handwriting(image,options);

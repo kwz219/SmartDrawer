@@ -8,6 +8,7 @@ import Model.Line;
 import Model.Point;
 import Model.Triangle;
 import View.DrawerPanel.DrawerPanel;
+import View.DrawerPanel.GraphsAjuster;
 import View.DrawerPanel.GraphsFinder;
 import View.DrawerPanel.PointMapDealer;
 import commandAnalyse.CommandExucuteInterface;
@@ -224,7 +225,7 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 	
 	
 	public void changeeffect_line(String name,Point point) {
-		ArrayList<Line> linelist=DrawerPanel.getDrawer().getLines_containspname(name);
+		ArrayList<Line> linelist=GraphsFinder.getLines_containspname(name);
 		for(int i=0;i<linelist.size();i++) {
 			   Line l=linelist.get(i);
 			   if(!l.getStartpoint().getCoordinate().equals(point.getCoordinate())) {
@@ -247,9 +248,9 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 	
 	
 	public void changeAllpoints_byname(String name,Point p) {
-		DrawerPanel.getDrawer().changeAllpointsofline_byname(name, p);
-		DrawerPanel.getDrawer().changeAllpointsoftriangle_byname(name, p);
-		DrawerPanel.getDrawer().changeAllpointsofcircle_byname(name, p);
+		GraphsAjuster.changeAllpointsofline_byname(name, p);
+		GraphsAjuster.changeAllpointsoftriangle_byname(name, p);
+		GraphsAjuster.changeAllpointsofcircle_byname(name, p);
 	}
 	
 	

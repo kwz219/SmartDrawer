@@ -75,19 +75,19 @@ public class FindCommand {
        }
        
        public static ArrayList<Point> getTriPoints_byDrawing(){
-    	      return DrawerPanel.getDrawer().getTriPoints_byDrawing();
+    	      return DrawerPanel.getDrawer().pointRecorderBuff.getTriangleVertexes();
        }
        
        public static Circle getCircle_byDrawing() {
-    	      return DrawerPanel.getDrawer().getCircle_byDrawing();
+    	      return DrawerPanel.getDrawer().pointRecorderBuff.getSimilarCircle();
        }
        
        public static Line getLine_byDrawing() {
-    	      return DrawerPanel.getDrawer().getLine_byDrawing();
+    	      return DrawerPanel.getDrawer().pointRecorderBuff.getSimilarLine();
        }
        
        public static Point getPoint_byDrawing() {
-    	      return DrawerPanel.getDrawer().getPoint_byDrawing();
+    	      return DrawerPanel.getDrawer().pointRecorderBuff.getSimilarPoint();
        }
        
        //check if the point(all types) named exists
