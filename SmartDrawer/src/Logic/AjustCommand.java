@@ -3,7 +3,9 @@ package Logic;
 import java.util.ArrayList;
 
 import Model.Point;
-import View.DrawerPanel;
+import View.DrawerPanel.DrawerPanel;
+import View.DrawerPanel.GraphsFinder;
+import View.DrawerPanel.GraphsSweeper;
 /**
  * Last modification time 2019/02/28
  * @author zwk
@@ -12,30 +14,30 @@ import View.DrawerPanel;
 public class AjustCommand {
 	
        public static void Del_point(String name) {
-    	         int index=DrawerPanel.getDrawer().findPointIndex_byname(name);
+    	         int index=GraphsFinder.findPointIndex_byname(name,DrawerPanel.getDrawer().mpointList);
     	         if(index!=-1) {
-    	        	    DrawerPanel.getDrawer().delpoint_byindex(index);
+    	        	    GraphsSweeper.delpoint_byindex(index);
     	         }
        }
        
        public static void Del_line(String name) {
-    	         int index=DrawerPanel.getDrawer().findLineIndex_byname(name);
+    	         int index=GraphsFinder.findLineIndex_byname(name, DrawerPanel.getDrawer().lineList);
     	         if(index!=-1) {
-    	        	    DrawerPanel.getDrawer().delline_byindex(index);
+    	        	 GraphsSweeper.delline_byindex(index);
     	         }
        }
        
        public static void Del_triangle(String name) {
-    	         int index=DrawerPanel.getDrawer().findTriangleIndex_byname(name);
+    	         int index=GraphsFinder.findTriangleIndex_byname(name, DrawerPanel.getDrawer().triangleList);
     	         if(index!=-1) {
-    	        	   DrawerPanel.getDrawer().deltriangle_byindex(index);
+    	        	 GraphsSweeper.deltriangle_byindex(index);
     	         }
        }
        
        public static void Del_circle(String name) {
-    	         int index=DrawerPanel.getDrawer().findCircleIndex_byname(name);
+    	         int index=GraphsFinder.findCircleIndex_byname(name, DrawerPanel.getDrawer().circleList);
     	         if(index!=-1) {
-    	        	   DrawerPanel.getDrawer().delcircle_byindex(index);
+    	        	 GraphsSweeper.delcircle_byindex(index);
     	         }
        }
        

@@ -6,7 +6,8 @@ import Model.Circle;
 import Model.Line;
 import Model.Point;
 import Model.Triangle;
-import View.DrawerPanel;
+import View.DrawerPanel.DrawerPanel;
+import View.DrawerPanel.GraphsFinder;
 
 /**
  * Last modification time 2019/03/03
@@ -18,7 +19,7 @@ public class FindCommand {
 	   //check if a single point exists
        public static boolean PointExist(String name) {
     	   boolean result =false;
-    	   if(DrawerPanel.getDrawer().findPointIndex_byname(name)!=-1) {
+    	   if(GraphsFinder.findPointIndex_byname(name,DrawerPanel.getDrawer().mpointList)!=-1) {
     		   result=true;
     	   }
     	   return result;
@@ -27,7 +28,7 @@ public class FindCommand {
        //check if the line exists
        public static boolean LineExist(String name) {
     	   boolean result =false;
-    	   if(DrawerPanel.getDrawer().findLineIndex_byname(name)!=-1) {
+    	   if(GraphsFinder.findLineIndex_byname(name,DrawerPanel.getDrawer().lineList)!=-1) {
     		   result= true;
     	   }else {
     		   System.out.println("Line "+name+" doesn't exist");
@@ -38,7 +39,7 @@ public class FindCommand {
        //check if the triangle exists
        public static boolean TriangleExist(String name) {
     	   boolean result =false;
-    	   if(DrawerPanel.getDrawer().findTriangleIndex_byname(name)!=-1) {
+    	   if(GraphsFinder.findTriangleIndex_byname(name,DrawerPanel.getDrawer().triangleList)!=-1) {
     		   result=true;
     	   }
     	   return result;
@@ -47,30 +48,30 @@ public class FindCommand {
        //check if the circle exists
        public static boolean CircleExist(String name) {
     	   boolean result =false;
-    	   if(DrawerPanel.getDrawer().findCircleIndex_byname(name)!=-1) {
+    	   if(GraphsFinder.findCircleIndex_byname(name,DrawerPanel.getDrawer().circleList)!=-1) {
     		   result=true;
     	   }
     	   return result;
        }
        
        public static Point getPoint(String name) {
-    	      int pindex=DrawerPanel.getDrawer().findPointIndex_byname(name);
-    	      return DrawerPanel.getDrawer().getpoint_byindex(pindex);
+    	      int pindex=GraphsFinder.findPointIndex_byname(name,DrawerPanel.getDrawer().mpointList);
+    	      return GraphsFinder.getpoint_byindex(pindex);
        }
        
        public static Line getLine(String name) {
-    	      int lindex=DrawerPanel.getDrawer().findLineIndex_byname(name);
-    	      return DrawerPanel.getDrawer().getline_byindex(lindex);
+    	      int lindex=GraphsFinder.findLineIndex_byname(name,DrawerPanel.getDrawer().lineList);
+    	      return  GraphsFinder.getline_byindex(lindex);
        }
        
        public static Triangle getTriangle(String name) {
-    	      int tindex=DrawerPanel.getDrawer().findTriangleIndex_byname(name);
-    	      return DrawerPanel.getDrawer().gettriangle_byindex(tindex);
+    	      int tindex=GraphsFinder.findTriangleIndex_byname(name,DrawerPanel.getDrawer().triangleList);
+    	      return  GraphsFinder.gettriangle_byindex(tindex);
        }
        
        public static Circle getCircle(String name) {
-    	      int cindex=DrawerPanel.getDrawer().findCircleIndex_byname(name);
-    	      return DrawerPanel.getDrawer().getcircle_byindex(cindex);
+    	      int cindex=GraphsFinder.findCircleIndex_byname(name,DrawerPanel.getDrawer().circleList);
+    	      return  GraphsFinder.getcircle_byindex(cindex);
        }
        
        public static ArrayList<Point> getTriPoints_byDrawing(){

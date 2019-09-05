@@ -1,5 +1,5 @@
 
-package View;
+package View.DrawerPanel;
 
 import java.awt.BasicStroke;
 
@@ -40,6 +40,8 @@ import Model.Point;
 import Model.PointIndex;
 import Model.Stroke;
 import Model.Triangle;
+import View.CommandField;
+import View.StateLabel;
 import commandAnalyse.CommandAnalyst;
 import commandAnalyse.CommandExucuteInterface;
 import Logic.CommandExecuteInterfaceImplement;
@@ -69,8 +71,8 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	    private BufferedImage img2;
 	    private Long Releasetime;
 	    private ArrayList<Dimension> pointList=new ArrayList<Dimension>();//when a drawing begins,use this to record all points
-	    private ArrayList<Stroke> nofitpointList=new ArrayList<Stroke>();//record all points which is not amended
-	    private int pointLptr;
+	    public ArrayList<Stroke> nofitpointList=new ArrayList<Stroke>();//record all points which is not amended
+	    public int pointLptr;
 	    private PointRecorder pointRecorder=new PointRecorder();//when a drawing begins,use this to record several points of a drawing
 	    private PointRecorder pointRecorderBuff=new PointRecorder();
 	    private PointRecorder commandRecorder=new PointRecorder();
@@ -79,11 +81,11 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	    private ArrayList<PointIndex> currentPIs;
 	    private Dimension AjustingDimension;
 	    private Dimension BeforeDimension;
-	    private ArrayList<Line> lineList=new ArrayList<Line>();//maintain a list of lines
-	    private ArrayList<Point> mpointList=new ArrayList<Point>();//maintain a list of  datastrcuture Model.Points
-	    private ArrayList<Triangle> triangleList=new ArrayList<Triangle>();//maintain a list of Triangles
-	    private ArrayList<Circle> circleList=new ArrayList<Circle>();//maintain a list of Circles
-	    private ArrayList<String> orderList=new ArrayList<String>();
+	    public ArrayList<Line> lineList=new ArrayList<Line>();//maintain a list of lines
+	    public ArrayList<Point> mpointList=new ArrayList<Point>();//maintain a list of  datastrcuture Model.Points
+	    public ArrayList<Triangle> triangleList=new ArrayList<Triangle>();//maintain a list of Triangles
+	    public ArrayList<Circle> circleList=new ArrayList<Circle>();//maintain a list of Circles
+	    public ArrayList<String> orderList=new ArrayList<String>();
 	    
 	    int x=0;
 	    private CommandExucuteInterface cei= new CommandExecuteInterfaceImplement();
@@ -114,7 +116,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	public static DrawerPanel getDrawer() {
 		return Mydrawer;
 	}
-	//clear the screen
+	//clear the screen,reset attrs
 	public  void Clear() {
 		Drawerstatus=Drawerstate.Blank;
 		pointList=new ArrayList<Dimension>();
@@ -136,10 +138,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		super.paint(graphics);
         Graphics2D g2d = (Graphics2D)graphics;
         String root=System.getProperty("user.dir");
-       
-        //ImageIcon ii=new ImageIcon(root+"/Resource/ChalkBoard.jpg");
-        
-        //g2d.drawImage(ii.getImage(), 0, 0, getWidth(), getHeight(), ii.getImageObserver());
+   
         g2d.setBackground(Color.white);
        
         Color FontColor=new Color(230,120,180,240);
@@ -286,11 +285,10 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		pointRecorderBuff=pointRecorder;
 		pointRecorder=new PointRecorder();
 		pointList.clear();
-		
-		
+
 	}
 	
-	//get a image of the Jpanel,not yet used
+	//get a image of the Jpanel
 	public byte[] getIMG() throws IOException {
 		Graphics2D img2d=img2.createGraphics();
 		this.paint(img2d);
@@ -320,8 +318,6 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		ImageIO.write(biimg, "jpg",out);
 		
 		return out.toByteArray();
-
-
 	}
 	//judge if click the graphs
 	public boolean Clickgraph(int x,int y) {
@@ -363,39 +359,19 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		Isdrawing=0;
 		
         this.repaint();
-
-		
-		
-		
-		//System.out.println(e.getY());
-		
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		
-        /*
-		System.out.println("co:"+e.getX()+" "+e.getY());
-		try {
-			this.getIMG();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}*/
-		
 		if(Drawerstatus==Drawerstate.Drawing) {
 			endDrawing();
 			this.repaint();
 			Drawerstatus=Drawerstate.EndDrawing;
 			printstate();
-			//pointRecorder.Empty();
-			//Isdrawing=1;
 		}else if(Drawerstatus==Drawerstate.EndDrawing) {
 			if(Clickgraph(e.getX(), e.getY())) {
 				
@@ -412,10 +388,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 					Drawerstatus=Drawerstate.Ajusting;
 					this.repaint();
 					printstate();
-					//System.out.println(pi.Listindex);
-					
 					currentPIs=pilist;
-					
 				    System.out.println("Point is selected");
 				}
 			}else {
@@ -434,7 +407,6 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 				}else {
 					Drawerstatus=Drawerstate.Ajusting;
 					printstate();
-					//System.out.println(pi.Listindex);
 					BeforeDimension=new Dimension(e.getX(),e.getY());
 					currentPIs=pilist;
 				}
@@ -459,7 +431,6 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 				CommandField.getField().setText(recresult);
 				
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			}
@@ -480,8 +451,6 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		}else if(Drawerstatus==Drawerstate.Drawing||Drawerstatus==Drawerstate.Commanding) {
 			
 		}
-		
-		//System.out.println(e.getY());
 	}
 
 	@Override
@@ -509,7 +478,6 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		
 	}
 	public void getCommand(String command) {
-		//System.out.println(command);
 		if(command.equals("cl")) {
 		cei.changeLine(new Line(new Point(new Dimension(100,100),"A"),new Point(new Dimension(200,200),"B")));
 		}else if(command.equals("ct")) {
@@ -549,240 +517,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		}
 		this.repaint();
 	}
-	
-	
-	public void addTriangle(Triangle triangle) {
-		triangle.printPoints();
-		Point v1=this.fixPoints_byname(triangle.getVertex1().getName());
-		Point v2=this.fixPoints_byname(triangle.getVertex2().getName());
-		Point v3=this.fixPoints_byname(triangle.getVertex3().getName());
-		if(v1!=null) {
-			
-			triangle.getVertex1().setCoordinate(v1.getCoordinate());
-			triangle.getVertex1().setType(Pointtype.Triangleend);
-		}
-		if(v2!=null) {
-			
-			triangle.getVertex2().setCoordinate(v2.getCoordinate());
-			triangle.getVertex2().setType(Pointtype.Triangleend);
-		}
-		if(v3!=null) {
-			
-			triangle.getVertex3().setCoordinate(v3.getCoordinate());
-			triangle.getVertex3().setType(Pointtype.Triangleend);
-		}
-		triangleList.add(triangle);
-		PointIndex pi1=new PointIndex(1,Pointtype.Triangleend,triangle.getTriname());
-		pi1.setListIndex(triangleList.size()-1);
-		PointIndex pi2=new PointIndex(2,Pointtype.Triangleend,triangle.getTriname());
-		pi2.setListIndex(triangleList.size()-1);
-		PointIndex pi3=new PointIndex(3,Pointtype.Triangleend,triangle.getTriname());
-		pi3.setListIndex(triangleList.size()-1);
-		PointMap.put(triangle.getVertex1(),pi1 );
-		PointMap.put(triangle.getVertex2(),pi2 );
-		PointMap.put(triangle.getVertex3(),pi3 );
-		nofitpointList.removeAll(nofitpointList.subList(pointLptr, nofitpointList.size()));
-		this.repaint();
-	}
-	
-	public void addCircle(Circle circle) {
-		Point center=this.fixPoints_byname(circle.getCenter().getName());
-		if(center!=null) {
-			center.setType(Pointtype.Circlecenter);
-			circle.setCenter(center);
-		}
-		
-		circleList.add(circle);
-		PointIndex pio=new PointIndex(0,Pointtype.Circlecenter,circle.getCenter().getName());
-		pio.setListIndex(circleList.size()-1);
-		PointMap.put(circle.getCenter(),pio);
-		
-		nofitpointList.removeAll(nofitpointList.subList(pointLptr, nofitpointList.size()));
-		this.repaint();
-	}
-
-	public void addPoint(Point A) {
-		int index=mpointList.indexOf(A);
-		if(index==-1) {
-		     mpointList.add(A);
-		     A.setType(Pointtype.Singlepoint);
-		     ListTraverseHelper.delete_byCorType(PointMap,Pointtype.Singlepoint,A.getCoordinate());
-		     PointIndex pi=new PointIndex(0,Pointtype.Singlepoint,A.getName());
-		     pi.setListIndex(mpointList.size()-1);
-		     PointMap.put(A, pi);
-		     nofitpointList.removeAll(nofitpointList.subList(pointLptr, nofitpointList.size()));
-		}else {
-			mpointList.get(index).setName(A.getName());
-			PointIndex pi= new PointIndex(0,Pointtype.Singlepoint,A.getName());
-			pi.setListIndex(index);
-			PointMap.put(A, pi);
-		}
-		this.repaint();
-	}
-	
-	public void addLine(Line l) {
-		Point ps=new Point(l.getStartpoint().getCoordinate(),Pointtype.Lineend);
-		Point pe=new Point(l.getEndpoint().getCoordinate(),Pointtype.Lineend);
-		
-		
-		Line prel=new Line(ps,pe);
-		int index=lineList.indexOf(prel);
-		Point snps=this.fixPoints_byname(l.getStartpoint().getName());
-		Point snpe=this.fixPoints_byname(l.getEndpoint().getName());
-		ps.setName(l.getStartpoint().getName());
-		pe.setName(l.getEndpoint().getName());
-		if(index!=-1) {
-			ListTraverseHelper.delete_byCorType(PointMap, Pointtype.Lineend,ps.getCoordinate());
-			ListTraverseHelper.delete_byCorType(PointMap, Pointtype.Lineend,pe.getCoordinate());
-			
-			lineList.get(index).getStartpoint().setName(l.getStartpoint().getName());
-			lineList.get(index).getEndpoint().setName(l.getEndpoint().getName());
-			if(snps!=null) {
-				lineList.get(index).getStartpoint().setCoordinate(snps.getCoordinate());
-				ps.setCoordinate(snps.getCoordinate());
-				
-			}
-			if(snpe!=null) {
-				lineList.get(index).getEndpoint().setCoordinate(snpe.getCoordinate());
-				pe.setCoordinate(snpe.getCoordinate());
-			}
-			    PointIndex pi1=new PointIndex(1,Pointtype.Lineend,l.getLinename());
-			    pi1.setListIndex(index);
-			    PointIndex pi2=new PointIndex(2,Pointtype.Lineend,l.getLinename());
-			    pi2.setListIndex(index);
-				PointMap.put(pe, pi2);
-				PointMap.put(ps, pi1);
-				
-			
-			
-			
-		}else {
-		    if(snps!=null) {
-		    	   
-		    		   snps.setType(Pointtype.Lineend);
-			    	   l.setPointbyindex(1, snps);
-		    	  
-		    	  
-		    }
-		    if(snpe!=null) {
-		    	   snpe.setType(Pointtype.Lineend);
-		    	   l.setPointbyindex(2, snpe);
-		    }
-		    lineList.add(l);
-		    
-		    nofitpointList.removeAll(nofitpointList.subList(pointLptr, nofitpointList.size()));
-		    PointIndex pi1=new PointIndex(1,Pointtype.Lineend,l.getLinename());
-		    pi1.setListIndex(lineList.size()-1);
-		    PointIndex pi2=new PointIndex(1,Pointtype.Lineend,l.getLinename());
-		    pi2.setListIndex(lineList.size()-1);
-		    PointMap.put(ps, pi1);
-		    PointMap.put(pe, pi2);
-		}
-		   
-		this.repaint();
-	}
-    public int findPointIndex_byname(String name) {
-    	     int index=-1;
-    	     for(int i=0;i<mpointList.size();i++) {
-    	    	     
-    	    	     if(name.equals(mpointList.get(i).getName())) {
-    	    	    	    return i;
-    	    	     }
-    	     }
-    	     return index;
-    }
-
-    public int findCircleIndex_byname(String name) {
-    	     int index=-1;
-	     for(int i=0;i<circleList.size();i++) {
-	    	     
-	    	     if(name.equals(circleList.get(i).getCenter().getName())) {
-	    	    	    return i;
-	    	     }
-	     }
-	     return index;
-    }
     
-    public int findLineIndex_byname(String name) {
-    	     int index=-1;
-	     for(int i=0;i<lineList.size();i++) {
-	    	     Point startpoint=lineList.get(i).getStartpoint();
-	    	     Point endpoint=lineList.get(i).getEndpoint();
-	    	     String name1=startpoint.getName()+endpoint.getName();
-	    	     String name2=endpoint.getName()+startpoint.getName();
-	    	     //System.out.println("name "+name+" name1 "+name1+" name2 "+name2);
-	    	     if(name.equals(name1)||name.equals(name2)) {
-	    	    	 //System.out.println("equals");
-	    	    	 return i;
-	    	     }
-	    	     
-	     }
-	     return index;
-    }
-    
-    public int findTriangleIndex_byname(String name) {
-    	      int index=-1;
-    	      for(int i=0;i<triangleList.size();i++) {
-    	    	    Point v1=triangleList.get(i).getVertex1();
-    	    	    Point v2=triangleList.get(i).getVertex2();
-    	    	    Point v3=triangleList.get(i).getVertex3();
-    	    	    String name123=v1.getName()+v2.getName()+v3.getName();
-    	    	    String name132=v1.getName()+v3.getName()+v2.getName();
-    	    	    String name213=v2.getName()+v1.getName()+v3.getName();
-    	    	    String name231=v2.getName()+v3.getName()+v1.getName();
-    	    	    String name312=v3.getName()+v1.getName()+v3.getName();
-    	    	    String name321=v3.getName()+v2.getName()+v1.getName();
-    	    	    if(name.equals(name123)||name.equals(name132)||name.equals(name213)||name.equals(name231)||name.equals(name312)||name.equals(name321)) {
-    	    	    	   return i;
-    	    	    }
-    	      }
-    	      return index;
-    }
-    
-    public void delpoint_byindex(int index) {
-    	   ListTraverseHelper.delete_byCorType(PointMap,Pointtype.Singlepoint,mpointList.get(index).getCoordinate());
-    	   mpointList.remove(index);
-    	   this.repaint();
-    }
-    
-    public void delline_byindex(int index) {
-    	  ListTraverseHelper.delete_byCorType(PointMap,Pointtype.Lineend,lineList.get(index).getStartpoint().getCoordinate());
-    	  ListTraverseHelper.delete_byCorType(PointMap,Pointtype.Lineend,lineList.get(index).getEndpoint().getCoordinate());
-    	  lineList.remove(index);
-    	  this.repaint();
-    }
-    
-    public void deltriangle_byindex(int index) {
-    	  
-    	  ListTraverseHelper.delete_byCorType(PointMap, Pointtype.Triangleend, triangleList.get(index).getVertex1().getCoordinate());
-    	  ListTraverseHelper.delete_byCorType(PointMap, Pointtype.Triangleend, triangleList.get(index).getVertex2().getCoordinate());
-    	  ListTraverseHelper.delete_byCorType(PointMap, Pointtype.Triangleend, triangleList.get(index).getVertex3().getCoordinate());
-    	  triangleList.remove(index);
-    	  this.repaint();
-    }
-    
-    public void delcircle_byindex(int index) {
-    	  
-    	  ListTraverseHelper.delete_byCorType(PointMap, Pointtype.Circlecenter, circleList.get(index).getCenter().getCoordinate());
-    	  circleList.remove(index);
-    	  this.repaint();
-    }
-    
-    public Point getpoint_byindex(int index) {
-    	      return mpointList.get(index);
-    }
-    
-    public Line getline_byindex(int index) {
-    	      return lineList.get(index);
-    }
-    
-    public Triangle gettriangle_byindex(int index) {
-    	     return triangleList.get(index);
-    }
-    
-    public Circle getcircle_byindex(int index) {
-    	     return circleList.get(index);
-    }
     
     public ArrayList<Point> getTriPoints_byDrawing(){
     	       return pointRecorderBuff.getTriangleVertexes();
@@ -831,14 +566,6 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     	      return p;
     }
     
-    public Point fixPoints_byname(String name) {
-    	 Point p=ListTraverseHelper.Findapoint(name, PointMap);
-    	 if(p!=null) {
-    		 return p;
-    	 }
-    	   return null;
-    }
-    
     public void changeAllpointsofline_byname(String name,Point p) {
     	     for(int i=0;i<lineList.size();i++) {
     	    	     Line l=lineList.get(i);
@@ -876,28 +603,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     	    }
     }
     
-    public void  updatePointmap(String name,Point newp) {
-    	     Iterator it=PointMap.keySet().iterator();
-    	     ArrayList<Point> plist=new ArrayList<Point>();
-    	     ArrayList<PointIndex> pilist=new ArrayList<PointIndex>();
-    	     while(it.hasNext()) {
-    	    	       Point p=(Point)it.next();
-    	    	       if(p.getName().equals(name)) {
-    	         		   System.out.println("update p "+p.getName());
-    	         		   Point np=p;
-    	         		   np.setCoordinate(newp.getCoordinate());
-    	         		   PointIndex pi=PointMap.get(p);
-    	         		   plist.add(p);
-    	         		   pilist.add(pi);
-    	         		   it.remove();
-    	         	   }
-    	     }
-    	     for(int i=0;i<plist.size();i++) {
-    	    	     PointMap.put(plist.get(i),pilist.get(i));
-    	     }
-    	    this.repaint();
-    	     
-    }
+    
     public ArrayList<ListIndex> getallIndexofapoint(Dimension d){
     	       ArrayList<ListIndex> lilist=new ArrayList<ListIndex>();
     	       for(int i=0;i<lineList.size();i++) {
@@ -943,6 +649,5 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     public void addCommand(String command) {
     	     orderList.add(command);
     }
-    
     
 }

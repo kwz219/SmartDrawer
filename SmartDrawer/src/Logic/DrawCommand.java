@@ -4,7 +4,9 @@ import Model.Circle;
 import Model.Line;
 import Model.Point;
 import Model.Triangle;
-import View.DrawerPanel;
+import View.DrawerPanel.DrawerPanel;
+import View.DrawerPanel.GraphsAdder;
+import View.DrawerPanel.PointMapDealer;
 /**
  * Last Modification Time 2019/03/03
  * @author zwk
@@ -13,20 +15,20 @@ import View.DrawerPanel;
 public class DrawCommand {
 	public static void createTriangle(Triangle T) {	
 		
-		DrawerPanel.getDrawer().addTriangle(T);
+		GraphsAdder.addTriangle(T);
 	}
 
 	public static void createCircle(Circle cir) {	
 		
-		DrawerPanel.getDrawer().addCircle(cir);
+		GraphsAdder.addCircle(cir);
 	}
 	
 	public static void createPoint(Point A) {
 		System.out.println("A: "+A.getCoordinate());
-		DrawerPanel.getDrawer().addPoint(A);
+		GraphsAdder.addPoint(A);
 	}
 	
 	public static void createLine(Line l) {
-		DrawerPanel.getDrawer().addLine(l);
+		GraphsAdder.addLine(l);
 	}
 }

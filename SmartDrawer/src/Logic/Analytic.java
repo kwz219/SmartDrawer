@@ -8,7 +8,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 import Model.Xoy_model;
-import View.DrawerPanel;
+import View.DrawerPanel.DrawerPanel;
 
 public class Analytic {
 	private int width;

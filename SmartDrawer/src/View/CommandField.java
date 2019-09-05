@@ -9,6 +9,7 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JTextField;
 
+import View.DrawerPanel.DrawerPanel;
 import commandAnalyse.CommandAnalyst;
 
 public class CommandField extends JTextField implements KeyListener{

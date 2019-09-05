@@ -7,7 +7,9 @@ import Model.Circle;
 import Model.Line;
 import Model.Point;
 import Model.Triangle;
-import View.DrawerPanel;
+import View.DrawerPanel.DrawerPanel;
+import View.DrawerPanel.GraphsFinder;
+import View.DrawerPanel.PointMapDealer;
 import commandAnalyse.CommandExucuteInterface;
 /**
  * Last modification time 2019/03/03
@@ -72,9 +74,9 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 			
 		}*/
 		this.changeAllpoints_byname(l.getStartpoint().getName(),l.getStartpoint());
-		DrawerPanel.getDrawer().updatePointmap(l.getStartpoint().getName(),l.getStartpoint());
+		PointMapDealer.updatePointmap(l.getStartpoint().getName(),l.getStartpoint());
 		this.changeAllpoints_byname(l.getEndpoint().getName(),l.getEndpoint());
-		DrawerPanel.getDrawer().updatePointmap(l.getEndpoint().getName(),l.getEndpoint());
+		PointMapDealer.updatePointmap(l.getEndpoint().getName(),l.getEndpoint());
 		/*if(FindCommand.LineExist(lname)) {
 			System.out.println("line "+lname+" exists");
 			AjustCommand.Del_line(lname);
@@ -101,9 +103,9 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 	public void changeCircle(Circle o) {
 		
 		String cname=o.getCenter().getName();
-		int index=DrawerPanel.getDrawer().findCircleIndex_byname(cname);
+		int index=GraphsFinder.findCircleIndex_byname(o.getCenter().getName(), DrawerPanel.getDrawer().circleList);
 		if(index!=-1) {
-			Circle oldo=DrawerPanel.getDrawer().getcircle_byindex(index);
+			Circle oldo=GraphsFinder.getcircle_byindex(index);
 			if(!o.getCenter().getCoordinate().equals(oldo.getCenter().getCoordinate())) {
 				System.out.println("center changed");
 				this.changeAllNamedPoint(o.getCenter());
@@ -116,7 +118,7 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 				
 			}
 			
-			DrawerPanel.getDrawer().updatePointmap(cname, o.getCenter());
+			PointMapDealer.updatePointmap(cname, o.getCenter());
 		}
 		
 		
@@ -179,20 +181,20 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 	public void changeTriangle(Triangle tri) {
 		// TODO Auto-generated method stub
 		String tname=tri.getVertex1().getName()+tri.getVertex2().getName()+tri.getVertex3().getName();
-		int index=DrawerPanel.getDrawer().findTriangleIndex_byname(tname);
+		 int index=GraphsFinder.findTriangleIndex_byname(tname, DrawerPanel.getDrawer().triangleList);
 		if(index!=-1) {
-			Triangle oldtri=DrawerPanel.getDrawer().gettriangle_byindex(index);
+			Triangle oldtri=GraphsFinder.gettriangle_byindex(index);
 			if(!oldtri.getVertex1().getCoordinate().equals(tri.getVertex1().getCoordinate())) {
 				this.changeAllNamedPoint(tri.getVertex1());
-				DrawerPanel.getDrawer().updatePointmap(tname, tri.getVertex1());
+				PointMapDealer.updatePointmap(tname, tri.getVertex1());
 			}
 			if(!oldtri.getVertex2().getCoordinate().equals(tri.getVertex2().getCoordinate())) {
 				this.changeAllNamedPoint(tri.getVertex2());
-				DrawerPanel.getDrawer().updatePointmap(tname, tri.getVertex2());
+				PointMapDealer.updatePointmap(tname, tri.getVertex2());
 			}
 			if(!oldtri.getVertex3().getCoordinate().equals(tri.getVertex3().getCoordinate())) {
 				this.changeAllNamedPoint(tri.getVertex3());
-				DrawerPanel.getDrawer().updatePointmap(tname, tri.getVertex3());
+				PointMapDealer.updatePointmap(tname, tri.getVertex3());
 			}
 			
 		}
@@ -257,7 +259,7 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 		// TODO Auto-generated method stub
 		if(FindCommand.Pointexists(p.getName())) {
 			this.changeAllpoints_byname(p.getName(), p);
-			DrawerPanel.getDrawer().updatePointmap(p.getName(),p);
+			PointMapDealer.updatePointmap(p.getName(),p);
 			return p;
 		}
 		return null;

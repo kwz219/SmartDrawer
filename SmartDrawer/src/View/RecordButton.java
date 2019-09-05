@@ -13,7 +13,11 @@ import com.baidu.aip.util.Util;
 
 import Logic.SoundRecorder;
 import Logic.VoiceRecognizer;
-
+/**
+ * 
+ * @author zwk
+ * 录音键，按下开始录音，检测到无声音输入后自动停止并调用语音识别接口，相关类：SoundRecorder，VoiceRecognizer
+ */
 public class RecordButton extends JButton{
              public static RecordButton RB=new RecordButton();
              private int rbstate=0;
