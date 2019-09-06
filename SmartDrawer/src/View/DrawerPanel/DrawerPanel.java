@@ -52,7 +52,11 @@ import Logic.PointRecorder;
 import Logic.PointsFittingHelper;
 import Logic.PointsFittingHelper.Graphicstype;
 import Logic.PointsFittingHelper.Pointtype;
-
+/**
+ * 
+ * @author zwk
+ * 底层核心画布类，继承了JPanel进行图形绘制并实现了鼠标监听
+ */
 public class DrawerPanel extends JPanel implements MouseMotionListener,MouseListener{
 	    
 	    private enum Drawerstate{
@@ -62,20 +66,21 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 	    //singleton of DrawerPanel
 	    private static DrawerPanel Mydrawer=new DrawerPanel();
 	    //Drawer's memeber value
-        private Color Brushcolor;
-        private Color Backgroundcolor;
-        private int Brushsize;
+        private Color Brushcolor;//笔刷颜色
+        public Color Backgroundcolor;//背景色
+        public int Brushsize;//笔刷大小
+        
         private int Commandsize;
         private int Isdrawing;//judge if a drawing is over
-	    private BufferedImage img;
-	    private BufferedImage img2;
-	    private Long Releasetime;
+	    public BufferedImage img;//整个画面的img，用于ClickGraph方法
+	    public BufferedImage img2;//整个画面的img，用于getIMG方法
+	    
 	    private ArrayList<Dimension> pointList=new ArrayList<Dimension>();//when a drawing begins,use this to record all points
 	    public ArrayList<Stroke> nofitpointList=new ArrayList<Stroke>();//record all points which is not amended
 	    public int pointLptr;
 	    private PointRecorder pointRecorder=new PointRecorder();//when a drawing begins,use this to record several points of a drawing
 	    public PointRecorder pointRecorderBuff=new PointRecorder();
-	    private PointRecorder commandRecorder=new PointRecorder();
+	    public PointRecorder commandRecorder=new PointRecorder();
 	    public HashMap<Point,PointIndex> PointMap=new HashMap<Point,PointIndex>();
 	    private ArrayList<ListIndex> Lilist=new ArrayList<ListIndex>();
 	    private ArrayList<PointIndex> currentPIs;
@@ -186,14 +191,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
             	   g2d.drawLine(sk.getPlist().get(j).width,sk.getPlist().get(j).height, sk.getPlist().get(j+1).width, sk.getPlist().get(j+1).height);
             }
         }
-        
-        //draw all temporary points
-        /*for(int i=0;i<pointList.size();i++){
-        	
-            //g2d.fillOval(pointList.get(i).width, pointList.get(i).height, Brushsize, Brushsize);
-        	g2d.fillRect(pointList.get(i).width, pointList.get(i).height, Brushsize, Brushsize);
-        }*/
-        
+      
         //draw all lines
         for(int i=0;i<lineList.size();i++) {
         	   Line l=lineList.get(i);
@@ -287,50 +285,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		pointList.clear();
 
 	}
-	
-	//get a image of the Jpanel
-	public byte[] getIMG() throws IOException {
-		Graphics2D img2d=img2.createGraphics();
-		this.paint(img2d);
-		
-		img2d.dispose();
-	    Long time=System.currentTimeMillis();
-	    String timename=String.valueOf(time);
-		
-		int x=commandRecorder.getLeftmost_point().width-Brushsize*10;
-		int y=commandRecorder.getLowest_point().height-Brushsize*10;
-		int w=commandRecorder.getRightmost_point().width-x+Brushsize*20;
-		int h=commandRecorder.getHighest_point().height-y+Brushsize*20;
-		System.out.println("x:"+x+" y:"+y+" w:"+w+" h"+h+" leftp:"+commandRecorder.getLeftmost_point()+" rightp"+commandRecorder.getRightmost_point()+" lowp"+commandRecorder.getLowest_point()+" highp"+commandRecorder.getHighest_point());
-	    if(y<0)y=0;
-	    if(x<0)x=0;
-		BufferedImage partimg=img2.getSubimage(x, y, w, h);
-	    int width=partimg.getWidth();
-	    int height=partimg.getHeight();
-	    BufferedImage biimg=new BufferedImage(width,height,BufferedImage.TYPE_BYTE_BINARY);
-	    for(int i= 0 ; i < width ; i++){
-		    for(int j = 0 ; j < height; j++){
-			int rgb = partimg.getRGB(i, j);
-			biimg.setRGB(i, j, rgb);
-		    }
-		}
-	    ByteArrayOutputStream out = new ByteArrayOutputStream();
-		ImageIO.write(biimg, "jpg",out);
-		
-		return out.toByteArray();
-	}
-	//judge if click the graphs
-	public boolean Clickgraph(int x,int y) {
-		boolean result=false;
-		Graphics2D img2d=img.createGraphics();
-		int BackgroundRGB=Backgroundcolor.getRGB();
-		this.paint(img2d);
-		if(img.getRGB(x, y)!=BackgroundRGB) {
-			result=true;
-		}
-		img2d.dispose();
-		return result;
-	}
+
 	
 	@Override
 	public void mouseDragged(MouseEvent e) {
@@ -373,12 +328,9 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 			Drawerstatus=Drawerstate.EndDrawing;
 			printstate();
 		}else if(Drawerstatus==Drawerstate.EndDrawing) {
-			if(Clickgraph(e.getX(), e.getY())) {
-				
+			if(ImageDealer.Clickgraph(e.getX(), e.getY())) {
 				ArrayList<PointIndex> pilist=ListTraverseHelper.getALLPI(new Dimension(e.getX(),e.getY()), PointMap);
-				
 				if(pilist.size()==0) {
-					
 					System.out.println("not a point");
 					Drawerstatus=Drawerstate.Commanding;
 					this.repaint();
@@ -398,7 +350,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 			}
 			
 		}else if(Drawerstatus==Drawerstate.Ajusting) {
-			if(Clickgraph(e.getX(), e.getY())) {
+			if(ImageDealer.Clickgraph(e.getX(), e.getY())) {
 				ArrayList<PointIndex> pilist=ListTraverseHelper.getALLPI(new Dimension(e.getX(),e.getY()), PointMap);
 				if(pilist.size()==0) {
 					Drawerstatus=Drawerstate.Blank;
@@ -425,7 +377,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 		}else if(Drawerstatus==Drawerstate.EndCommanding) {
 			if(commandRecorder.getPlist().size()!=0) {
 			try {
-				byte[] image=this.getIMG();
+				byte[] image=ImageDealer.getIMG();
 				String recresult=Recognizer.getRecognizeResult(image);
 				System.out.println(recresult);
 				CommandField.getField().setText(recresult);
@@ -499,7 +451,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
 			this.Drawerstatus=Drawerstate.Blank;
 		}else if(command.equals("img")) {
 			try {
-				this.getIMG();
+				ImageDealer.getIMG();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -537,6 +489,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     public Line findLineends_byname(String sname,String ename) {
     	      return ListTraverseHelper.FindLine_byname(sname, ename, PointMap);
     }
+    //将状态调整至blank
     public void ToBlank() {
     	    Drawerstatus=Drawerstate.Blank;
     }
@@ -544,6 +497,7 @@ public class DrawerPanel extends JPanel implements MouseMotionListener,MouseList
     	       return Drawerstatus;
     }
     
+    //在命令列表中添加该命令
     public void addCommand(String command) {
     	     orderList.add(command);
     }

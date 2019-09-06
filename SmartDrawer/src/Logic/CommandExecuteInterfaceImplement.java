@@ -13,7 +13,7 @@ import View.DrawerPanel.GraphsFinder;
 import View.DrawerPanel.PointMapDealer;
 import commandAnalyse.CommandExucuteInterface;
 /**
- * Last modification time 2019/03/03
+ * Last modification time 2019/09/06
  * @author zwk
  * the implement of commandAnalyse.CommandExecuteInterface
  */
@@ -246,7 +246,7 @@ public class CommandExecuteInterfaceImplement implements CommandExucuteInterface
 	}
 	
 	
-	
+	//一个点的位置改变，所有同名的点的位置也要跟着改变
 	public void changeAllpoints_byname(String name,Point p) {
 		GraphsAjuster.changeAllpointsofline_byname(name, p);
 		GraphsAjuster.changeAllpointsoftriangle_byname(name, p);

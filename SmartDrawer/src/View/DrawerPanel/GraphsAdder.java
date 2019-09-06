@@ -15,9 +15,12 @@ import Model.Triangle;
 public class GraphsAdder {
 	public static void addTriangle(Triangle triangle) {
 		triangle.printPoints();
+		//先通过遍历PointMap检查是否已经有同名的点
 		Point v1=PointMapDealer.fixPoints_byname(triangle.getVertex1().getName());
 		Point v2=PointMapDealer.fixPoints_byname(triangle.getVertex2().getName());
 		Point v3=PointMapDealer.fixPoints_byname(triangle.getVertex3().getName());
+		
+		//若有同名点，直接将坐标设置为之前同名点的坐标
 		if(v1!=null) {
 			
 			triangle.getVertex1().setCoordinate(v1.getCoordinate());
@@ -82,6 +85,7 @@ public class GraphsAdder {
 		DrawerPanel.getDrawer().repaint();
 	}
 	
+	//注：添加直线的情况较为复杂，因为直线图形是需要自动规整的
 	public static void addLine(Line l) {
 		Point ps=new Point(l.getStartpoint().getCoordinate(),Pointtype.Lineend);
 		Point pe=new Point(l.getEndpoint().getCoordinate(),Pointtype.Lineend);
@@ -89,10 +93,11 @@ public class GraphsAdder {
 		
 		Line prel=new Line(ps,pe);
 		int index=DrawerPanel.getDrawer().lineList.indexOf(prel);
-		Point snps=PointMapDealer.fixPoints_byname(l.getStartpoint().getName());
-		Point snpe=PointMapDealer.fixPoints_byname(l.getEndpoint().getName());
+		Point snps=PointMapDealer.fixPoints_byname(l.getStartpoint().getName());//康康初始端点是否有重名的
+		Point snpe=PointMapDealer.fixPoints_byname(l.getEndpoint().getName());//康康结束端点是否有重名的
 		ps.setName(l.getStartpoint().getName());
 		pe.setName(l.getEndpoint().getName());
+		//检查直线列表中是否已经有相同坐标的两个直线端点
 		if(index!=-1) {
 			ListTraverseHelper.delete_byCorType(PointMapDealer.getPointMap(), Pointtype.Lineend,ps.getCoordinate());
 			ListTraverseHelper.delete_byCorType(PointMapDealer.getPointMap(), Pointtype.Lineend,pe.getCoordinate());
@@ -120,11 +125,9 @@ public class GraphsAdder {
 			
 		}else {
 		    if(snps!=null) {
-		    	   
 		    		   snps.setType(Pointtype.Lineend);
 			    	   l.setPointbyindex(1, snps);
-		    	  
-		    	  
+		    	    	  
 		    }
 		    if(snpe!=null) {
 		    	   snpe.setType(Pointtype.Lineend);

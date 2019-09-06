@@ -6,7 +6,7 @@ import com.baidu.aip.speech.AipSpeech;
 /**
  * 
  * @author zwk
- * 
+ * 语音识别类，用到的是百度AI开放平台的接口
  */
 public class VoiceRecognizer {
 	private static VoiceRecognizer vr=new VoiceRecognizer();
@@ -26,6 +26,7 @@ public class VoiceRecognizer {
     	return finalres.substring(0,finalres.length()-1);
     }
     
+    //根据字节流来进行语音识别，目前用的是这个方法
     public String getResultBybytes(byte[] data) {
     	JSONObject res = vr.client.asr(data, "pcm", 16000, null);
     	String finalres=res.get("result").toString().split("\"")[1];

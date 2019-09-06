@@ -112,12 +112,6 @@ public class PointsFittingHelper {
 		   return result;
 	   }
 	  public static void main(String[] args) {
-		  /*ArrayList<Dimension> plist=new ArrayList<Dimension>();
-		  plist.add(new Dimension(1,1));
-		  plist.add(new Dimension(2,1));
-		  plist.add(new Dimension(3,1));
-		  plist.add(new Dimension(3,2));
-		  plist.add(new Dimension(10,21));
-		  System.out.println(Islinear(plist));*/
+		 
 	  }
 }

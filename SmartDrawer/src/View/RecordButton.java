@@ -29,21 +29,22 @@ public class RecordButton extends JButton{
             	         this.setForeground(Color.red);
             	         this.setHorizontalAlignment(0);
             	         String root=System.getProperty("user.dir");
-            	         String url=root+"/Resource/RecordButton.png";
-            	         this.setIcon(new ImageIcon("/Users/zwk/Downloads/RecordButton.jpg"));
+            	         String urlnormal=root+"/Resource/RecordButton.jpg";
+            	         String urlpress=root+"/Resource/Recording.png";
+            	         this.setIcon(new ImageIcon(urlnormal));
             	         this.addActionListener(new ActionListener() {
             	        	     	@Override
 								public void actionPerformed(ActionEvent e) {
 									//start sound record
 									if(rbstate==0) {
 										System.out.println("recording starts...");
-										rbstate=1;
-										RB.setIcon(rbstate);
+										
+										RB.setIcon(new ImageIcon(urlpress));
 										voiceContent=SoundRecorder.getRS().startRecognize();
 										System.out.println(voiceContent);
 										CommandField.getField().setText(voiceContent);
 										rbstate=0;
-										RB.setIcon(rbstate);
+										RB.setIcon(new ImageIcon(urlnormal));
 										}
 										//System.out.println(voiceContent);							
 								}
@@ -51,13 +52,7 @@ public class RecordButton extends JButton{
             	         }
 );
              }
-             public  void setIcon(int state) {
-            	     String root=System.getProperty("user.dir"); 
-            	     String rburl=root+"/Resource/RecordButton.jpg";
-            	     String ringurl=root+"/Resource/Recording.png";
-            	     String[] iconurls= {rburl,ringurl};
-            	     RB.setIcon(new ImageIcon(iconurls[state]));
-             }
+            
              public static RecordButton getRecordButton() {
             	        return RB;
              }

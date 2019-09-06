@@ -99,6 +99,9 @@ public class PointRecorder {
 		}
 
 		//get three vertexes of a triangle from a similar graph
+		//注：对三角形顶点的确定主要是通过最高最低最左最右这四个点来确定的，
+		//三角形的三个顶点是这四个顶点中的三个所以为了确定是哪三个需要分类讨论
+		//目前有个缺陷那就是有可能这四个点中只包含两个三角形顶点，那这种类型的三角形就无法绘制出来了
 		public  ArrayList<Point> getTriangleVertexes() {
 			ArrayList<Point> list=new ArrayList<Point>();
 			if(Math.abs(Leftmost_point.height-Rightmost_point.height)<10) {

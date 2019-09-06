@@ -9,7 +9,7 @@ import java.awt.Dimension;
 public class Circle {
         private Point Center;
         private int Radius;
-        private Dimension upperleft;
+        private Dimension upperleft;//左上角的坐标，因为调用的绘制圆的方法里需要用左上角坐标作为参数
         public Circle(Point center,int radius) {
         	 Center=center;
         	 Radius=radius;

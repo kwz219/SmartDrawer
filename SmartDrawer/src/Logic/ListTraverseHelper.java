@@ -11,7 +11,7 @@ import Model.PointIndex;
 /**
  * Last modification time 2019/01/13
  * @author zwk
- *
+ * 该类作用是遍历PointMap的各个方法，可以和底层的PointMapDelear类合并
  */
 public class ListTraverseHelper {
 	
@@ -59,7 +59,7 @@ public class ListTraverseHelper {
     	      }
     	      return null;
      }
-     
+     //检查该名字的点是否存在
      public static boolean Pointexist(String name,HashMap<Point,PointIndex> map) {
     	      for(Point p:map.keySet()) {
     	    	     if(p.getName().equals(name)) {
@@ -79,12 +79,14 @@ public class ListTraverseHelper {
     	     return null;
      }
      
+     //打印所有点的信息
      public static void printall(HashMap<Point,PointIndex> map) {
     	     for(Point p:map.keySet()) {
     	    	    System.out.println("Point "+p.getName()+" "+p.getCoordinate()+" Index "+map.get(p).Type+" "+map.get(p).BelongedGraph+map.get(p).Innerindex);
     	     }
      }
      
+     //根据坐标和点类型来删除点
      public static void delete_byCorType(HashMap<Point,PointIndex> map,Pointtype type,Dimension dm){
     	     for(Point p:map.keySet()) {
     	    	     if(p.getCoordinate().equals(dm)&&map.get(p).Type==type) {
@@ -94,6 +96,7 @@ public class ListTraverseHelper {
     	     }
      }
      
+     //得到所有同名同类型的点
      public static ArrayList<PointIndex> get_ByNameType(HashMap<Point,PointIndex> map,String name,Pointtype pt) {
     	       ArrayList<PointIndex> pilist=new ArrayList<PointIndex>();
     	       for(Point p:map.keySet()) {
@@ -104,6 +107,7 @@ public class ListTraverseHelper {
     	       return pilist;
      }
      
+     //更新PointMap，将所有同名点的坐标信息给更新
      public static void UpdatePointMap(String name,HashMap<Point,PointIndex> map,Point newp) {
     	        for(Point p:map.keySet()) {
     	        	   if(p.getName().equals(name)) {
@@ -118,7 +122,7 @@ public class ListTraverseHelper {
      }
      
     
-     
+     //获得所有点的PointIndex
      public static ArrayList<PointIndex> getALLPI(Dimension d,HashMap<Point,PointIndex> map){
     	        ArrayList<PointIndex> pilist=new ArrayList<PointIndex>();
     	        for(Point p:map.keySet()) {
@@ -128,7 +132,7 @@ public class ListTraverseHelper {
     	        }
     	        return pilist;
      }
-     
+     //把近似点的坐标都更新为一致坐标
      public static void UpdateCoordinate(Dimension oldd,Dimension newd,HashMap<Point,PointIndex> map) {
     	        Iterator it=map.keySet().iterator();
     	        ArrayList<Point> plist=new ArrayList<Point>();
